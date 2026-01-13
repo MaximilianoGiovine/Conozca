@@ -1,0 +1,46 @@
+# Node
+node_modules
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Build
+dist
+build
+.turbo
+
+# Tests
+coverage
+.nyc_output
+test-results
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env files (se pasarán via docker-compose o secrets)
+.env
+.env.local
+.env.development
+.env.production
+
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+!README.md
+
+# Config files no necesarios en runtime
+.eslintrc.js
+.prettierrc
+tsconfig.json
+jest.config.js
