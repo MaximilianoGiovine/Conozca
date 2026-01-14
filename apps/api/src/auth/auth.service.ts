@@ -73,7 +73,7 @@ export class AuthService {
     });
 
     if (existingUser) {
-      throw new ConflictException("Email already registered");
+      throw new ConflictException("This email is already registered");
     }
 
     // Hash password
@@ -98,6 +98,9 @@ export class AuthService {
 
     // Generate tokens
     const tokens = this.generateTokens(user.id, user.email, user.role);
+
+    // Persist refresh token session
+    await this.persistRefresh(user.id, tokens.refresh_token, undefined);
 
     // Create verification token
     try {

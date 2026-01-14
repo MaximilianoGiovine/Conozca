@@ -6,7 +6,7 @@ import { PostStatus } from "@conozca/database";
 @Injectable()
 export class ArticleScheduler {
   private readonly logger = new Logger(ArticleScheduler.name);
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   // Ejecuta cada minuto; procesa programaciones vencidas
   @Cron("*/1 * * * *")
@@ -20,7 +20,7 @@ export class ArticleScheduler {
       if (!scheduleModel) return;
 
       const due = (await scheduleModel.findMany({
-        where: { scheduledAt: { lte: now }, processedAt: null },
+        where: { scheduledFor: { lte: now }, processedAt: null },
         take: 50,
       })) as { id: string; articleId: string; action: string }[];
 

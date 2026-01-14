@@ -1,4 +1,4 @@
-import { Injectable, LoggerService as NestLoggerService } from "@nestjs/common";
+import { Injectable, Optional, LoggerService as NestLoggerService } from "@nestjs/common";
 import * as winston from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 
@@ -14,7 +14,7 @@ export class LoggerService implements NestLoggerService {
   private logger: winston.Logger;
   private context?: string;
 
-  constructor(context?: string) {
+  constructor(@Optional() context?: string) {
     this.context = context;
 
     const isProduction = process.env.NODE_ENV === "production";

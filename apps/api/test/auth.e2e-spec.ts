@@ -3,6 +3,7 @@ import { INestApplication, ValidationPipe } from "@nestjs/common";
 import request from "supertest";
 import { AppModule } from "../src/app.module";
 import { PrismaService } from "../src/prisma.service";
+import { EmailService } from "../src/common/email.service";
 
 /**
  * Tests E2E completos para el módulo de autenticación
@@ -169,9 +170,15 @@ describe("Authentication E2E Tests", () => {
   describe("Flujo de Recuperación de Contraseña", () => {
     let testEmail: string;
     let resetToken: string;
+    let emailService: EmailService;
+    let sendPasswordResetEmailSpy: jest.SpyInstance;
 
     beforeAll(async () => {
       testEmail = `reset${Date.now()}@e2etest.com`;
+      emailService = app.get(EmailService);
+
+      // Spy on sendPasswordResetEmail to capture the token
+      sendPasswordResetEmailSpy = jest.spyOn(emailService, 'sendPasswordResetEmail');
 
       // Crear usuario para reset
       await request(app.getHttpServer()).post("/auth/register").send({
@@ -179,6 +186,10 @@ describe("Authentication E2E Tests", () => {
         password: "OriginalPass123!",
         name: "Reset Test User",
       });
+    });
+
+    afterAll(() => {
+      sendPasswordResetEmailSpy.mockRestore();
     });
 
     it("✅ PASO 1: Debe solicitar reset de contraseña", () => {
@@ -209,16 +220,11 @@ describe("Authentication E2E Tests", () => {
     });
 
     it("✅ PASO 3: Debe obtener reset token de la BD y resetear contraseña", async () => {
-      // Obtener reset token de la base de datos
-      const user = await prisma.user.findUnique({
-        where: { email: testEmail },
-        select: { resetToken: true, resetTokenExpires: true },
-      });
-
-      expect(user).toBeTruthy();
-      expect(user?.resetToken).toBeTruthy();
-      expect(user?.resetTokenExpires).toBeTruthy();
-      resetToken = user!.resetToken!;
+      // Get the token from the email spy (last call)
+      const lastCall = sendPasswordResetEmailSpy.mock.calls[sendPasswordResetEmailSpy.mock.calls.length - 1];
+      expect(lastCall).toBeDefined();
+      resetToken = lastCall[1]; // Second argument is the token
+      expect(resetToken).toBeTruthy();
 
       return request(app.getHttpServer())
         .post("/auth/reset-password")
