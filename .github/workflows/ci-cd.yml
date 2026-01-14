@@ -100,7 +100,10 @@ jobs:
       
       - name: Run unit tests
         run: cd apps/api && pnpm test
-      
+        env:
+          JWT_SECRET: super_secure_test_secret_at_least_32_chars_long
+          JWT_REFRESH_SECRET: super_secure_refresh_secret_at_least_32_chars_long
+
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
@@ -172,8 +175,8 @@ jobs:
         run: cd apps/api && pnpm test:e2e
         env:
           DATABASE_URL: postgresql://conozca:test_password@localhost:5432/conozca_test?schema=public
-          JWT_SECRET: test_secret
-          JWT_REFRESH_SECRET: test_refresh_secret
+          JWT_SECRET: super_secure_test_secret_at_least_32_chars_long
+          JWT_REFRESH_SECRET: super_secure_refresh_secret_at_least_32_chars_long
 
   # Job 4: Build Docker Image
   build:

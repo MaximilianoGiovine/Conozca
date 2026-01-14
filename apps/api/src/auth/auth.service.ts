@@ -44,13 +44,19 @@ export class AuthService {
     const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET;
 
     if (!jwtSecret || jwtSecret.length < 32) {
-      throw new Error("CRITICAL: JWT_SECRET must be at least 32 characters long. Check your .env file.");
+      throw new Error(
+        "CRITICAL: JWT_SECRET must be at least 32 characters long. Check your .env file.",
+      );
     }
     if (!jwtRefreshSecret || jwtRefreshSecret.length < 32) {
-      throw new Error("CRITICAL: JWT_REFRESH_SECRET must be at least 32 characters long. Check your .env file.");
+      throw new Error(
+        "CRITICAL: JWT_REFRESH_SECRET must be at least 32 characters long. Check your .env file.",
+      );
     }
     if (jwtSecret === jwtRefreshSecret) {
-      throw new Error("CRITICAL: JWT_SECRET and JWT_REFRESH_SECRET must be different.");
+      throw new Error(
+        "CRITICAL: JWT_SECRET and JWT_REFRESH_SECRET must be different.",
+      );
     }
   }
 
@@ -112,7 +118,9 @@ export class AuthService {
 
       await this.emailService.sendVerificationEmail(user.email, token);
     } catch (error) {
-      this.logger.warn(`Email verification token creation failed: ${error.message}`);
+      this.logger.warn(
+        `Email verification token creation failed: ${error.message}`,
+      );
       // Do not block registration if verification fails
     }
 
@@ -179,11 +187,14 @@ export class AuthService {
   async refresh(refreshToken: string): Promise<AuthResponseDto> {
     try {
       const secret = process.env.JWT_REFRESH_SECRET;
-      if (!secret) throw new InternalServerErrorException("JWT_REFRESH_SECRET not configured");
+      if (!secret)
+        throw new InternalServerErrorException(
+          "JWT_REFRESH_SECRET not configured",
+        );
 
       const payload = this.jwtService.verify(refreshToken, {
         secret: secret,
-      });
+      }) as { sub: string; email: string; role: string };
 
       const user = await this.prisma.user.findUnique({
         where: { id: payload.sub },
@@ -218,7 +229,7 @@ export class AuthService {
       };
     } catch (error) {
       this.customLogger.logBusinessEvent("refresh_failed", {
-        reason: error.message,
+        reason: (error as Error).message,
       });
       throw new UnauthorizedException("Invalid refresh token");
     }
@@ -230,11 +241,16 @@ export class AuthService {
   async validateToken(token: string): Promise<any> {
     try {
       const secret = process.env.JWT_SECRET;
-      if (!secret) throw new InternalServerErrorException("JWT_SECRET not configured");
+      if (!secret)
+        throw new InternalServerErrorException("JWT_SECRET not configured");
 
-      return this.jwtService.verify(token, {
-        secret: secret,
-      });
+      // jwtService.verify is synchronous in some versions, but can be async.
+      // Ensuring it matches Promise return type.
+      return await Promise.resolve(
+        this.jwtService.verify(token, {
+          secret: secret,
+        }),
+      );
     } catch (error) {
       throw new UnauthorizedException("Invalid token");
     }
@@ -316,7 +332,9 @@ export class AuthService {
       if (error instanceof UnauthorizedException) {
         throw error;
       }
-      this.logger.warn(`Session persistence failed: ${error.message}`);
+      this.logger.warn(
+        `Session persistence failed: ${(error as Error).message}`,
+      );
     }
   }
 
@@ -342,7 +360,9 @@ export class AuthService {
       if (error instanceof UnauthorizedException) {
         throw error;
       }
-      this.logger.warn(`Session validation failed: ${error.message}`);
+      this.logger.warn(
+        `Session validation failed: ${(error as Error).message}`,
+      );
     }
   }
 
@@ -451,7 +471,9 @@ export class AuthService {
         data: { revokedAt: new Date() },
       });
     } catch (error) {
-      this.logger.warn(`Failed to revoke sessions: ${error.message}`);
+      this.logger.warn(
+        `Failed to revoke sessions: ${(error as Error).message}`,
+      );
     }
 
     this.customLogger.logBusinessEvent("password_reset_success", {
@@ -473,7 +495,9 @@ export class AuthService {
         });
         this.customLogger.logBusinessEvent("user_logout", { userId });
       } catch (error) {
-        this.logger.warn(`Session revocation failed: ${error.message}`);
+        this.logger.warn(
+          `Session revocation failed: ${(error as Error).message}`,
+        );
       }
     }
     return { message: "Session closed successfully" };
@@ -488,7 +512,9 @@ export class AuthService {
       });
       this.customLogger.logBusinessEvent("user_logout_all", { userId });
     } catch (error) {
-      this.logger.warn(`Session revocation failed: ${error.message}`);
+      this.logger.warn(
+        `Session revocation failed: ${(error as Error).message}`,
+      );
     }
     return { message: "All sessions closed" };
   }
@@ -503,9 +529,9 @@ export class AuthService {
       throw new UnauthorizedException("Invalid token");
     }
     try {
-      const rec = await this.prisma.emailVerificationToken.findUnique(
-        { where: { userId: user.id } },
-      );
+      const rec = await this.prisma.emailVerificationToken.findUnique({
+        where: { userId: user.id },
+      });
       const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
       if (
         !rec ||
@@ -534,7 +560,9 @@ export class AuthService {
       if (error instanceof UnauthorizedException) {
         throw error;
       }
-      this.logger.warn(`Email verification failed: ${error.message}`);
+      this.logger.warn(
+        `Email verification failed: ${(error as Error).message}`,
+      );
     }
   }
 }
