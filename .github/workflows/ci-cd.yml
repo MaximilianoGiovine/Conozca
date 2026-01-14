@@ -215,6 +215,7 @@ jobs:
           context: .
           file: ./apps/api/Dockerfile
           push: false
+          load: true  # Load image to local Docker daemon
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
@@ -222,7 +223,8 @@ jobs:
       
       - name: Test image
         run: |
-          docker run --rm conozca-api:${{ github.sha }} node --version
+          # Use the first tag from metadata (branch-sha format)
+          docker images conozca-api --format "{{.Repository}}:{{.Tag}}" | head -1 | xargs -I {} docker run --rm {} node --version
 
   # Job 5: Deploy to Staging (opcional)
   deploy-staging:
