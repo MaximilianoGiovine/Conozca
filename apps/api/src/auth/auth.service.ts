@@ -4,6 +4,7 @@ import {
   ConflictException,
   BadRequestException,
   Logger,
+  InternalServerErrorException,
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "../prisma.service";
@@ -34,7 +35,7 @@ export class AuthService {
     private emailService: EmailService,
     private customLogger: LoggerService,
   ) {
-    // Validar JWT secrets al inicio
+    // Validate JWT secrets on startup
     this.validateJWTSecrets();
   }
 
@@ -43,45 +44,41 @@ export class AuthService {
     const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET;
 
     if (!jwtSecret || jwtSecret.length < 32) {
-      throw new Error("JWT_SECRET must be at least 32 characters long");
+      throw new Error("CRITICAL: JWT_SECRET must be at least 32 characters long. Check your .env file.");
     }
     if (!jwtRefreshSecret || jwtRefreshSecret.length < 32) {
-      throw new Error("JWT_REFRESH_SECRET must be at least 32 characters long");
+      throw new Error("CRITICAL: JWT_REFRESH_SECRET must be at least 32 characters long. Check your .env file.");
     }
     if (jwtSecret === jwtRefreshSecret) {
-      throw new Error("JWT_SECRET and JWT_REFRESH_SECRET must be different");
+      throw new Error("CRITICAL: JWT_SECRET and JWT_REFRESH_SECRET must be different.");
     }
   }
 
   /**
-   * Registrar un nuevo usuario
-   *
-   * @param registerDto - Email, contraseña y nombre
-   * @returns AuthResponseDto con tokens y datos del usuario
-   * @throws ConflictException si el email ya existe
+   * Register a new user
    */
   async register(registerDto: RegisterDto): Promise<AuthResponseDto> {
     const { email, password, name } = registerDto;
 
-    // Verificar si el usuario ya existe
+    // Check if user already exists
     const existingUser = await this.prisma.user.findUnique({
       where: { email },
     });
 
     if (existingUser) {
-      throw new ConflictException("El email ya está registrado");
+      throw new ConflictException("Email already registered");
     }
 
-    // Hash de la contraseña con bcrypt rounds seguros
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, BCRYPT_ROUNDS);
 
-    // Crear el usuario
+    // Create user
     const user = await this.prisma.user.create({
       data: {
         email,
         password: hashedPassword,
         name,
-        role: "USER", // Por defecto, nuevos usuarios son USER
+        role: "USER",
       },
     });
 
@@ -92,14 +89,15 @@ export class AuthService {
       role: user.role,
     });
 
-    // Generar tokens
+    // Generate tokens
     const tokens = this.generateTokens(user.id, user.email, user.role);
 
-    // Emitir token de verificación (persistencia diferida)
+    // Create verification token
     try {
-      const token = crypto.randomBytes(32).toString("hex"); // 32 bytes = 256 bits
+      const token = crypto.randomBytes(32).toString("hex");
       const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
-      await (this.prisma as any).emailVerificationToken?.upsert({
+
+      await this.prisma.emailVerificationToken.upsert({
         where: { userId: user.id },
         update: {
           tokenHash,
@@ -111,13 +109,11 @@ export class AuthService {
           expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
         },
       });
-      // Enviar email de verificación
+
       await this.emailService.sendVerificationEmail(user.email, token);
     } catch (error) {
-      this.logger.warn(
-        `Email verification token creation failed: ${error.message}`,
-      );
-      // No bloquear el registro si falla la verificación
+      this.logger.warn(`Email verification token creation failed: ${error.message}`);
+      // Do not block registration if verification fails
     }
 
     return {
@@ -133,25 +129,19 @@ export class AuthService {
   }
 
   /**
-   * Login de usuario
-   *
-   * @param loginDto - Email y contraseña
-   * @returns AuthResponseDto con tokens y datos del usuario
-   * @throws UnauthorizedException si las credenciales son inválidas
+   * User Login
    */
   async login(loginDto: LoginDto): Promise<AuthResponseDto> {
     const { email, password } = loginDto;
 
-    // Buscar el usuario
     const user = await this.prisma.user.findUnique({
       where: { email },
     });
 
     if (!user) {
-      throw new UnauthorizedException("Email o contraseña inválidos");
+      throw new UnauthorizedException("Invalid email or password");
     }
 
-    // Verificar contraseña
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
@@ -159,19 +149,16 @@ export class AuthService {
         email,
         reason: "invalid_password",
       });
-      throw new UnauthorizedException("Email o contraseña inválidos");
+      throw new UnauthorizedException("Invalid email or password");
     }
 
-    // Log successful login
     this.customLogger.logBusinessEvent("user_login", {
       userId: user.id,
       email: user.email,
     });
 
-    // Generar tokens
     const tokens = this.generateTokens(user.id, user.email, user.role);
 
-    // Registrar sesión/refresh (rotación en refresh)
     await this.persistRefresh(user.id, tokens.refresh_token, undefined);
 
     return {
@@ -187,20 +174,17 @@ export class AuthService {
   }
 
   /**
-   * Refrescar tokens
-   *
-   * @param refreshToken - Token de refresco
-   * @returns Nuevos access_token y refresh_token
-   * @throws UnauthorizedException si el token es inválido
+   * Refresh Tokens
    */
   async refresh(refreshToken: string): Promise<AuthResponseDto> {
     try {
-      // Verificar y decodificar el refresh token
+      const secret = process.env.JWT_REFRESH_SECRET;
+      if (!secret) throw new InternalServerErrorException("JWT_REFRESH_SECRET not configured");
+
       const payload = this.jwtService.verify(refreshToken, {
-        secret: process.env.JWT_REFRESH_SECRET || "refresh-secret",
+        secret: secret,
       });
 
-      // Buscar el usuario
       const user = await this.prisma.user.findUnique({
         where: { id: payload.sub },
       });
@@ -210,13 +194,11 @@ export class AuthService {
           reason: "user_not_found",
           userId: payload.sub,
         });
-        throw new UnauthorizedException("Usuario no encontrado");
+        throw new UnauthorizedException("User not found");
       }
 
-      // Verificar existencia de sesión (rotación segura)
       await this.assertRefreshValid(user.id, refreshToken);
 
-      // Generar nuevos tokens y rotar
       const tokens = this.generateTokens(user.id, user.email, user.role);
       await this.persistRefresh(user.id, tokens.refresh_token, refreshToken);
 
@@ -238,55 +220,50 @@ export class AuthService {
       this.customLogger.logBusinessEvent("refresh_failed", {
         reason: error.message,
       });
-      throw new UnauthorizedException("Refresh token inválido");
+      throw new UnauthorizedException("Invalid refresh token");
     }
   }
 
   /**
-   * Validar un access token
-   *
-   * @param token - Access token
-   * @returns Payload del token
-   * @throws UnauthorizedException si el token es inválido
+   * Validate Access Token
    */
   async validateToken(token: string): Promise<any> {
     try {
+      const secret = process.env.JWT_SECRET;
+      if (!secret) throw new InternalServerErrorException("JWT_SECRET not configured");
+
       return this.jwtService.verify(token, {
-        secret: process.env.JWT_SECRET || "secret",
+        secret: secret,
       });
     } catch (error) {
-      throw new UnauthorizedException("Token inválido");
+      throw new UnauthorizedException("Invalid token");
     }
   }
 
-  /**
-   * Generar access_token y refresh_token
-   *
-   * @private
-   * @param userId - ID del usuario
-   * @param email - Email del usuario
-   * @param role - Rol del usuario
-   * @returns Objeto con access_token y refresh_token
-   */
   private generateTokens(
     userId: string,
     email: string,
     role: string,
   ): { access_token: string; refresh_token: string } {
+    const accessSecret = process.env.JWT_SECRET;
+    const refreshSecret = process.env.JWT_REFRESH_SECRET;
+
+    if (!accessSecret || !refreshSecret) {
+      throw new InternalServerErrorException("JWT secrets are missing in env");
+    }
+
     const payload = { email, sub: userId, role };
     const accessJti = crypto.randomUUID();
     const refreshJti = crypto.randomUUID();
 
-    // Access token - expira en 15 minutos
     const access_token = this.jwtService.sign(payload, {
-      secret: process.env.JWT_SECRET || "secret",
+      secret: accessSecret,
       expiresIn: "15m",
       jwtid: accessJti,
     });
 
-    // Refresh token - expira en 7 días
     const refresh_token = this.jwtService.sign(payload, {
-      secret: process.env.JWT_REFRESH_SECRET || "refresh-secret",
+      secret: refreshSecret,
       expiresIn: "7d",
       jwtid: refreshJti,
     });
@@ -305,19 +282,19 @@ export class AuthService {
       const now = new Date();
 
       if (oldRefresh) {
-        const result = await (this.prisma as any).session?.updateMany({
+        const result = await this.prisma.session.updateMany({
           where: { userId, refreshHash: hash(oldRefresh), revokedAt: null },
           data: { revokedAt: now },
         });
 
-        // Detección de reuso de token (security)
-        if (result?.count === 0) {
+        // Token reuse detection
+        if (result.count === 0) {
           this.customLogger.logBusinessEvent("refresh_token_reuse_detected", {
             userId,
             severity: "HIGH",
           });
-          // Revocar TODAS las sesiones del usuario por seguridad
-          await (this.prisma as any).session?.updateMany({
+          // Revoke ALL user sessions
+          await this.prisma.session.updateMany({
             where: { userId, revokedAt: null },
             data: { revokedAt: now },
           });
@@ -327,7 +304,7 @@ export class AuthService {
         }
       }
 
-      await (this.prisma as any).session?.create({
+      await this.prisma.session.create({
         data: {
           userId,
           refreshHash: hash(newRefresh),
@@ -346,7 +323,7 @@ export class AuthService {
   private async assertRefreshValid(userId: string, refresh: string) {
     try {
       const hash = crypto.createHash("sha256").update(refresh).digest("hex");
-      const rec = await (this.prisma as any).session?.findFirst({
+      const rec = await this.prisma.session.findFirst({
         where: {
           userId,
           refreshHash: hash,
@@ -359,48 +336,38 @@ export class AuthService {
           userId,
           reason: "not_found_or_revoked",
         });
-        throw new UnauthorizedException("Refresh no reconocido");
+        throw new UnauthorizedException("Start session failed");
       }
     } catch (error) {
       if (error instanceof UnauthorizedException) {
         throw error;
       }
-      // Si no existe tabla, continuar (modo legacy)
       this.logger.warn(`Session validation failed: ${error.message}`);
     }
   }
 
   /**
-   * Solicitar reset de contraseña
-   *
-   * @param forgotPasswordDto - Email del usuario
-   * @returns Mensaje de confirmación
-   * @throws UnauthorizedException si el email no existe
+   * Request Password Reset
    */
   async forgotPassword(forgotPasswordDto: {
     email: string;
   }): Promise<{ message: string }> {
     const { email } = forgotPasswordDto;
-
-    // Timing attack protection: Siempre ejecutar operaciones costosas
     const startTime = Date.now();
-    const MIN_RESPONSE_TIME = 1000; // 1 segundo mínimo
+    const MIN_RESPONSE_TIME = 1000;
 
-    // Buscar el usuario
     const user = await this.prisma.user.findUnique({
       where: { email },
     });
 
     if (user) {
-      // Generar token de reset aleatorio
       const resetToken = crypto.randomBytes(32).toString("hex");
       const resetTokenHash = crypto
         .createHash("sha256")
         .update(resetToken)
         .digest("hex");
-      const resetTokenExpires = new Date(Date.now() + 1 * 60 * 60 * 1000); // 1 hora
+      const resetTokenExpires = new Date(Date.now() + 1 * 60 * 60 * 1000);
 
-      // Guardar el HASH del token en la BD (no el token plain)
       await this.prisma.user.update({
         where: { id: user.id },
         data: {
@@ -409,7 +376,6 @@ export class AuthService {
         },
       });
 
-      // Enviar email con el token PLAIN
       await this.emailService.sendPasswordResetEmail(user.email, resetToken);
 
       this.customLogger.logBusinessEvent("password_reset_requested", {
@@ -417,11 +383,9 @@ export class AuthService {
         email: user.email,
       });
     } else {
-      // Hash fake para consumir tiempo similar
       await bcrypt.hash("fake-password", BCRYPT_ROUNDS);
     }
 
-    // Timing attack protection: Asegurar tiempo mínimo de respuesta
     const elapsedTime = Date.now() - startTime;
     if (elapsedTime < MIN_RESPONSE_TIME) {
       await new Promise((resolve) =>
@@ -431,16 +395,12 @@ export class AuthService {
 
     return {
       message:
-        "Si el email existe, recibirás instrucciones para resetear tu contraseña",
+        "If the email exists, you will receive instructions to reset your password",
     };
   }
 
   /**
-   * Resetear contraseña con token
-   *
-   * @param resetPasswordDto - Token y nueva contraseña
-   * @returns Mensaje de éxito
-   * @throws UnauthorizedException si el token es inválido o expirado
+   * Reset Password
    */
   async resetPassword(resetPasswordDto: {
     email: string;
@@ -449,12 +409,10 @@ export class AuthService {
   }): Promise<{ message: string }> {
     const { email, reset_token, password } = resetPasswordDto;
 
-    // Buscar el usuario por email
     const user = await this.prisma.user.findUnique({
       where: { email },
     });
 
-    // Validar token hasheado
     const resetTokenHash = crypto
       .createHash("sha256")
       .update(reset_token)
@@ -465,22 +423,19 @@ export class AuthService {
         email,
         reason: "invalid_token",
       });
-      throw new UnauthorizedException("Token de reset inválido");
+      throw new UnauthorizedException("Invalid reset token");
     }
 
-    // Verificar que el token no haya expirado
     if (!user.resetTokenExpires || user.resetTokenExpires < new Date()) {
       this.customLogger.logBusinessEvent("password_reset_failed", {
         userId: user.id,
         reason: "token_expired",
       });
-      throw new UnauthorizedException("Token de reset expirado");
+      throw new UnauthorizedException("Reset token expired");
     }
 
-    // Hash de la nueva contraseña con rounds seguros
     const hashedPassword = await bcrypt.hash(password, BCRYPT_ROUNDS);
 
-    // Actualizar la contraseña y limpiar el token
     await this.prisma.user.update({
       where: { id: user.id },
       data: {
@@ -490,9 +445,8 @@ export class AuthService {
       },
     });
 
-    // Revocar todas las sesiones activas por seguridad
     try {
-      await (this.prisma as any).session?.updateMany({
+      await this.prisma.session.updateMany({
         where: { userId: user.id, revokedAt: null },
         data: { revokedAt: new Date() },
       });
@@ -504,23 +458,16 @@ export class AuthService {
       userId: user.id,
     });
 
-    return { message: "Contraseña actualizada exitosamente" };
+    return { message: "Password updated successfully" };
   }
 
-  /**
-   * Logout (en JWT es principalmente un cliente-side operation)
-   * Este endpoint devuelve confirmación de logout
-   *
-   * @returns Mensaje de confirmación
-   */
   async logout(
     accessToken?: string,
     userId?: string,
   ): Promise<{ message: string }> {
-    // Revocar refresh asociado si es posible
     if (userId) {
       try {
-        await (this.prisma as any).session?.updateMany({
+        await this.prisma.session.updateMany({
           where: { userId, revokedAt: null },
           data: { revokedAt: new Date() },
         });
@@ -529,13 +476,13 @@ export class AuthService {
         this.logger.warn(`Session revocation failed: ${error.message}`);
       }
     }
-    return { message: "Sesión cerrada exitosamente" };
+    return { message: "Session closed successfully" };
   }
 
   async logoutAll(userId: string): Promise<{ message: string }> {
-    if (!userId) throw new BadRequestException("userId requerido");
+    if (!userId) throw new BadRequestException("userId required");
     try {
-      await (this.prisma as any).session?.updateMany({
+      await this.prisma.session.updateMany({
         where: { userId, revokedAt: null },
         data: { revokedAt: new Date() },
       });
@@ -543,7 +490,7 @@ export class AuthService {
     } catch (error) {
       this.logger.warn(`Session revocation failed: ${error.message}`);
     }
-    return { message: "Todas las sesiones cerradas" };
+    return { message: "All sessions closed" };
   }
 
   async verifyEmail(email: string, token: string) {
@@ -553,10 +500,10 @@ export class AuthService {
         email,
         reason: "user_not_found",
       });
-      throw new UnauthorizedException("Token inválido");
+      throw new UnauthorizedException("Invalid token");
     }
     try {
-      const rec = await (this.prisma as any).emailVerificationToken?.findUnique(
+      const rec = await this.prisma.emailVerificationToken.findUnique(
         { where: { userId: user.id } },
       );
       const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
@@ -569,15 +516,15 @@ export class AuthService {
           userId: user.id,
           reason: "invalid_or_expired_token",
         });
-        throw new UnauthorizedException("Token inválido");
+        throw new UnauthorizedException("Invalid token");
       }
       await this.prisma.user.update({
         where: { id: user.id },
         data: {
-          /* flag opcional si existe */
-        } as any,
+          // Update confirmation if needed
+        },
       });
-      await (this.prisma as any).emailVerificationToken?.delete({
+      await this.prisma.emailVerificationToken.delete({
         where: { userId: user.id },
       });
       this.customLogger.logBusinessEvent("email_verified", {
