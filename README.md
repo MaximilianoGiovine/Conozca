@@ -2,6 +2,8 @@
 
 Monorepo moderno para el proyecto **Conozca**, una revista digital con API REST, aplicaciones web y gestión de contenido.
 
+**📋 Ver todas las características**: [FEATURES.md](FEATURES.md)
+
 ## 🏗️ Estructura del Proyecto
 
 ```
@@ -16,6 +18,7 @@ conozca-monorepo/
 │   ├── eslint-config/    # Configuraciones de ESLint
 │   └── typescript-config/ # Configuraciones de TypeScript
 ├── docker-compose.yml    # PostgreSQL + API + pgAdmin
+├── FEATURES.md           # Todas las características implementadas ⭐
 └── API_DOCUMENTATION.md  # Documentación completa de API
 
 ## ✨ Características Principales
@@ -24,7 +27,7 @@ conozca-monorepo/
 - 📝 **Gestión de Artículos** - CRUD completo con estados y scheduling
 - 🏷️ **Categorías y Autores** - Organización de contenido
 - 🧩 **Sistema de Bloques** - Editor avanzado con múltiples tipos de contenido
-- � **Sistema de Comentarios** - Comentarios con moderación y reportes
+- 💬 **Sistema de Comentarios** - Comentarios con moderación y reportes
 - 📤 **Upload de Archivos** - Soporte para Local, Cloudinary, S3
 - 📧 **Email Service** - Verificación, reset de password, notificaciones
 - 🔒 **Rate Limiting** - Global y por endpoint para prevenir abuso
