@@ -157,7 +157,7 @@ describe("Authentication E2E Tests", () => {
         .expect(200)
         .expect((res) => {
           expect(res.body).toHaveProperty("message");
-          expect(res.body.message).toContain("Sesión cerrada");
+          expect(res.body.message).toContain("Session closed successfully");
         });
     });
 
@@ -190,7 +190,7 @@ describe("Authentication E2E Tests", () => {
         .expect(200)
         .expect((res) => {
           expect(res.body).toHaveProperty("message");
-          expect(res.body.message).toContain("instrucciones");
+          expect(res.body.message).toContain("instructions");
         });
     });
 
@@ -230,7 +230,7 @@ describe("Authentication E2E Tests", () => {
         .expect(200)
         .expect((res) => {
           expect(res.body).toHaveProperty("message");
-          expect(res.body.message).toContain("actualizada");
+          expect(res.body.message).toContain("Password updated successfully");
         });
     });
 

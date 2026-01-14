@@ -68,7 +68,9 @@ export class CommentService {
    * Obtener comentarios de un artículo (solo aprobados para usuarios normales)
    */
   async findByArticle(articleId: string, includeUnapproved: boolean = false) {
-    const whereClause: any = { articleId };
+    const whereClause: { articleId: string; isApproved?: boolean } = {
+      articleId,
+    };
 
     if (!includeUnapproved) {
       whereClause.isApproved = true;

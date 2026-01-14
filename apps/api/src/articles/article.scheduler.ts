@@ -11,12 +11,19 @@ export class ArticleScheduler {
   // Ejecuta cada minuto; procesa programaciones vencidas
   @Cron("*/1 * * * *")
   async handleSchedules() {
+    /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
     try {
       const now = new Date();
-      const due = await (this.prisma as any).articleSchedule?.findMany({
+
+      const scheduleModel = (this.prisma as any).articleSchedule;
+
+      if (!scheduleModel) return;
+
+      const due = (await scheduleModel.findMany({
         where: { scheduledAt: { lte: now }, processedAt: null },
         take: 50,
-      });
+      })) as { id: string; articleId: string; action: string }[];
+
       if (!due || due.length === 0) return;
 
       for (const job of due) {
@@ -31,7 +38,7 @@ export class ArticleScheduler {
             data: { status: PostStatus.DRAFT },
           });
         }
-        await (this.prisma as any).articleSchedule?.update({
+        await scheduleModel.update({
           where: { id: job.id },
           data: { processedAt: new Date() },
         });

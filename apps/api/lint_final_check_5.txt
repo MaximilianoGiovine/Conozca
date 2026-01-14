@@ -1,0 +1,51 @@
+
+> api@0.0.1 lint /Volumes/ssd/conozca-monorepo/apps/api
+> eslint "{src,apps,libs,test}/**/*.ts" --fix
+
+
+/Volumes/ssd/conozca-monorepo/apps/api/src/articles/article-block.service.spec.ts
+   85:46  error  Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  396:53  error  Async arrow function has no 'await' expression  @typescript-eslint/require-await
+
+/Volumes/ssd/conozca-monorepo/apps/api/src/articles/article.service.ts
+   26:3   error  'BlockType' is defined but never used             @typescript-eslint/no-unused-vars
+  323:15  error  Unsafe call of a(n) `any` typed value             @typescript-eslint/no-unsafe-call
+  323:36  error  Unsafe member access .redirect on an `any` value  @typescript-eslint/no-unsafe-member-access
+  593:11  error  'q' is assigned a value but never used            @typescript-eslint/no-unused-vars
+  597:39  error  Unsafe assignment of an `any` value               @typescript-eslint/no-unsafe-assignment
+  598:41  error  Unsafe assignment of an `any` value               @typescript-eslint/no-unsafe-assignment
+  844:5   error  'userId' is defined but never used                @typescript-eslint/no-unused-vars
+
+/Volumes/ssd/conozca-monorepo/apps/api/src/auth/auth.service.ts
+  122:60  error  Unsafe member access .message on an `any` value  @typescript-eslint/no-unsafe-member-access
+  195:13  error  Unsafe assignment of an `any` value              @typescript-eslint/no-unsafe-assignment
+  200:18  error  Unsafe assignment of an `any` value              @typescript-eslint/no-unsafe-assignment
+  200:30  error  Unsafe member access .sub on an `any` value      @typescript-eslint/no-unsafe-member-access
+  206:11  error  Unsafe assignment of an `any` value              @typescript-eslint/no-unsafe-assignment
+  206:27  error  Unsafe member access .sub on an `any` value      @typescript-eslint/no-unsafe-member-access
+  254:14  error  '_error' is defined but never used               @typescript-eslint/no-unused-vars
+
+/Volumes/ssd/conozca-monorepo/apps/api/src/auth/auth.sessions.spec.ts
+  85:20  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/Volumes/ssd/conozca-monorepo/apps/api/src/auth/role.guard.ts
+  19:11  error    Unsafe assignment of an `any` value                                     @typescript-eslint/no-unsafe-assignment
+  20:11  error    Unsafe assignment of an `any` value                                     @typescript-eslint/no-unsafe-assignment
+  20:26  error    Unsafe member access .user on an `any` value                            @typescript-eslint/no-unsafe-member-access
+  22:46  warning  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+  22:51  error    Unsafe member access .role on an `any` value                            @typescript-eslint/no-unsafe-member-access
+
+/Volumes/ssd/conozca-monorepo/apps/api/src/common/email.service.ts
+  77:13  error  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  88:9   error  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  88:25  error  Unsafe member access .messageId on an `any` value  @typescript-eslint/no-unsafe-member-access
+
+/Volumes/ssd/conozca-monorepo/apps/api/src/common/logger.service.ts
+  28:44  error  'context' will use Object's default stringification format ('[object Object]') when stringified  @typescript-eslint/no-base-to-string
+
+/Volumes/ssd/conozca-monorepo/apps/api/src/common/sentry.service.ts
+  41:27  error  '_hint' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 27 problems (26 errors, 1 warning)
+
+ ELIFECYCLE  Command failed with exit code 1.

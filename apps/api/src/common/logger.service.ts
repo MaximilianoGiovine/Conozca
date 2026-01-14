@@ -25,9 +25,11 @@ export class LoggerService implements NestLoggerService {
       winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
       winston.format.printf(
         ({ timestamp, level, message, context, ...meta }) => {
-          const ctx = context ? `[${context}]` : "";
+          const ctx = context
+            ? `[${typeof context === "string" ? context : JSON.stringify(context)}]`
+            : "";
           const metaStr = Object.keys(meta).length ? JSON.stringify(meta) : "";
-          return `${timestamp} ${level} ${ctx} ${message} ${metaStr}`;
+          return `${String(timestamp)} ${String(level)} ${ctx} ${String(message)} ${metaStr}`;
         },
       ),
     );

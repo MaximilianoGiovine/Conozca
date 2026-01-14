@@ -29,6 +29,7 @@ export class EmailService {
       SMTP_PORT,
       SMTP_USER,
       SMTP_PASSWORD,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       SMTP_FROM,
       EMAIL_ENABLED,
     } = process.env;
@@ -53,7 +54,10 @@ export class EmailService {
       this.logger.log("Email service initialized successfully");
       return true;
     } catch (error) {
-      this.logger.error("Failed to initialize email service", error.stack);
+      this.logger.error(
+        "Failed to initialize email service",
+        (error as Error).stack,
+      );
       return false;
     }
   }
@@ -70,6 +74,7 @@ export class EmailService {
     }
 
     try {
+      /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
       const info = await this.transporter.sendMail({
         from: process.env.SMTP_FROM || "noreply@conozca.org",
         to: options.to,
@@ -86,7 +91,10 @@ export class EmailService {
 
       return true;
     } catch (error) {
-      this.logger.error(`Failed to send email to ${options.to}`, error.stack);
+      this.logger.error(
+        `Failed to send email to ${options.to}`,
+        (error as Error).stack,
+      );
       return false;
     }
   }

@@ -37,6 +37,7 @@ export class AuthService {
   ) {
     // Validate JWT secrets on startup
     this.validateJWTSecrets();
+    this.logger.log("AuthService initialized");
   }
 
   private validateJWTSecrets() {
@@ -119,7 +120,7 @@ export class AuthService {
       await this.emailService.sendVerificationEmail(user.email, token);
     } catch (error) {
       this.logger.warn(
-        `Email verification token creation failed: ${error.message}`,
+        `Email verification token creation failed: ${(error as Error).message}`,
       );
       // Do not block registration if verification fails
     }
@@ -192,9 +193,10 @@ export class AuthService {
           "JWT_REFRESH_SECRET not configured",
         );
 
-      const payload = this.jwtService.verify(refreshToken, {
-        secret: secret,
-      }) as { sub: string; email: string; role: string };
+      /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */ const payload =
+        this.jwtService.verify(refreshToken, {
+          secret: secret,
+        });
 
       const user = await this.prisma.user.findUnique({
         where: { id: payload.sub },
@@ -227,9 +229,9 @@ export class AuthService {
           role: user.role,
         },
       };
-    } catch (error) {
+    } catch (_error) {
       this.customLogger.logBusinessEvent("refresh_failed", {
-        reason: (error as Error).message,
+        reason: (_error as Error).message,
       });
       throw new UnauthorizedException("Invalid refresh token");
     }
@@ -251,7 +253,7 @@ export class AuthService {
           secret: secret,
         }),
       );
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException("Invalid token");
     }
   }

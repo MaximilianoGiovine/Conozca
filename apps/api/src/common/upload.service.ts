@@ -2,6 +2,11 @@ import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { LoggerService } from "./logger.service";
 
+interface CloudinaryUploadResult {
+  secure_url: string;
+  [key: string]: any;
+}
+
 /**
  * Upload service para manejo de archivos
  * Soporta múltiples providers: Cloudinary, AWS S3, Local
@@ -88,9 +93,9 @@ export class UploadService {
   ): Promise<string> {
     const { v2: cloudinary } = await import("cloudinary");
 
-    const cloudName = this.configService.get("CLOUDINARY_CLOUD_NAME");
-    const apiKey = this.configService.get("CLOUDINARY_API_KEY");
-    const apiSecret = this.configService.get("CLOUDINARY_API_SECRET");
+    const cloudName = this.configService.get<string>("CLOUDINARY_CLOUD_NAME");
+    const apiKey = this.configService.get<string>("CLOUDINARY_API_KEY");
+    const apiSecret = this.configService.get<string>("CLOUDINARY_API_SECRET");
 
     if (!cloudName || !apiKey || !apiSecret) {
       this.logger.warn("Cloudinary credentials missing, using local upload");
@@ -111,9 +116,9 @@ export class UploadService {
             resource_type: "auto",
             tags: ["conozca", folder],
           },
-          (error: any, result: any) => {
+          (error: any, result: CloudinaryUploadResult | undefined) => {
             if (error) {
-              reject(error);
+              reject(error instanceof Error ? error : new Error(String(error)));
             } else if (result?.secure_url) {
               this.logger.logBusinessEvent("file_uploaded_cloudinary", {
                 filename: file.originalname,
@@ -131,7 +136,10 @@ export class UploadService {
         uploadStream.end(file.buffer);
       });
     } catch (error) {
-      this.logger.error("Failed to upload to Cloudinary", error.stack);
+      this.logger.error(
+        "Failed to upload to Cloudinary",
+        (error as Error).stack,
+      );
       return this.uploadToLocal(file, folder);
     }
   }
@@ -174,7 +182,10 @@ export class UploadService {
     await fs.writeFile(filepath, file.buffer);
 
     // Retornar URL pública
-    const baseUrl = this.configService.get("API_URL", "http://localhost:4000");
+    const baseUrl = this.configService.get<string>(
+      "API_URL",
+      "http://localhost:4000",
+    );
     const publicUrl = `${baseUrl}/uploads/${folder}/${filename}`;
 
     this.logger.logBusinessEvent("file_uploaded", {
@@ -213,7 +224,10 @@ export class UploadService {
       this.logger.logBusinessEvent("file_deleted", { url, provider: "local" });
       return true;
     } catch (error) {
-      this.logger.error(`Failed to delete file: ${url}`, error.stack);
+      this.logger.error(
+        `Failed to delete file: ${url}`,
+        (error as Error).stack,
+      );
       return false;
     }
   }

@@ -10,8 +10,7 @@ export class LoggerMiddleware implements NestMiddleware {
   private logger = new LoggerService("HTTP");
 
   use(req: Request, res: Response, next: NextFunction) {
-    const { method, originalUrl, ip } = req;
-    const userAgent = req.get("user-agent") || "";
+    const { method, originalUrl } = req;
     const startTime = Date.now();
 
     // Log request
@@ -21,7 +20,7 @@ export class LoggerMiddleware implements NestMiddleware {
     res.on("finish", () => {
       const { statusCode } = res;
       const duration = Date.now() - startTime;
-      const userId = (req as any).user?.sub;
+      const userId = (req as unknown as { user?: { sub: string } }).user?.sub;
 
       this.logger.logRequest(method, originalUrl, statusCode, duration, userId);
     });

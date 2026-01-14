@@ -18,8 +18,11 @@ export class SentryInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       catchError((error) => {
+        /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
         const request = context.switchToHttp().getRequest();
-        const user = request.user;
+        const user = request.user as
+          | { sub: string; email: string; name: string }
+          | undefined;
 
         // Agregar contexto del usuario si está disponible
         if (user) {
@@ -38,15 +41,15 @@ export class SentryInterceptor implements NestInterceptor {
           data: {
             method: request.method,
             url: request.url,
-            statusCode: error.status,
+            statusCode: error.status || 500,
           },
         });
 
         // Capturar excepción
-        this.sentryService.captureException(error, {
+        this.sentryService.captureException(error as Error, {
           method: request.method,
           url: request.url,
-          statusCode: error.status,
+          statusCode: error.status || 500,
           user: user ? { id: user.sub, email: user.email } : undefined,
         });
 

@@ -15,6 +15,7 @@ export class AuditLogService {
     ua?: string;
   }) {
     try {
+      /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment */
       await (this.prisma as any).auditLog?.create({
         data: {
           userId: params.userId ?? null,

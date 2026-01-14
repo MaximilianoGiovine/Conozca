@@ -25,6 +25,7 @@ import {
   ResetPasswordDto,
 } from "./auth.dto";
 import { AuthGuard } from "./auth.guard";
+import type { AuthenticatedRequest } from "../common/interfaces/authenticated-request.interface";
 
 /**
  * AuthController
@@ -196,7 +197,9 @@ export class AuthController {
     status: 401,
     description: "No autenticado - token inválido o expirado",
   })
-  async logout(@Request() req: any): Promise<{ message: string }> {
+  async logout(
+    @Request() req: AuthenticatedRequest,
+  ): Promise<{ message: string }> {
     const headers = req?.headers || {};
     const token =
       headers["authorization"]?.toString().replace("Bearer ", "") || "";
@@ -229,7 +232,9 @@ export class AuthController {
     status: 401,
     description: "No autenticado - token inválido o expirado",
   })
-  async logoutAll(@Request() req: any): Promise<{ message: string }> {
+  async logoutAll(
+    @Request() req: AuthenticatedRequest,
+  ): Promise<{ message: string }> {
     return this.authService.logoutAll(req.user?.sub);
   }
 

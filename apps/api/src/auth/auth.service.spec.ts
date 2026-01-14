@@ -362,7 +362,7 @@ describe("AuthService", () => {
       const result = await service.logout();
 
       expect(result).toHaveProperty("message");
-      expect(result.message).toContain("Sesión cerrada");
+      expect(result.message).toContain("Session closed successfully");
     });
 
     it("✅ debe ser un método que retorna Promise", () => {
@@ -441,16 +441,16 @@ describe("AuthService", () => {
 
     it("✅ debe resetear contraseña exitosamente", async () => {
       mockPrismaService.user.findUnique.mockResolvedValue(userWithResetToken);
-      mockPrismaService.user.update.mockImplementation(async (params) => {
+      mockPrismaService.user.update.mockImplementation((params) => {
         const password = params.data.password as string;
         expect(password).not.toBe(resetDto.password);
-        return mockUser;
+        return Promise.resolve(mockUser);
       });
 
       const result = await service.resetPassword(resetDto);
 
       expect(result).toHaveProperty("message");
-      expect(result.message).toContain("actualizada");
+      expect(result.message).toContain("Password updated successfully");
       expect(mockPrismaService.user.update).toHaveBeenCalled();
     });
 
@@ -493,11 +493,11 @@ describe("AuthService", () => {
       (bcrypt.hash as jest.Mock).mockResolvedValueOnce(
         "$2b$10$newHashedPassword",
       );
-      mockPrismaService.user.update.mockImplementation(async (params) => {
+      mockPrismaService.user.update.mockImplementation((params) => {
         const newPassword = params.data.password as string;
         expect(newPassword).not.toBe(resetDto.password);
         expect(newPassword).toBe("$2b$10$newHashedPassword");
-        return mockUser;
+        return Promise.resolve(mockUser);
       });
 
       await service.resetPassword(resetDto);
@@ -505,10 +505,10 @@ describe("AuthService", () => {
 
     it("✅ debe limpiar el reset token después de usarlo", async () => {
       mockPrismaService.user.findUnique.mockResolvedValue(userWithResetToken);
-      mockPrismaService.user.update.mockImplementation(async (params) => {
+      mockPrismaService.user.update.mockImplementation((params) => {
         expect(params.data.resetToken).toBeNull();
         expect(params.data.resetTokenExpires).toBeNull();
-        return mockUser;
+        return Promise.resolve(mockUser);
       });
 
       await service.resetPassword(resetDto);

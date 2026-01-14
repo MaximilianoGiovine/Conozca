@@ -23,9 +23,14 @@ import {
 import {
   PostStatus,
   Role,
-  BlockType,
   FontFamily,
   TextAlign,
+  Article,
+  Author,
+  Category,
+  User,
+  View,
+  ArticleBlock,
 } from "@conozca/database";
 import { Readable } from "stream";
 
@@ -314,6 +319,7 @@ export class ArticleService {
     // Si cambió el slug, crear un redirect básico
     try {
       if (updateArticleDto.slug && updateArticleDto.slug !== oldSlug) {
+        /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
         await (this.prisma as any).redirect?.create({
           data: {
             fromSlug: oldSlug,
@@ -584,12 +590,14 @@ export class ArticleService {
    * Nota: Para producción, migrar a full-text con índices GIN/tsvector.
    */
   async searchArticles(query: string) {
-    const q = `%${query}%`;
+    // const q = `%${query}%`;
     const articles = await this.prisma.article.findMany({
       where: {
         OR: [
+          /* eslint-disable @typescript-eslint/no-unsafe-assignment */
           { title: { contains: query, mode: "insensitive" as any } },
           { content: { contains: query, mode: "insensitive" as any } },
+          /* eslint-enable @typescript-eslint/no-unsafe-assignment */
         ],
       },
       take: 20,
@@ -820,6 +828,7 @@ export class ArticleService {
             imageHeight: true,
             createdAt: true,
             updatedAt: true,
+            metadata: true,
           },
         });
         updatedBlocks.push(this.formatBlockResponse(block));
@@ -834,7 +843,8 @@ export class ArticleService {
   async getArticleWithBlocks(
     articleId: string,
     userRole?: Role,
-    userId?: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _userId?: string,
   ): Promise<ArticleWithBlocksResponseDto> {
     const article = await this.prisma.article.findUnique({
       where: { id: articleId },
@@ -928,20 +938,27 @@ export class ArticleService {
   /**
    * Formato privado para respuestas de artículos
    */
-  private formatArticleResponse(article: any): ArticleResponseDto {
+  private formatArticleResponse(
+    article: Article & {
+      author: Author;
+      category: Category;
+      editor?: User;
+      views?: View[];
+    },
+  ): ArticleResponseDto {
     return {
       id: article.id,
       title: article.title,
       slug: article.slug,
       content: article.content,
-      excerpt: article.excerpt,
-      featuredImage: article.featuredImage,
-      status: article.status,
+      excerpt: article.excerpt || undefined,
+      featuredImage: article.featuredImage || undefined,
+      status: article.status, // Enforcing enum match
       author: {
         id: article.author.id,
         name: article.author.name,
-        bio: article.author.bio,
-        avatarUrl: article.author.avatarUrl,
+        bio: article.author.bio || undefined,
+        avatarUrl: article.author.avatarUrl || undefined,
       },
       editor: article.editor
         ? {
@@ -959,30 +976,30 @@ export class ArticleService {
       viewCount: article.views?.length || 0,
       createdAt: article.createdAt,
       updatedAt: article.updatedAt,
-      publishedAt: article.publishedAt,
+      publishedAt: article.publishedAt || undefined,
     };
   }
 
   /**
    * Formato privado para respuestas de bloques
    */
-  private formatBlockResponse(block: any): ArticleBlockResponseDto {
+  private formatBlockResponse(block: ArticleBlock): ArticleBlockResponseDto {
     return {
       id: block.id,
       articleId: block.articleId,
       order: block.order,
       type: block.type,
       content: block.content,
-      fontSize: block.fontSize,
-      fontFamily: block.fontFamily,
-      textAlign: block.textAlign,
-      textColor: block.textColor,
+      fontSize: block.fontSize || 16,
+      fontFamily: block.fontFamily || FontFamily.ARIAL,
+      textAlign: block.textAlign || TextAlign.LEFT,
+      textColor: block.textColor || "#000000",
       backgroundColor: block.backgroundColor,
-      isBold: block.isBold,
-      isItalic: block.isItalic,
-      isUnderline: block.isUnderline,
-      isStrikethrough: block.isStrikethrough,
-      listItemLevel: block.listItemLevel,
+      isBold: block.isBold || false,
+      isItalic: block.isItalic || false,
+      isUnderline: block.isUnderline || false,
+      isStrikethrough: block.isStrikethrough || false,
+      listItemLevel: block.listItemLevel || 0,
       imageUrl: block.imageUrl,
       imageAlt: block.imageAlt,
       imageWidth: block.imageWidth,

@@ -16,6 +16,7 @@ export class RoleGuard implements CanActivate {
   constructor(private allowedRoles: string[]) {}
 
   canActivate(context: ExecutionContext): boolean {
+    /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
@@ -24,6 +25,7 @@ export class RoleGuard implements CanActivate {
         "No tienes permiso para acceder a este recurso",
       );
     }
+    /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
 
     return true;
   }

@@ -82,6 +82,7 @@ describe("AuthService sessions/refresh", () => {
     (prisma as any).emailVerificationToken = {
       findUnique: jest.fn().mockResolvedValue({
         userId: "u2",
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         tokenHash: require("crypto")
           .createHash("sha256")
           .update("tok")

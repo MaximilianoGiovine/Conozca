@@ -27,6 +27,7 @@ import {
 } from "./comment.dto";
 import { AuthGuard } from "../auth/auth.guard";
 import { OptionalAuthGuard } from "../auth/optional-auth.guard";
+import type { AuthenticatedRequest } from "../common/interfaces/authenticated-request.interface";
 
 /**
  * Controller para gestión de comentarios
@@ -54,7 +55,7 @@ export class CommentController {
   async create(
     @Param("articleId") articleId: string,
     @Body() createCommentDto: CreateCommentDto,
-    @Request() req,
+    @Request() req: AuthenticatedRequest,
   ) {
     return this.commentService.create(
       articleId,
@@ -83,7 +84,7 @@ export class CommentController {
   async findByArticle(
     @Param("articleId") articleId: string,
     @Query("includeUnapproved") includeUnapproved: string,
-    @Request() req,
+    @Request() req: AuthenticatedRequest,
   ) {
     const isAdmin = req.user?.role === "ADMIN";
     const shouldIncludeUnapproved = includeUnapproved === "true" && isAdmin;
@@ -125,7 +126,7 @@ export class CommentController {
   async update(
     @Param("id") id: string,
     @Body() updateCommentDto: UpdateCommentDto,
-    @Request() req,
+    @Request() req: AuthenticatedRequest,
   ) {
     return this.commentService.update(
       id,
@@ -144,7 +145,7 @@ export class CommentController {
   @ApiOperation({ summary: "Eliminar un comentario" })
   @ApiParam({ name: "id", description: "ID del comentario" })
   @ApiResponse({ status: 204, description: "Comentario eliminado" })
-  async remove(@Param("id") id: string, @Request() req) {
+  async remove(@Param("id") id: string, @Request() req: AuthenticatedRequest) {
     await this.commentService.remove(id, req.user.sub, req.user.role);
     return { message: "Comentario eliminado" };
   }
@@ -159,7 +160,7 @@ export class CommentController {
     summary: "Obtener comentarios pendientes de moderación (ADMIN)",
   })
   @ApiResponse({ status: 200, description: "Lista de comentarios pendientes" })
-  async findPendingModeration(@Request() req) {
+  async findPendingModeration(@Request() req: AuthenticatedRequest) {
     if (req.user.role !== "ADMIN") {
       throw new Error("Acceso denegado");
     }
@@ -179,7 +180,7 @@ export class CommentController {
     description: "Comentario aprobado",
     type: CommentResponseDto,
   })
-  async approve(@Param("id") id: string, @Request() req) {
+  async approve(@Param("id") id: string, @Request() req: AuthenticatedRequest) {
     if (req.user.role !== "ADMIN") {
       throw new Error("Acceso denegado");
     }

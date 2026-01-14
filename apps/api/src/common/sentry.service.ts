@@ -38,15 +38,15 @@ export class SentryService implements OnModuleInit {
         integrations: [nodeProfilingIntegration()],
 
         // Filtrar información sensible
-        beforeSend(event, hint) {
+        beforeSend(event) {
           // No enviar contraseñas ni tokens
           if (event.request?.data) {
-            const data = event.request.data as any;
-            if (typeof data === "object") {
-              delete data.password;
-              delete data.token;
-              delete data.access_token;
-              delete data.refresh_token;
+            const data = event.request.data as Record<string, unknown>;
+            if (typeof data === "object" && data !== null) {
+              if ("password" in data) delete data["password"];
+              if ("token" in data) delete data["token"];
+              if ("access_token" in data) delete data["access_token"];
+              if ("refresh_token" in data) delete data["refresh_token"];
             }
           }
           return event;
@@ -56,7 +56,7 @@ export class SentryService implements OnModuleInit {
       this.logger.log("Sentry initialized successfully");
       return true;
     } catch (error) {
-      this.logger.error("Failed to initialize Sentry", error.stack);
+      this.logger.error("Failed to initialize Sentry", (error as Error).stack);
       return false;
     }
   }
@@ -171,7 +171,10 @@ export class SentryService implements OnModuleInit {
     try {
       return await Sentry.flush(timeout);
     } catch (error) {
-      this.logger.error("Failed to flush Sentry events", error.stack);
+      this.logger.error(
+        "Failed to flush Sentry events",
+        (error as Error).stack,
+      );
       return false;
     }
   }

@@ -82,7 +82,7 @@ export class PdfService {
         // Finalizar documento
         doc.end();
       } catch (error) {
-        reject(error);
+        reject(error instanceof Error ? error : new Error(String(error)));
       }
     });
   }
@@ -117,7 +117,7 @@ export class PdfService {
     }
 
     // Opciones de texto
-    const textOptions: any = {
+    const textOptions: Record<string, any> = {
       align: this.mapTextAlign(block.textAlign),
       continued: false,
     };
@@ -161,7 +161,7 @@ export class PdfService {
         doc.moveDown(0.6);
         break;
 
-      case BlockType.QUOTE:
+      case BlockType.QUOTE: {
         const currentX = doc.x;
         doc.fontSize(14).font("Helvetica-Oblique");
         doc.rect(currentX, doc.y, 3, fontSize + 10).fill("#cccccc");
@@ -174,6 +174,7 @@ export class PdfService {
         doc.fillColor("#000000");
         doc.moveDown(1);
         break;
+      }
 
       case BlockType.CODE:
         doc
@@ -190,7 +191,7 @@ export class PdfService {
         doc.moveDown(1);
         break;
 
-      case BlockType.UNORDERED_LIST:
+      case BlockType.UNORDERED_LIST: {
         const indent = (block.listItemLevel || 0) * 20;
         doc
           .fontSize(fontSize)
@@ -199,8 +200,9 @@ export class PdfService {
           .text("  " + block.content, textOptions);
         doc.moveDown(0.5);
         break;
+      }
 
-      case BlockType.ORDERED_LIST:
+      case BlockType.ORDERED_LIST: {
         const indentOrdered = (block.listItemLevel || 0) * 20;
         doc
           .fontSize(fontSize)
@@ -211,6 +213,7 @@ export class PdfService {
           .text("  " + block.content, textOptions);
         doc.moveDown(0.5);
         break;
+      }
 
       case BlockType.DIVIDER:
         doc

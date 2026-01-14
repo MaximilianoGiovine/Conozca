@@ -14,15 +14,7 @@ import {
   HttpStatus,
   Res,
 } from "@nestjs/common";
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBearerAuth,
-  ApiBody,
-  ApiParam,
-  ApiQuery,
-} from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { Throttle } from "@nestjs/throttler";
 import type { Response } from "express";
 import { ArticleService } from "./article.service";
@@ -35,14 +27,12 @@ import {
   UpdateArticleBlockDto,
   CreateMultipleBlocksDto,
   ReorderBlocksDto,
-  ArticleResponseDto,
-  ArticleListResponseDto,
 } from "./article.dto";
 import { AuthGuard } from "../auth/auth.guard";
 import { OptionalAuthGuard } from "../auth/optional-auth.guard";
-import { Role } from "@conozca/database";
 import { AuditInterceptor } from "../common/audit.interceptor";
 import * as seoService from "../common/seo.service";
+import type { AuthenticatedRequest } from "../common/interfaces/authenticated-request.interface";
 
 /**
  * ArticleController
@@ -78,7 +68,7 @@ export class ArticleController {
   @UseInterceptors(AuditInterceptor)
   async createCategory(
     @Body() createCategoryDto: CreateCategoryDto,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     return this.articleService.createCategory(createCategoryDto, req.user.role);
   }
@@ -104,7 +94,7 @@ export class ArticleController {
   @UseInterceptors(AuditInterceptor)
   async createAuthor(
     @Body() createAuthorDto: CreateAuthorDto,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     return this.articleService.createAuthor(createAuthorDto, req.user.role);
   }
@@ -131,7 +121,7 @@ export class ArticleController {
   @Throttle({ default: { limit: 10, ttl: 3600000 } }) // 10 articles per hour
   async create(
     @Body() createArticleDto: CreateArticleDto,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     return this.articleService.create(
       createArticleDto,
@@ -152,7 +142,7 @@ export class ArticleController {
   async findAll(
     @Query("page") page: string = "1",
     @Query("pageSize") pageSize: string = "10",
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     const pageNum = Math.max(1, parseInt(page) || 1);
     const pageSizeNum = Math.min(100, Math.max(1, parseInt(pageSize) || 10));
@@ -173,7 +163,10 @@ export class ArticleController {
    */
   @Get(":slugOrId")
   @UseGuards(OptionalAuthGuard)
-  async findOne(@Param("slugOrId") slugOrId: string, @Request() req: any) {
+  async findOne(
+    @Param("slugOrId") slugOrId: string,
+    @Request() req: AuthenticatedRequest,
+  ) {
     return this.articleService.findOne(slugOrId, req.user?.role, req.user?.sub);
   }
 
@@ -189,7 +182,7 @@ export class ArticleController {
   async update(
     @Param("id") id: string,
     @Body() updateArticleDto: UpdateArticleDto,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     return this.articleService.update(
       id,
@@ -209,7 +202,7 @@ export class ArticleController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(AuthGuard)
   @UseInterceptors(AuditInterceptor)
-  async delete(@Param("id") id: string, @Request() req: any) {
+  async delete(@Param("id") id: string, @Request() req: AuthenticatedRequest) {
     return this.articleService.delete(id, req.user.sub, req.user.role);
   }
 
@@ -226,7 +219,7 @@ export class ArticleController {
   async createBlock(
     @Param("articleId") articleId: string,
     @Body() createBlockDto: CreateArticleBlockDto,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     return this.articleService.createBlock(
       articleId,
@@ -247,7 +240,7 @@ export class ArticleController {
   async createMultipleBlocks(
     @Param("articleId") articleId: string,
     @Body() createBlocksDto: CreateMultipleBlocksDto,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     return this.articleService.createMultipleBlocks(
       articleId,
@@ -296,7 +289,7 @@ export class ArticleController {
   async updateBlock(
     @Param("blockId") blockId: string,
     @Body() updateBlockDto: UpdateArticleBlockDto,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     return this.articleService.updateBlock(
       blockId,
@@ -315,7 +308,10 @@ export class ArticleController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
   @UseInterceptors(AuditInterceptor)
-  async deleteBlock(@Param("blockId") blockId: string, @Request() req: any) {
+  async deleteBlock(
+    @Param("blockId") blockId: string,
+    @Request() req: AuthenticatedRequest,
+  ) {
     return this.articleService.deleteBlock(
       blockId,
       req.user.sub,
@@ -334,7 +330,7 @@ export class ArticleController {
   async reorderBlocks(
     @Param("articleId") articleId: string,
     @Body() reorderDto: ReorderBlocksDto,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     return this.articleService.reorderBlocks(
       articleId,
@@ -351,7 +347,10 @@ export class ArticleController {
    */
   @Get(":id/full")
   @UseGuards(AuthGuard)
-  async getArticleWithBlocks(@Param("id") id: string, @Request() req: any) {
+  async getArticleWithBlocks(
+    @Param("id") id: string,
+    @Request() req: AuthenticatedRequest,
+  ) {
     return this.articleService.getArticleWithBlocks(
       id,
       req.user?.role,
@@ -397,7 +396,7 @@ export class ArticleController {
    * Devuelve metadatos SEO almacenados en memoria (fallback)
    */
   @Get(":id/seo")
-  async getSeo(@Param("id") id: string) {
+  getSeo(@Param("id") id: string) {
     return this.seo.getMeta(id) ?? {};
   }
 
@@ -408,7 +407,7 @@ export class ArticleController {
   @Patch(":id/seo")
   @UseGuards(AuthGuard)
   @UseInterceptors(AuditInterceptor)
-  async setSeo(@Param("id") id: string, @Body() body: seoService.SeoMeta) {
+  setSeo(@Param("id") id: string, @Body() body: seoService.SeoMeta) {
     this.seo.setMeta(id, body || {});
     return { ok: true };
   }

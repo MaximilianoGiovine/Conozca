@@ -82,7 +82,7 @@ describe("ArticleService - Blocks", () => {
         {
           provide: PrismaService,
           useValue: {
-            $transaction: jest.fn(async (fn) =>
+            $transaction: jest.fn((fn) =>
               fn({ articleBlock: articleBlockMock }),
             ),
             article: {
@@ -393,13 +393,13 @@ describe("ArticleService - Blocks", () => {
 
       jest
         .spyOn((prismaService as any).articleBlock, "update")
-        .mockImplementation(async ({ where, data }) => {
+        .mockImplementation(({ where, data }) => {
           const blockIndex = reorderDto.blockIds.indexOf(where.id);
-          return {
+          return Promise.resolve({
             ...mockBlock,
             id: where.id,
             order: blockIndex,
-          };
+          });
         });
 
       const result = await service.reorderBlocks(
