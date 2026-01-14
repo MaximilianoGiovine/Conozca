@@ -1,9 +1,9 @@
-import { Test } from '@nestjs/testing';
-import { ArticleService } from './article.service';
-import { PrismaService } from '../prisma.service';
-import { PdfService } from './pdf.service';
+import { Test } from "@nestjs/testing";
+import { ArticleService } from "./article.service";
+import { PrismaService } from "../prisma.service";
+import { PdfService } from "./pdf.service";
 
-describe('ArticleService search', () => {
+describe("ArticleService search", () => {
   let service: ArticleService;
   const prisma = { article: { findMany: jest.fn() } } as any as PrismaService;
 
@@ -19,10 +19,12 @@ describe('ArticleService search', () => {
     (prisma.article.findMany as any).mockResolvedValue([]);
   });
 
-  it('builds OR contains filters', async () => {
-    await service.searchArticles('hola');
-    expect(prisma.article.findMany).toHaveBeenCalledWith(expect.objectContaining({
-      where: expect.objectContaining({ OR: expect.any(Array) }),
-    }));
+  it("builds OR contains filters", async () => {
+    await service.searchArticles("hola");
+    expect(prisma.article.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({ OR: expect.any(Array) }),
+      }),
+    );
   });
 });

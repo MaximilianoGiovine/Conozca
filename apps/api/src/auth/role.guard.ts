@@ -1,8 +1,13 @@
-import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+} from "@nestjs/common";
 
 /**
  * RoleGuard
- * 
+ *
  * Guard que verifica si el usuario tiene un rol específico.
  * Se usa con @UseGuards(AuthGuard, new RoleGuard(['ADMIN', 'EDITOR']))
  */
@@ -15,7 +20,9 @@ export class RoleGuard implements CanActivate {
     const user = request.user;
 
     if (!user || !this.allowedRoles.includes(user.role)) {
-      throw new ForbiddenException('No tienes permiso para acceder a este recurso');
+      throw new ForbiddenException(
+        "No tienes permiso para acceder a este recurso",
+      );
     }
 
     return true;

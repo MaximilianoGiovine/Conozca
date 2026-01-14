@@ -1,14 +1,22 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { CreateCommentDto, UpdateCommentDto, CommentResponseDto } from './comment.dto';
-import { LoggerService } from '../common/logger.service';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from "@nestjs/common";
+import { PrismaService } from "../prisma.service";
+import {
+  CreateCommentDto,
+  UpdateCommentDto,
+  CommentResponseDto,
+} from "./comment.dto";
+import { LoggerService } from "../common/logger.service";
 
 /**
  * Service para gestión de comentarios
  */
 @Injectable()
 export class CommentService {
-  private logger = new LoggerService('CommentService');
+  private logger = new LoggerService("CommentService");
 
   constructor(private prisma: PrismaService) {}
 
@@ -26,7 +34,7 @@ export class CommentService {
     });
 
     if (!article) {
-      throw new NotFoundException('Artículo no encontrado');
+      throw new NotFoundException("Artículo no encontrado");
     }
 
     const comment = await this.prisma.comment.create({
@@ -47,7 +55,7 @@ export class CommentService {
       },
     });
 
-    this.logger.logBusinessEvent('comment_created', {
+    this.logger.logBusinessEvent("comment_created", {
       commentId: comment.id,
       articleId,
       userId,
@@ -78,7 +86,7 @@ export class CommentService {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
   }
@@ -101,7 +109,7 @@ export class CommentService {
     });
 
     if (!comment) {
-      throw new NotFoundException('Comentario no encontrado');
+      throw new NotFoundException("Comentario no encontrado");
     }
 
     return comment;
@@ -121,19 +129,24 @@ export class CommentService {
     });
 
     if (!comment) {
-      throw new NotFoundException('Comentario no encontrado');
+      throw new NotFoundException("Comentario no encontrado");
     }
 
     // Solo el autor puede editar contenido, solo ADMIN puede cambiar estados
     if (updateCommentDto.content && comment.userId !== userId) {
-      throw new ForbiddenException('No puedes editar el comentario de otro usuario');
+      throw new ForbiddenException(
+        "No puedes editar el comentario de otro usuario",
+      );
     }
 
     if (
-      (updateCommentDto.isApproved !== undefined || updateCommentDto.isReported !== undefined) &&
-      userRole !== 'ADMIN'
+      (updateCommentDto.isApproved !== undefined ||
+        updateCommentDto.isReported !== undefined) &&
+      userRole !== "ADMIN"
     ) {
-      throw new ForbiddenException('Solo los administradores pueden moderar comentarios');
+      throw new ForbiddenException(
+        "Solo los administradores pueden moderar comentarios",
+      );
     }
 
     const updatedComment = await this.prisma.comment.update({
@@ -150,7 +163,7 @@ export class CommentService {
       },
     });
 
-    this.logger.logBusinessEvent('comment_updated', {
+    this.logger.logBusinessEvent("comment_updated", {
       commentId: id,
       userId,
       userRole,
@@ -168,19 +181,21 @@ export class CommentService {
     });
 
     if (!comment) {
-      throw new NotFoundException('Comentario no encontrado');
+      throw new NotFoundException("Comentario no encontrado");
     }
 
     // Solo el autor o ADMIN pueden eliminar
-    if (comment.userId !== userId && userRole !== 'ADMIN') {
-      throw new ForbiddenException('No puedes eliminar el comentario de otro usuario');
+    if (comment.userId !== userId && userRole !== "ADMIN") {
+      throw new ForbiddenException(
+        "No puedes eliminar el comentario de otro usuario",
+      );
     }
 
     await this.prisma.comment.delete({
       where: { id },
     });
 
-    this.logger.logBusinessEvent('comment_deleted', {
+    this.logger.logBusinessEvent("comment_deleted", {
       commentId: id,
       userId,
       userRole,
@@ -212,7 +227,7 @@ export class CommentService {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
   }
@@ -221,7 +236,10 @@ export class CommentService {
    * Aprobar un comentario (ADMIN)
    */
   async approve(id: string): Promise<CommentResponseDto> {
-    return this.update(id, '', 'ADMIN', { isApproved: true, isReported: false });
+    return this.update(id, "", "ADMIN", {
+      isApproved: true,
+      isReported: false,
+    });
   }
 
   /**
@@ -233,7 +251,7 @@ export class CommentService {
     });
 
     if (!comment) {
-      throw new NotFoundException('Comentario no encontrado');
+      throw new NotFoundException("Comentario no encontrado");
     }
 
     const updated = await this.prisma.comment.update({
@@ -250,7 +268,7 @@ export class CommentService {
       },
     });
 
-    this.logger.logBusinessEvent('comment_reported', { commentId: id });
+    this.logger.logBusinessEvent("comment_reported", { commentId: id });
 
     return updated;
   }

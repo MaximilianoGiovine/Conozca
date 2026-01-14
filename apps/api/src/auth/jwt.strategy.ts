@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { PassportStrategy } from '@nestjs/passport';
-import { ExtractJwt, Strategy } from 'passport-jwt';
+import { Injectable } from "@nestjs/common";
+import { PassportStrategy } from "@nestjs/passport";
+import { ExtractJwt, Strategy } from "passport-jwt";
 
 /**
  * JwtStrategy
- * 
+ *
  * Estrategia de Passport para validar JWT tokens.
  * Se usa en el AuthGuard para proteger rutas.
  */
@@ -14,13 +14,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET || 'secret',
+      secretOrKey: process.env.JWT_SECRET || "secret",
     });
   }
 
   /**
    * Validar el payload del JWT
-   * 
+   *
    * @param payload - Payload del token decodificado
    * @returns Objeto con información del usuario
    */

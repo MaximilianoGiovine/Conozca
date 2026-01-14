@@ -1,18 +1,18 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { Role } from '@conozca/database';
+import { Test, TestingModule } from "@nestjs/testing";
+import { AuthController } from "./auth.controller";
+import { AuthService } from "./auth.service";
+import { Role } from "@conozca/database";
 
 /**
  * Tests unitarios completos para AuthController
- * 
+ *
  * Verifica que el controller:
  * - Llama a los métodos del servicio correctamente
  * - Maneja las responses adecuadamente
  * - Valida los DTOs
  * - Propaga los errores correctamente
  */
-describe('AuthController', () => {
+describe("AuthController", () => {
   let controller: AuthController;
   let service: AuthService;
 
@@ -26,21 +26,21 @@ describe('AuthController', () => {
   };
 
   const mockUser = {
-    id: 'user-123',
-    email: 'test@example.com',
-    name: 'Test User',
+    id: "user-123",
+    email: "test@example.com",
+    name: "Test User",
     role: Role.USER,
   };
 
   const mockAuthResponse = {
-    access_token: 'mock-access-token',
-    refresh_token: 'mock-refresh-token',
+    access_token: "mock-access-token",
+    refresh_token: "mock-refresh-token",
     user: mockUser,
   };
 
   const mockTokenResponse = {
-    access_token: 'new-access-token',
-    refresh_token: 'new-refresh-token',
+    access_token: "new-access-token",
+    refresh_token: "new-refresh-token",
   };
 
   beforeEach(async () => {
@@ -60,14 +60,14 @@ describe('AuthController', () => {
     jest.clearAllMocks();
   });
 
-  describe('POST /auth/register', () => {
+  describe("POST /auth/register", () => {
     const registerDto = {
-      email: 'newuser@example.com',
-      password: 'Password123!',
-      name: 'New User',
+      email: "newuser@example.com",
+      password: "Password123!",
+      name: "New User",
     };
 
-    it('✅ debe registrar un usuario exitosamente', async () => {
+    it("✅ debe registrar un usuario exitosamente", async () => {
       mockAuthService.register.mockResolvedValue(mockAuthResponse);
 
       const result = await controller.register(registerDto);
@@ -77,30 +77,30 @@ describe('AuthController', () => {
       expect(service.register).toHaveBeenCalledTimes(1);
     });
 
-    it('✅ debe retornar access_token, refresh_token y user', async () => {
+    it("✅ debe retornar access_token, refresh_token y user", async () => {
       mockAuthService.register.mockResolvedValue(mockAuthResponse);
 
       const result = await controller.register(registerDto);
 
-      expect(result).toHaveProperty('access_token');
-      expect(result).toHaveProperty('refresh_token');
-      expect(result).toHaveProperty('user');
-      expect(result.user).not.toHaveProperty('password');
+      expect(result).toHaveProperty("access_token");
+      expect(result).toHaveProperty("refresh_token");
+      expect(result).toHaveProperty("user");
+      expect(result.user).not.toHaveProperty("password");
     });
 
-    it('❌ debe propagar ConflictException del servicio', async () => {
-      const error = new Error('El email ya está registrado');
+    it("❌ debe propagar ConflictException del servicio", async () => {
+      const error = new Error("El email ya está registrado");
       mockAuthService.register.mockRejectedValue(error);
 
       await expect(controller.register(registerDto)).rejects.toThrow(error);
     });
 
-    it('✅ debe aceptar emails en diferentes formatos', async () => {
+    it("✅ debe aceptar emails en diferentes formatos", async () => {
       const variations = [
-        'simple@example.com',
-        'with+plus@example.com',
-        'with.dots@example.com',
-        'UPPERCASE@EXAMPLE.COM',
+        "simple@example.com",
+        "with+plus@example.com",
+        "with.dots@example.com",
+        "UPPERCASE@EXAMPLE.COM",
       ];
 
       mockAuthService.register.mockResolvedValue(mockAuthResponse);
@@ -112,12 +112,12 @@ describe('AuthController', () => {
       }
     });
 
-    it('✅ debe aceptar nombres con caracteres especiales', async () => {
+    it("✅ debe aceptar nombres con caracteres especiales", async () => {
       const names = [
-        'José García',
+        "José García",
         "O'Connor",
-        'François Müller',
-        'María José',
+        "François Müller",
+        "María José",
       ];
 
       mockAuthService.register.mockResolvedValue(mockAuthResponse);
@@ -130,13 +130,13 @@ describe('AuthController', () => {
     });
   });
 
-  describe('POST /auth/login', () => {
+  describe("POST /auth/login", () => {
     const loginDto = {
-      email: 'test@example.com',
-      password: 'Password123!',
+      email: "test@example.com",
+      password: "Password123!",
     };
 
-    it('✅ debe hacer login exitosamente', async () => {
+    it("✅ debe hacer login exitosamente", async () => {
       mockAuthService.login.mockResolvedValue(mockAuthResponse);
 
       const result = await controller.login(loginDto);
@@ -146,7 +146,7 @@ describe('AuthController', () => {
       expect(service.login).toHaveBeenCalledTimes(1);
     });
 
-    it('✅ debe retornar estructura completa de respuesta', async () => {
+    it("✅ debe retornar estructura completa de respuesta", async () => {
       mockAuthService.login.mockResolvedValue(mockAuthResponse);
 
       const result = await controller.login(loginDto);
@@ -162,14 +162,14 @@ describe('AuthController', () => {
       });
     });
 
-    it('❌ debe propagar UnauthorizedException del servicio', async () => {
-      const error = new Error('Email o contraseña inválidos');
+    it("❌ debe propagar UnauthorizedException del servicio", async () => {
+      const error = new Error("Email o contraseña inválidos");
       mockAuthService.login.mockRejectedValue(error);
 
       await expect(controller.login(loginDto)).rejects.toThrow(error);
     });
 
-    it('✅ debe manejar múltiples intentos de login', async () => {
+    it("✅ debe manejar múltiples intentos de login", async () => {
       mockAuthService.login.mockResolvedValue(mockAuthResponse);
 
       const attempts = 3;
@@ -181,12 +181,12 @@ describe('AuthController', () => {
     });
   });
 
-  describe('POST /auth/refresh', () => {
+  describe("POST /auth/refresh", () => {
     const refreshDto = {
-      refresh_token: 'valid-refresh-token',
+      refresh_token: "valid-refresh-token",
     };
 
-    it('✅ debe refrescar tokens exitosamente', async () => {
+    it("✅ debe refrescar tokens exitosamente", async () => {
       mockAuthService.refresh.mockResolvedValue(mockTokenResponse);
 
       const result = await controller.refresh(refreshDto);
@@ -196,27 +196,27 @@ describe('AuthController', () => {
       expect(service.refresh).toHaveBeenCalledTimes(1);
     });
 
-    it('✅ debe retornar nuevos access y refresh tokens', async () => {
+    it("✅ debe retornar nuevos access y refresh tokens", async () => {
       mockAuthService.refresh.mockResolvedValue(mockTokenResponse);
 
       const result = await controller.refresh(refreshDto);
 
-      expect(result).toHaveProperty('access_token');
-      expect(result).toHaveProperty('refresh_token');
+      expect(result).toHaveProperty("access_token");
+      expect(result).toHaveProperty("refresh_token");
       expect(result.access_token).not.toBe(refreshDto.refresh_token);
     });
 
-    it('❌ debe propagar UnauthorizedException con token inválido', async () => {
-      const error = new Error('Token inválido o expirado');
+    it("❌ debe propagar UnauthorizedException con token inválido", async () => {
+      const error = new Error("Token inválido o expirado");
       mockAuthService.refresh.mockRejectedValue(error);
 
       await expect(controller.refresh(refreshDto)).rejects.toThrow(error);
     });
 
-    it('✅ debe aceptar tokens JWT válidos', async () => {
+    it("✅ debe aceptar tokens JWT válidos", async () => {
       const validTokens = [
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.test',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyJ9.test2',
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.test",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyJ9.test2",
       ];
 
       mockAuthService.refresh.mockResolvedValue(mockTokenResponse);
@@ -228,13 +228,13 @@ describe('AuthController', () => {
     });
   });
 
-  describe('POST /auth/logout', () => {
+  describe("POST /auth/logout", () => {
     const mockLogoutResponse = {
-      message: 'Sesión cerrada exitosamente',
+      message: "Sesión cerrada exitosamente",
     };
-    const mockRequest = { user: { id: '1', email: 'test@example.com' } };
+    const mockRequest = { user: { id: "1", email: "test@example.com" } };
 
-    it('✅ debe hacer logout exitosamente', async () => {
+    it("✅ debe hacer logout exitosamente", async () => {
       mockAuthService.logout.mockReturnValue(mockLogoutResponse);
 
       const result = await controller.logout(mockRequest);
@@ -243,17 +243,17 @@ describe('AuthController', () => {
       expect(service.logout).toHaveBeenCalledTimes(1);
     });
 
-    it('✅ debe retornar mensaje de confirmación', async () => {
+    it("✅ debe retornar mensaje de confirmación", async () => {
       mockAuthService.logout.mockReturnValue(mockLogoutResponse);
 
       const result = await controller.logout(mockRequest);
 
-      expect(result).toHaveProperty('message');
-      expect(typeof result.message).toBe('string');
+      expect(result).toHaveProperty("message");
+      expect(typeof result.message).toBe("string");
       expect(result.message.length).toBeGreaterThan(0);
     });
 
-    it('✅ debe ser idempotente (múltiples llamadas)', async () => {
+    it("✅ debe ser idempotente (múltiples llamadas)", async () => {
       mockAuthService.logout.mockReturnValue(mockLogoutResponse);
 
       const result1 = await controller.logout(mockRequest);
@@ -266,16 +266,17 @@ describe('AuthController', () => {
     });
   });
 
-  describe('POST /auth/forgot-password', () => {
+  describe("POST /auth/forgot-password", () => {
     const forgotDto = {
-      email: 'test@example.com',
+      email: "test@example.com",
     };
 
     const mockForgotResponse = {
-      message: 'Si el email existe, recibirás instrucciones para resetear tu contraseña',
+      message:
+        "Si el email existe, recibirás instrucciones para resetear tu contraseña",
     };
 
-    it('✅ debe procesar solicitud de reset exitosamente', async () => {
+    it("✅ debe procesar solicitud de reset exitosamente", async () => {
       mockAuthService.forgotPassword.mockResolvedValue(mockForgotResponse);
 
       const result = await controller.forgotPassword(forgotDto);
@@ -285,26 +286,28 @@ describe('AuthController', () => {
       expect(service.forgotPassword).toHaveBeenCalledTimes(1);
     });
 
-    it('✅ debe retornar mensaje genérico siempre', async () => {
+    it("✅ debe retornar mensaje genérico siempre", async () => {
       mockAuthService.forgotPassword.mockResolvedValue(mockForgotResponse);
 
       const result = await controller.forgotPassword(forgotDto);
 
-      expect(result).toHaveProperty('message');
+      expect(result).toHaveProperty("message");
       // El mensaje es intencional genérico por seguridad (no revela si email existe)
-      expect(result.message).toContain('Si el email existe');
-      expect(result.message).not.toContain('no existe');
+      expect(result.message).toContain("Si el email existe");
+      expect(result.message).not.toContain("no existe");
     });
 
-    it('✅ debe manejar emails no registrados sin revelar información', async () => {
+    it("✅ debe manejar emails no registrados sin revelar información", async () => {
       mockAuthService.forgotPassword.mockResolvedValue(mockForgotResponse);
 
-      const result = await controller.forgotPassword({ email: 'noexiste@example.com' });
+      const result = await controller.forgotPassword({
+        email: "noexiste@example.com",
+      });
 
       expect(result).toEqual(mockForgotResponse);
     });
 
-    it('✅ debe procesar múltiples solicitudes del mismo email', async () => {
+    it("✅ debe procesar múltiples solicitudes del mismo email", async () => {
       mockAuthService.forgotPassword.mockResolvedValue(mockForgotResponse);
 
       await controller.forgotPassword(forgotDto);
@@ -314,25 +317,25 @@ describe('AuthController', () => {
       expect(service.forgotPassword).toHaveBeenCalledTimes(3);
     });
 
-    it('❌ debe propagar errores del servicio', async () => {
-      const error = new Error('Error al procesar solicitud');
+    it("❌ debe propagar errores del servicio", async () => {
+      const error = new Error("Error al procesar solicitud");
       mockAuthService.forgotPassword.mockRejectedValue(error);
 
       await expect(controller.forgotPassword(forgotDto)).rejects.toThrow(error);
     });
   });
 
-  describe('POST /auth/reset-password', () => {
+  describe("POST /auth/reset-password", () => {
     const resetDto = {
-      token: 'valid-reset-token',
-      password: 'NewPassword123!',
+      token: "valid-reset-token",
+      password: "NewPassword123!",
     };
 
     const mockResetResponse = {
-      message: 'Contraseña actualizada exitosamente',
+      message: "Contraseña actualizada exitosamente",
     };
 
-    it('✅ debe resetear contraseña exitosamente', async () => {
+    it("✅ debe resetear contraseña exitosamente", async () => {
       mockAuthService.resetPassword.mockResolvedValue(mockResetResponse);
 
       const result = await controller.resetPassword(resetDto);
@@ -342,35 +345,35 @@ describe('AuthController', () => {
       expect(service.resetPassword).toHaveBeenCalledTimes(1);
     });
 
-    it('✅ debe retornar mensaje de confirmación', async () => {
+    it("✅ debe retornar mensaje de confirmación", async () => {
       mockAuthService.resetPassword.mockResolvedValue(mockResetResponse);
 
       const result = await controller.resetPassword(resetDto);
 
-      expect(result).toHaveProperty('message');
-      expect(result.message).toContain('actualizada');
+      expect(result).toHaveProperty("message");
+      expect(result.message).toContain("actualizada");
     });
 
-    it('❌ debe propagar UnauthorizedException con token inválido', async () => {
-      const error = new Error('Token de reset inválido');
+    it("❌ debe propagar UnauthorizedException con token inválido", async () => {
+      const error = new Error("Token de reset inválido");
       mockAuthService.resetPassword.mockRejectedValue(error);
 
       await expect(controller.resetPassword(resetDto)).rejects.toThrow(error);
     });
 
-    it('❌ debe propagar error con token expirado', async () => {
-      const error = new Error('Token de reset expirado');
+    it("❌ debe propagar error con token expirado", async () => {
+      const error = new Error("Token de reset expirado");
       mockAuthService.resetPassword.mockRejectedValue(error);
 
       await expect(controller.resetPassword(resetDto)).rejects.toThrow(error);
     });
 
-    it('✅ debe aceptar contraseñas con diferentes formatos', async () => {
+    it("✅ debe aceptar contraseñas con diferentes formatos", async () => {
       const passwords = [
-        'Simple123!',
-        'C0mpl3x!P@ssw0rd',
-        'Añ0-ConEñe!',
-        '1234567890Aa!',
+        "Simple123!",
+        "C0mpl3x!P@ssw0rd",
+        "Añ0-ConEñe!",
+        "1234567890Aa!",
       ];
 
       mockAuthService.resetPassword.mockResolvedValue(mockResetResponse);
@@ -382,10 +385,10 @@ describe('AuthController', () => {
       }
     });
 
-    it('❌ no debe permitir reusar el mismo token', async () => {
+    it("❌ no debe permitir reusar el mismo token", async () => {
       mockAuthService.resetPassword.mockResolvedValueOnce(mockResetResponse);
       mockAuthService.resetPassword.mockRejectedValueOnce(
-        new Error('Token de reset inválido'),
+        new Error("Token de reset inválido"),
       );
 
       await controller.resetPassword(resetDto);
@@ -393,25 +396,25 @@ describe('AuthController', () => {
     });
   });
 
-  describe('Validación de DTOs', () => {
-    it('✅ debe pasar DTOs válidos al servicio', async () => {
+  describe("Validación de DTOs", () => {
+    it("✅ debe pasar DTOs válidos al servicio", async () => {
       const dtos = [
-        { email: 'test@example.com', password: 'Pass123!', name: 'Test' },
-        { email: 'user@domain.com', password: 'Secure1!' },
-        { refresh_token: 'token' },
-        { email: 'forgot@test.com' },
+        { email: "test@example.com", password: "Pass123!", name: "Test" },
+        { email: "user@domain.com", password: "Secure1!" },
+        { refresh_token: "token" },
+        { email: "forgot@test.com" },
         {
-          email: 'reset@test.com',
-          reset_token: 'token',
-          password: 'NewPass1!',
+          email: "reset@test.com",
+          reset_token: "token",
+          password: "NewPass1!",
         },
       ];
 
       mockAuthService.register.mockResolvedValue(mockAuthResponse);
       mockAuthService.login.mockResolvedValue(mockAuthResponse);
       mockAuthService.refresh.mockResolvedValue(mockTokenResponse);
-      mockAuthService.forgotPassword.mockResolvedValue({ message: 'ok' });
-      mockAuthService.resetPassword.mockResolvedValue({ message: 'ok' });
+      mockAuthService.forgotPassword.mockResolvedValue({ message: "ok" });
+      mockAuthService.resetPassword.mockResolvedValue({ message: "ok" });
 
       await controller.register(dtos[0] as any);
       await controller.login(dtos[1] as any);
@@ -427,45 +430,45 @@ describe('AuthController', () => {
     });
   });
 
-  describe('Manejo de Errores', () => {
-    it('❌ debe propagar todos los tipos de errores', async () => {
+  describe("Manejo de Errores", () => {
+    it("❌ debe propagar todos los tipos de errores", async () => {
       const errors = [
-        new Error('Generic error'),
-        new Error('Database connection failed'),
-        new Error('JWT verification failed'),
+        new Error("Generic error"),
+        new Error("Database connection failed"),
+        new Error("JWT verification failed"),
       ];
 
       for (const error of errors) {
         mockAuthService.login.mockRejectedValueOnce(error);
         await expect(
-          controller.login({ email: 'test@example.com', password: 'pass' }),
+          controller.login({ email: "test@example.com", password: "pass" }),
         ).rejects.toThrow(error);
       }
     });
 
-    it('❌ debe mantener el stack trace de los errores', async () => {
-      const error = new Error('Test error');
-      error.stack = 'Error stack trace';
+    it("❌ debe mantener el stack trace de los errores", async () => {
+      const error = new Error("Test error");
+      error.stack = "Error stack trace";
       mockAuthService.register.mockRejectedValue(error);
 
       try {
         await controller.register({
-          email: 'test@example.com',
-          password: 'pass',
-          name: 'test',
+          email: "test@example.com",
+          password: "pass",
+          name: "test",
         });
       } catch (e) {
         expect((e as Error).stack).toBeDefined();
-        expect((e as Error).stack).toContain('Error stack trace');
+        expect((e as Error).stack).toContain("Error stack trace");
       }
     });
   });
 
-  describe('Performance y Concurrencia', () => {
-    it('✅ debe manejar múltiples requests concurrentes', async () => {
+  describe("Performance y Concurrencia", () => {
+    it("✅ debe manejar múltiples requests concurrentes", async () => {
       mockAuthService.login.mockResolvedValue(mockAuthResponse);
 
-      const loginDto = { email: 'test@example.com', password: 'Pass123!' };
+      const loginDto = { email: "test@example.com", password: "Pass123!" };
       const promises = Array(10)
         .fill(null)
         .map(() => controller.login(loginDto));
@@ -476,15 +479,19 @@ describe('AuthController', () => {
       expect(service.login).toHaveBeenCalledTimes(10);
     });
 
-    it('✅ debe manejar requests simultáneos de diferentes endpoints', async () => {
+    it("✅ debe manejar requests simultáneos de diferentes endpoints", async () => {
       mockAuthService.register.mockResolvedValue(mockAuthResponse);
       mockAuthService.login.mockResolvedValue(mockAuthResponse);
       mockAuthService.refresh.mockResolvedValue(mockTokenResponse);
 
       const promises = [
-        controller.register({ email: 'new@test.com', password: 'Pass1!', name: 'New' }),
-        controller.login({ email: 'existing@test.com', password: 'Pass1!' }),
-        controller.refresh({ refresh_token: 'token' }),
+        controller.register({
+          email: "new@test.com",
+          password: "Pass1!",
+          name: "New",
+        }),
+        controller.login({ email: "existing@test.com", password: "Pass1!" }),
+        controller.refresh({ refresh_token: "token" }),
       ];
 
       const results = await Promise.all(promises);

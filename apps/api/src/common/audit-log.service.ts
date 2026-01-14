@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../prisma.service";
 
 @Injectable()
 export class AuditLogService {
@@ -19,7 +19,7 @@ export class AuditLogService {
         data: {
           userId: params.userId ?? null,
           entity: params.entity,
-          entityId: params.entityId ?? '',
+          entityId: params.entityId ?? "",
           action: params.action,
           diff: params.diff ?? null,
           ip: params.ip ?? null,

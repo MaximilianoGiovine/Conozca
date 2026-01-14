@@ -3,9 +3,9 @@ import {
   BadRequestException,
   NotFoundException,
   ForbiddenException,
-} from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { PdfService } from './pdf.service';
+} from "@nestjs/common";
+import { PrismaService } from "../prisma.service";
+import { PdfService } from "./pdf.service";
 import {
   CreateArticleDto,
   UpdateArticleDto,
@@ -19,13 +19,19 @@ import {
   CreateMultipleBlocksDto,
   ReorderBlocksDto,
   ArticleWithBlocksResponseDto,
-} from './article.dto';
-import { PostStatus, Role, BlockType, FontFamily, TextAlign } from '@conozca/database';
-import { Readable } from 'stream';
+} from "./article.dto";
+import {
+  PostStatus,
+  Role,
+  BlockType,
+  FontFamily,
+  TextAlign,
+} from "@conozca/database";
+import { Readable } from "stream";
 
 /**
  * ArticleService
- * 
+ *
  * Servicio para gestionar artículos, categorías y autores
  * Incluye control de acceso basado en roles
  */
@@ -48,7 +54,7 @@ export class ArticleService {
     // Validar que solo ADMIN y EDITOR puedan crear artículos
     if (userRole === Role.USER) {
       throw new ForbiddenException(
-        'Solo administradores y editores pueden crear artículos',
+        "Solo administradores y editores pueden crear artículos",
       );
     }
 
@@ -58,7 +64,7 @@ export class ArticleService {
     });
 
     if (existingArticle) {
-      throw new BadRequestException('El slug del artículo ya existe');
+      throw new BadRequestException("El slug del artículo ya existe");
     }
 
     // Validar que el autor existe
@@ -67,7 +73,7 @@ export class ArticleService {
     });
 
     if (!author) {
-      throw new NotFoundException('El autor especificado no existe');
+      throw new NotFoundException("El autor especificado no existe");
     }
 
     // Validar que la categoría existe
@@ -76,7 +82,7 @@ export class ArticleService {
     });
 
     if (!category) {
-      throw new NotFoundException('La categoría especificada no existe');
+      throw new NotFoundException("La categoría especificada no existe");
     }
 
     // Crear el artículo
@@ -140,7 +146,7 @@ export class ArticleService {
           editor: true,
           views: true,
         },
-        orderBy: { publishedAt: 'desc' },
+        orderBy: { publishedAt: "desc" },
       }),
       this.prisma.article.count({ where }),
     ]);
@@ -184,13 +190,13 @@ export class ArticleService {
     }
 
     if (!article) {
-      throw new NotFoundException('Artículo no encontrado');
+      throw new NotFoundException("Artículo no encontrado");
     }
 
     // Validar acceso: Drafts solo visibles para EDITOR/ADMIN
     if (article.status !== PostStatus.PUBLISHED) {
       if (!userRole || userRole === Role.USER) {
-        throw new NotFoundException('Artículo no encontrado');
+        throw new NotFoundException("Artículo no encontrado");
       }
     }
 
@@ -202,17 +208,18 @@ export class ArticleService {
           userId,
         },
       });
-      
+
       // Reload article to get updated view count
-      article = await this.prisma.article.findUnique({
-        where: { id: article.id },
-        include: {
-          author: true,
-          category: true,
-          editor: true,
-          views: true,
-        },
-      }) || article;
+      article =
+        (await this.prisma.article.findUnique({
+          where: { id: article.id },
+          include: {
+            author: true,
+            category: true,
+            editor: true,
+            views: true,
+          },
+        })) || article;
     }
 
     return this.formatArticleResponse(article);
@@ -234,13 +241,13 @@ export class ArticleService {
     });
 
     if (!article) {
-      throw new NotFoundException('Artículo no encontrado');
+      throw new NotFoundException("Artículo no encontrado");
     }
 
     // Validar permisos: solo el editor que lo creó o un ADMIN
     if (userRole !== Role.ADMIN && article.editorId !== userId) {
       throw new ForbiddenException(
-        'No tienes permisos para actualizar este artículo',
+        "No tienes permisos para actualizar este artículo",
       );
     }
 
@@ -251,29 +258,35 @@ export class ArticleService {
       });
 
       if (existingArticle) {
-        throw new BadRequestException('El slug del artículo ya existe');
+        throw new BadRequestException("El slug del artículo ya existe");
       }
     }
 
     // Validar que el autor existe si se está cambiando
-    if (updateArticleDto.authorId && updateArticleDto.authorId !== article.authorId) {
+    if (
+      updateArticleDto.authorId &&
+      updateArticleDto.authorId !== article.authorId
+    ) {
       const author = await this.prisma.author.findUnique({
         where: { id: updateArticleDto.authorId },
       });
 
       if (!author) {
-        throw new NotFoundException('El autor especificado no existe');
+        throw new NotFoundException("El autor especificado no existe");
       }
     }
 
     // Validar que la categoría existe si se está cambiando
-    if (updateArticleDto.categoryId && updateArticleDto.categoryId !== article.categoryId) {
+    if (
+      updateArticleDto.categoryId &&
+      updateArticleDto.categoryId !== article.categoryId
+    ) {
       const category = await this.prisma.category.findUnique({
         where: { id: updateArticleDto.categoryId },
       });
 
       if (!category) {
-        throw new NotFoundException('La categoría especificada no existe');
+        throw new NotFoundException("La categoría especificada no existe");
       }
     }
 
@@ -285,7 +298,8 @@ export class ArticleService {
         ...updateArticleDto,
         // Si se cambia a PUBLISHED, establecer publishedAt
         publishedAt:
-          updateArticleDto.status === PostStatus.PUBLISHED && !article.publishedAt
+          updateArticleDto.status === PostStatus.PUBLISHED &&
+          !article.publishedAt
             ? new Date()
             : article.publishedAt,
       },
@@ -301,7 +315,11 @@ export class ArticleService {
     try {
       if (updateArticleDto.slug && updateArticleDto.slug !== oldSlug) {
         await (this.prisma as any).redirect?.create({
-          data: { fromSlug: oldSlug, toSlug: updateArticleDto.slug, articleId: id },
+          data: {
+            fromSlug: oldSlug,
+            toSlug: updateArticleDto.slug,
+            articleId: id,
+          },
         });
       }
     } catch {
@@ -321,13 +339,13 @@ export class ArticleService {
     });
 
     if (!article) {
-      throw new NotFoundException('Artículo no encontrado');
+      throw new NotFoundException("Artículo no encontrado");
     }
 
     // Validar permisos
     if (userRole !== Role.ADMIN && article.editorId !== userId) {
       throw new ForbiddenException(
-        'No tienes permisos para eliminar este artículo',
+        "No tienes permisos para eliminar este artículo",
       );
     }
 
@@ -348,7 +366,9 @@ export class ArticleService {
    */
   async createCategory(createCategoryDto: CreateCategoryDto, userRole: Role) {
     if (userRole !== Role.ADMIN) {
-      throw new ForbiddenException('Solo administradores pueden crear categorías');
+      throw new ForbiddenException(
+        "Solo administradores pueden crear categorías",
+      );
     }
 
     const existingCategory = await this.prisma.category.findFirst({
@@ -361,7 +381,7 @@ export class ArticleService {
     });
 
     if (existingCategory) {
-      throw new BadRequestException('La categoría ya existe');
+      throw new BadRequestException("La categoría ya existe");
     }
 
     return await this.prisma.category.create({
@@ -388,7 +408,7 @@ export class ArticleService {
    */
   async createAuthor(createAuthorDto: CreateAuthorDto, userRole: Role) {
     if (userRole !== Role.ADMIN) {
-      throw new ForbiddenException('Solo administradores pueden crear autores');
+      throw new ForbiddenException("Solo administradores pueden crear autores");
     }
 
     return await this.prisma.author.create({
@@ -426,20 +446,20 @@ export class ArticleService {
     });
 
     if (!article) {
-      throw new NotFoundException('El artículo especificado no existe');
+      throw new NotFoundException("El artículo especificado no existe");
     }
 
     // Validar acceso: solo el editor o admin pueden crear bloques
     if (userRole !== Role.ADMIN && article.editorId !== userId) {
       throw new ForbiddenException(
-        'No tienes permiso para crear bloques en este artículo',
+        "No tienes permiso para crear bloques en este artículo",
       );
     }
 
     // Obtener el siguiente número de orden
     const lastBlock = await this.prisma.articleBlock.findFirst({
       where: { articleId },
-      orderBy: { order: 'desc' },
+      orderBy: { order: "desc" },
       select: { order: true },
     });
 
@@ -455,7 +475,7 @@ export class ArticleService {
         fontSize: createBlockDto.fontSize ?? 16,
         fontFamily: createBlockDto.fontFamily ?? FontFamily.ARIAL,
         textAlign: createBlockDto.textAlign ?? TextAlign.LEFT,
-        textColor: createBlockDto.textColor ?? '#000000',
+        textColor: createBlockDto.textColor ?? "#000000",
         backgroundColor: createBlockDto.backgroundColor ?? null,
         isBold: createBlockDto.isBold ?? false,
         isItalic: createBlockDto.isItalic ?? false,
@@ -488,19 +508,19 @@ export class ArticleService {
     });
 
     if (!article) {
-      throw new NotFoundException('El artículo especificado no existe');
+      throw new NotFoundException("El artículo especificado no existe");
     }
 
     if (userRole !== Role.ADMIN && article.editorId !== userId) {
       throw new ForbiddenException(
-        'No tienes permiso para crear bloques en este artículo',
+        "No tienes permiso para crear bloques en este artículo",
       );
     }
 
     return await this.prisma.$transaction(async (tx) => {
       const lastBlock = await tx.articleBlock.findFirst({
         where: { articleId },
-        orderBy: { order: 'desc' },
+        orderBy: { order: "desc" },
         select: { order: true },
       });
 
@@ -516,7 +536,7 @@ export class ArticleService {
             fontSize: blockDto.fontSize ?? 16,
             fontFamily: blockDto.fontFamily ?? FontFamily.ARIAL,
             textAlign: blockDto.textAlign ?? TextAlign.LEFT,
-            textColor: blockDto.textColor ?? '#000000',
+            textColor: blockDto.textColor ?? "#000000",
             backgroundColor: blockDto.backgroundColor ?? null,
             isBold: blockDto.isBold ?? false,
             isItalic: blockDto.isItalic ?? false,
@@ -539,22 +559,24 @@ export class ArticleService {
   /**
    * Obtener todos los bloques de un artículo
    */
-  async getBlocksByArticle(articleId: string): Promise<ArticleBlockResponseDto[]> {
+  async getBlocksByArticle(
+    articleId: string,
+  ): Promise<ArticleBlockResponseDto[]> {
     // Validar que el artículo existe
     const article = await this.prisma.article.findUnique({
       where: { id: articleId },
     });
 
     if (!article) {
-      throw new NotFoundException('El artículo especificado no existe');
+      throw new NotFoundException("El artículo especificado no existe");
     }
 
     const blocks = await this.prisma.articleBlock.findMany({
       where: { articleId },
-      orderBy: { order: 'asc' },
+      orderBy: { order: "asc" },
     });
 
-    return blocks.map(block => this.formatBlockResponse(block));
+    return blocks.map((block) => this.formatBlockResponse(block));
   }
 
   /**
@@ -566,12 +588,12 @@ export class ArticleService {
     const articles = await this.prisma.article.findMany({
       where: {
         OR: [
-          { title: { contains: query, mode: 'insensitive' as any } },
-          { content: { contains: query, mode: 'insensitive' as any } },
+          { title: { contains: query, mode: "insensitive" as any } },
+          { content: { contains: query, mode: "insensitive" as any } },
         ],
       },
       take: 20,
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
       select: {
         id: true,
         title: true,
@@ -593,7 +615,7 @@ export class ArticleService {
     });
 
     if (!block) {
-      throw new NotFoundException('El bloque especificado no existe');
+      throw new NotFoundException("El bloque especificado no existe");
     }
 
     return this.formatBlockResponse(block);
@@ -620,12 +642,12 @@ export class ArticleService {
     });
 
     if (!block) {
-      throw new NotFoundException('El bloque especificado no existe');
+      throw new NotFoundException("El bloque especificado no existe");
     }
 
     if (userRole !== Role.ADMIN && block.article.editorId !== userId) {
       throw new ForbiddenException(
-        'No tienes permiso para actualizar este bloque',
+        "No tienes permiso para actualizar este bloque",
       );
     }
 
@@ -634,21 +656,49 @@ export class ArticleService {
       where: { id: blockId },
       data: {
         ...(updateBlockDto.type && { type: updateBlockDto.type }),
-        ...(updateBlockDto.content !== undefined && { content: updateBlockDto.content }),
-        ...(updateBlockDto.fontSize !== undefined && { fontSize: updateBlockDto.fontSize }),
-        ...(updateBlockDto.fontFamily && { fontFamily: updateBlockDto.fontFamily }),
-        ...(updateBlockDto.textAlign && { textAlign: updateBlockDto.textAlign }),
-        ...(updateBlockDto.textColor && { textColor: updateBlockDto.textColor }),
-        ...(updateBlockDto.backgroundColor !== undefined && { backgroundColor: updateBlockDto.backgroundColor }),
-        ...(updateBlockDto.isBold !== undefined && { isBold: updateBlockDto.isBold }),
-        ...(updateBlockDto.isItalic !== undefined && { isItalic: updateBlockDto.isItalic }),
-        ...(updateBlockDto.isUnderline !== undefined && { isUnderline: updateBlockDto.isUnderline }),
-        ...(updateBlockDto.isStrikethrough !== undefined && { isStrikethrough: updateBlockDto.isStrikethrough }),
-        ...(updateBlockDto.listItemLevel !== undefined && { listItemLevel: updateBlockDto.listItemLevel }),
+        ...(updateBlockDto.content !== undefined && {
+          content: updateBlockDto.content,
+        }),
+        ...(updateBlockDto.fontSize !== undefined && {
+          fontSize: updateBlockDto.fontSize,
+        }),
+        ...(updateBlockDto.fontFamily && {
+          fontFamily: updateBlockDto.fontFamily,
+        }),
+        ...(updateBlockDto.textAlign && {
+          textAlign: updateBlockDto.textAlign,
+        }),
+        ...(updateBlockDto.textColor && {
+          textColor: updateBlockDto.textColor,
+        }),
+        ...(updateBlockDto.backgroundColor !== undefined && {
+          backgroundColor: updateBlockDto.backgroundColor,
+        }),
+        ...(updateBlockDto.isBold !== undefined && {
+          isBold: updateBlockDto.isBold,
+        }),
+        ...(updateBlockDto.isItalic !== undefined && {
+          isItalic: updateBlockDto.isItalic,
+        }),
+        ...(updateBlockDto.isUnderline !== undefined && {
+          isUnderline: updateBlockDto.isUnderline,
+        }),
+        ...(updateBlockDto.isStrikethrough !== undefined && {
+          isStrikethrough: updateBlockDto.isStrikethrough,
+        }),
+        ...(updateBlockDto.listItemLevel !== undefined && {
+          listItemLevel: updateBlockDto.listItemLevel,
+        }),
         ...(updateBlockDto.imageUrl && { imageUrl: updateBlockDto.imageUrl }),
-        ...(updateBlockDto.imageAlt !== undefined && { imageAlt: updateBlockDto.imageAlt }),
-        ...(updateBlockDto.imageWidth !== undefined && { imageWidth: updateBlockDto.imageWidth }),
-        ...(updateBlockDto.imageHeight !== undefined && { imageHeight: updateBlockDto.imageHeight }),
+        ...(updateBlockDto.imageAlt !== undefined && {
+          imageAlt: updateBlockDto.imageAlt,
+        }),
+        ...(updateBlockDto.imageWidth !== undefined && {
+          imageWidth: updateBlockDto.imageWidth,
+        }),
+        ...(updateBlockDto.imageHeight !== undefined && {
+          imageHeight: updateBlockDto.imageHeight,
+        }),
       },
     });
 
@@ -676,12 +726,12 @@ export class ArticleService {
     });
 
     if (!block) {
-      throw new NotFoundException('El bloque especificado no existe');
+      throw new NotFoundException("El bloque especificado no existe");
     }
 
     if (userRole !== Role.ADMIN && block.article.editorId !== userId) {
       throw new ForbiddenException(
-        'No tienes permiso para eliminar este bloque',
+        "No tienes permiso para eliminar este bloque",
       );
     }
 
@@ -693,7 +743,7 @@ export class ArticleService {
     // Reordenar los bloques restantes
     const remainingBlocks = await this.prisma.articleBlock.findMany({
       where: { articleId: block.articleId },
-      orderBy: { order: 'asc' },
+      orderBy: { order: "asc" },
       select: { id: true },
     });
 
@@ -704,7 +754,7 @@ export class ArticleService {
       });
     }
 
-    return { message: 'Bloque eliminado correctamente' };
+    return { message: "Bloque eliminado correctamente" };
   }
 
   /**
@@ -723,12 +773,12 @@ export class ArticleService {
     });
 
     if (!article) {
-      throw new NotFoundException('El artículo especificado no existe');
+      throw new NotFoundException("El artículo especificado no existe");
     }
 
     if (userRole !== Role.ADMIN && article.editorId !== userId) {
       throw new ForbiddenException(
-        'No tienes permiso para reordenar bloques en este artículo',
+        "No tienes permiso para reordenar bloques en este artículo",
       );
     }
 
@@ -793,21 +843,19 @@ export class ArticleService {
         editor: true,
         category: true,
         blocks: {
-          orderBy: { order: 'asc' },
+          orderBy: { order: "asc" },
         },
         views: true,
       },
     });
 
     if (!article) {
-      throw new NotFoundException('El artículo especificado no existe');
+      throw new NotFoundException("El artículo especificado no existe");
     }
 
     // Validar visibilidad: USER solo ve artículos publicados
     if (userRole === Role.USER && article.status !== PostStatus.PUBLISHED) {
-      throw new ForbiddenException(
-        'No tienes permiso para ver este artículo',
-      );
+      throw new ForbiddenException("No tienes permiso para ver este artículo");
     }
 
     return {
@@ -833,7 +881,7 @@ export class ArticleService {
         name: article.category.name,
         slug: article.category.slug,
       },
-      blocks: article.blocks.map(block => this.formatBlockResponse(block)),
+      blocks: article.blocks.map((block) => this.formatBlockResponse(block)),
       viewCount: article.views?.length || 0,
       createdAt: article.createdAt,
       updatedAt: article.updatedAt,
@@ -847,7 +895,7 @@ export class ArticleService {
   async generatePdf(
     articleId: string,
     includeWatermark: boolean = true,
-    watermarkText: string = 'Propiedad de Conozca',
+    watermarkText: string = "Propiedad de Conozca",
   ): Promise<Readable> {
     // Obtener artículo con bloques
     const article = await this.prisma.article.findUnique({
@@ -855,13 +903,13 @@ export class ArticleService {
       include: {
         author: true,
         blocks: {
-          orderBy: { order: 'asc' },
+          orderBy: { order: "asc" },
         },
       },
     });
 
     if (!article) {
-      throw new NotFoundException('El artículo especificado no existe');
+      throw new NotFoundException("El artículo especificado no existe");
     }
 
     // Generar PDF

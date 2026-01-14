@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import PDFDocument from 'pdfkit';
-import { Readable } from 'stream';
+import { Injectable } from "@nestjs/common";
+import PDFDocument from "pdfkit";
+import { Readable } from "stream";
 import {
   BlockType,
   FontFamily,
   TextAlign,
   ArticleBlock,
-} from '@conozca/database';
+} from "@conozca/database";
 
 /**
  * Servicio para generar PDFs a partir de artículos con bloques
@@ -28,25 +28,25 @@ export class PdfService {
       blocks: ArticleBlock[];
     },
     includeWatermark: boolean = true,
-    watermarkText: string = 'Propiedad de Conozca',
+    watermarkText: string = "Propiedad de Conozca",
   ): Promise<Readable> {
     return new Promise((resolve, reject) => {
       try {
         // Crear documento PDF
         const doc = new PDFDocument({
-          size: 'LETTER',
+          size: "LETTER",
           margins: { top: 50, bottom: 50, left: 72, right: 72 },
         });
 
         const stream = new Readable();
-        stream._read = () => {}; // eslint-disable-line
+        stream._read = () => {};
 
-        doc.on('data', (chunk) => stream.push(chunk));
-        doc.on('end', () => {
+        doc.on("data", (chunk) => stream.push(chunk));
+        doc.on("end", () => {
           stream.push(null);
           resolve(stream);
         });
-        doc.on('error', reject);
+        doc.on("error", reject);
 
         // Agregar marca de agua en todas las páginas
         if (includeWatermark) {
@@ -56,22 +56,21 @@ export class PdfService {
         // Header del documento
         doc
           .fontSize(24)
-          .font('Helvetica-Bold')
-          .text(article.title, { align: 'center' });
+          .font("Helvetica-Bold")
+          .text(article.title, { align: "center" });
 
         doc.moveDown(0.5);
 
         doc
           .fontSize(12)
-          .font('Helvetica')
-          .text(`Por: ${article.author.name}`, { align: 'center' });
+          .font("Helvetica")
+          .text(`Por: ${article.author.name}`, { align: "center" });
 
         doc
           .fontSize(10)
-          .text(
-            `Publicado: ${article.createdAt.toLocaleDateString('es-ES')}`,
-            { align: 'center' },
-          );
+          .text(`Publicado: ${article.createdAt.toLocaleDateString("es-ES")}`, {
+            align: "center",
+          });
 
         doc.moveDown(2);
 
@@ -114,7 +113,7 @@ export class PdfService {
     if (block.textColor) {
       doc.fillColor(block.textColor);
     } else {
-      doc.fillColor('#000000');
+      doc.fillColor("#000000");
     }
 
     // Opciones de texto
@@ -128,49 +127,63 @@ export class PdfService {
       case BlockType.PARAGRAPH:
         doc.text(block.content, textOptions);
         if (block.isUnderline) {
-          doc.underline(doc.x, doc.y - fontSize, doc.widthOfString(block.content), fontSize);
+          doc.underline(
+            doc.x,
+            doc.y - fontSize,
+            doc.widthOfString(block.content),
+            fontSize,
+          );
         }
         doc.moveDown(1);
         break;
 
       case BlockType.HEADING_1:
-        doc.fontSize(32).font('Helvetica-Bold').text(block.content, textOptions);
+        doc
+          .fontSize(32)
+          .font("Helvetica-Bold")
+          .text(block.content, textOptions);
         doc.moveDown(1);
         break;
 
       case BlockType.HEADING_2:
-        doc.fontSize(24).font('Helvetica-Bold').text(block.content, textOptions);
+        doc
+          .fontSize(24)
+          .font("Helvetica-Bold")
+          .text(block.content, textOptions);
         doc.moveDown(0.8);
         break;
 
       case BlockType.HEADING_3:
-        doc.fontSize(18).font('Helvetica-Bold').text(block.content, textOptions);
+        doc
+          .fontSize(18)
+          .font("Helvetica-Bold")
+          .text(block.content, textOptions);
         doc.moveDown(0.6);
         break;
 
       case BlockType.QUOTE:
         const currentX = doc.x;
-        doc.fontSize(14).font('Helvetica-Oblique');
-        doc.rect(currentX, doc.y, 3, fontSize + 10).fill('#cccccc');
+        doc.fontSize(14).font("Helvetica-Oblique");
+        doc.rect(currentX, doc.y, 3, fontSize + 10).fill("#cccccc");
         doc
-          .fillColor('#666666')
-          .text('  ' + block.content, currentX + 10, doc.y, {
+          .fillColor("#666666")
+          .text("  " + block.content, currentX + 10, doc.y, {
             ...textOptions,
             width: doc.page.width - currentX - 82,
           });
-        doc.fillColor('#000000');
+        doc.fillColor("#000000");
         doc.moveDown(1);
         break;
 
       case BlockType.CODE:
         doc
           .fontSize(12)
-          .font('Courier')
-          .fillColor('#000000')
+          .font("Courier")
+          .fillColor("#000000")
           .rect(doc.x, doc.y, doc.page.width - 144, fontSize * 1.5)
-          .fill('#f5f5f5')
-          .fillColor('#000000')
-          .text('  ' + block.content, {
+          .fill("#f5f5f5")
+          .fillColor("#000000")
+          .text("  " + block.content, {
             ...textOptions,
             width: doc.page.width - 144,
           });
@@ -182,8 +195,8 @@ export class PdfService {
         doc
           .fontSize(fontSize)
           .font(font)
-          .text('•', doc.x + indent, doc.y, { continued: true })
-          .text('  ' + block.content, textOptions);
+          .text("•", doc.x + indent, doc.y, { continued: true })
+          .text("  " + block.content, textOptions);
         doc.moveDown(0.5);
         break;
 
@@ -195,7 +208,7 @@ export class PdfService {
           .text(`${block.order + 1}.`, doc.x + indentOrdered, doc.y, {
             continued: true,
           })
-          .text('  ' + block.content, textOptions);
+          .text("  " + block.content, textOptions);
         doc.moveDown(0.5);
         break;
 
@@ -203,7 +216,7 @@ export class PdfService {
         doc
           .moveTo(doc.x, doc.y + 10)
           .lineTo(doc.page.width - 72, doc.y + 10)
-          .stroke('#cccccc');
+          .stroke("#cccccc");
         doc.moveDown(2);
         break;
 
@@ -213,8 +226,8 @@ export class PdfService {
           // Por ahora, solo agregamos el texto alternativo o URL
           doc
             .fontSize(10)
-            .font('Helvetica')
-            .fillColor('#666666')
+            .font("Helvetica")
+            .fillColor("#666666")
             .text(`[Imagen: ${block.imageAlt || block.imageUrl}]`, textOptions);
           doc.moveDown(1);
         }
@@ -231,7 +244,7 @@ export class PdfService {
    */
   private addWatermark(doc: PDFKit.PDFDocument, text: string) {
     // Agregar marca de agua en todas las páginas
-    doc.on('pageAdded', () => {
+    doc.on("pageAdded", () => {
       const centerX = doc.page.width / 2;
       const centerY = doc.page.height / 2;
 
@@ -240,11 +253,11 @@ export class PdfService {
         .translate(centerX, centerY)
         .rotate(-45, { origin: [0, 0] })
         .fontSize(72)
-        .font('Helvetica-Bold')
-        .fillColor('#cccccc', 0.2)
+        .font("Helvetica-Bold")
+        .fillColor("#cccccc", 0.2)
         .text(text, -300, -20, {
           width: 600,
-          align: 'center',
+          align: "center",
         })
         .restore();
     });
@@ -258,11 +271,11 @@ export class PdfService {
       .translate(centerX, centerY)
       .rotate(-45, { origin: [0, 0] })
       .fontSize(72)
-      .font('Helvetica-Bold')
-      .fillColor('#cccccc', 0.2)
+      .font("Helvetica-Bold")
+      .fillColor("#cccccc", 0.2)
       .text(text, -300, -20, {
         width: 600,
-        align: 'center',
+        align: "center",
       })
       .restore();
   }
@@ -273,35 +286,37 @@ export class PdfService {
   private mapFontFamily(fontFamily: FontFamily): string {
     switch (fontFamily) {
       case FontFamily.TIMES_NEW_ROMAN:
-        return 'Times-Roman';
+        return "Times-Roman";
       case FontFamily.COURIER_NEW:
-        return 'Courier';
+        return "Courier";
       case FontFamily.GEORGIA:
-        return 'Times-Roman'; // Fallback
+        return "Times-Roman"; // Fallback
       case FontFamily.VERDANA:
-        return 'Helvetica'; // Fallback
+        return "Helvetica"; // Fallback
       case FontFamily.CALIBRI:
-        return 'Helvetica'; // Fallback
+        return "Helvetica"; // Fallback
       case FontFamily.ARIAL:
       default:
-        return 'Helvetica';
+        return "Helvetica";
     }
   }
 
   /**
    * Mapear alineación de texto
    */
-  private mapTextAlign(textAlign: TextAlign): 'left' | 'center' | 'right' | 'justify' {
+  private mapTextAlign(
+    textAlign: TextAlign,
+  ): "left" | "center" | "right" | "justify" {
     switch (textAlign) {
       case TextAlign.CENTER:
-        return 'center';
+        return "center";
       case TextAlign.RIGHT:
-        return 'right';
+        return "right";
       case TextAlign.JUSTIFY:
-        return 'justify';
+        return "justify";
       case TextAlign.LEFT:
       default:
-        return 'left';
+        return "left";
     }
   }
 }

@@ -1,12 +1,12 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { AuthGuard } from './auth.guard';
+import { Injectable, CanActivate, ExecutionContext } from "@nestjs/common";
+import { AuthGuard } from "./auth.guard";
 
 /**
  * OptionalAuthGuard
- * 
+ *
  * Similar to AuthGuard but doesn't throw if no token is present.
  * Populates req.user if a valid token exists, otherwise continues without it.
- * 
+ *
  * Use this for routes that want to know about the authenticated user but don't require it.
  */
 @Injectable()

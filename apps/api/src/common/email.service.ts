@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import * as nodemailer from 'nodemailer';
-import { LoggerService } from './logger.service';
+import { Injectable } from "@nestjs/common";
+import * as nodemailer from "nodemailer";
+import { LoggerService } from "./logger.service";
 
 export interface EmailOptions {
   to: string;
@@ -16,7 +16,7 @@ export interface EmailOptions {
 @Injectable()
 export class EmailService {
   private transporter: nodemailer.Transporter;
-  private logger = new LoggerService('EmailService');
+  private logger = new LoggerService("EmailService");
   private isConfigured: boolean;
 
   constructor() {
@@ -34,26 +34,26 @@ export class EmailService {
     } = process.env;
 
     // Si no está habilitado o faltan credenciales, usar modo mock
-    if (EMAIL_ENABLED !== 'true' || !SMTP_HOST || !SMTP_USER) {
-      this.logger.warn('Email service not configured, using mock mode');
+    if (EMAIL_ENABLED !== "true" || !SMTP_HOST || !SMTP_USER) {
+      this.logger.warn("Email service not configured, using mock mode");
       return false;
     }
 
     try {
       this.transporter = nodemailer.createTransport({
         host: SMTP_HOST,
-        port: parseInt(SMTP_PORT || '587'),
-        secure: SMTP_PORT === '465', // true for 465, false for other ports
+        port: parseInt(SMTP_PORT || "587"),
+        secure: SMTP_PORT === "465", // true for 465, false for other ports
         auth: {
           user: SMTP_USER,
           pass: SMTP_PASSWORD,
         },
       });
 
-      this.logger.log('Email service initialized successfully');
+      this.logger.log("Email service initialized successfully");
       return true;
     } catch (error) {
-      this.logger.error('Failed to initialize email service', error.stack);
+      this.logger.error("Failed to initialize email service", error.stack);
       return false;
     }
   }
@@ -63,20 +63,22 @@ export class EmailService {
    */
   async sendEmail(options: EmailOptions): Promise<boolean> {
     if (!this.isConfigured) {
-      this.logger.debug(`[MOCK] Email would be sent to ${options.to}: ${options.subject}`);
+      this.logger.debug(
+        `[MOCK] Email would be sent to ${options.to}: ${options.subject}`,
+      );
       return true;
     }
 
     try {
       const info = await this.transporter.sendMail({
-        from: process.env.SMTP_FROM || 'noreply@conozca.org',
+        from: process.env.SMTP_FROM || "noreply@conozca.org",
         to: options.to,
         subject: options.subject,
         text: options.text,
         html: options.html,
       });
 
-      this.logger.logBusinessEvent('email_sent', {
+      this.logger.logBusinessEvent("email_sent", {
         to: options.to,
         subject: options.subject,
         messageId: info.messageId,
@@ -93,7 +95,7 @@ export class EmailService {
    * Email de verificación
    */
   async sendVerificationEmail(email: string, token: string): Promise<boolean> {
-    const verifyUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/verify-email?token=${token}&email=${email}`;
+    const verifyUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/verify-email?token=${token}&email=${email}`;
 
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -111,7 +113,7 @@ export class EmailService {
 
     return this.sendEmail({
       to: email,
-      subject: 'Verifica tu cuenta en Conozca',
+      subject: "Verifica tu cuenta en Conozca",
       html,
       text: `Verifica tu cuenta en Conozca: ${verifyUrl}`,
     });
@@ -121,7 +123,7 @@ export class EmailService {
    * Email de reset de contraseña
    */
   async sendPasswordResetEmail(email: string, token: string): Promise<boolean> {
-    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password?token=${token}&email=${email}`;
+    const resetUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/reset-password?token=${token}&email=${email}`;
 
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -140,7 +142,7 @@ export class EmailService {
 
     return this.sendEmail({
       to: email,
-      subject: 'Resetea tu contraseña en Conozca',
+      subject: "Resetea tu contraseña en Conozca",
       html,
       text: `Resetea tu contraseña en Conozca: ${resetUrl}`,
     });
@@ -155,7 +157,7 @@ export class EmailService {
         <h2>¡Bienvenido a Conozca, ${name}!</h2>
         <p>Gracias por unirte a nuestra comunidad.</p>
         <p>Explora nuestros artículos y comparte tu conocimiento.</p>
-        <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}" 
+        <a href="${process.env.FRONTEND_URL || "http://localhost:3000"}" 
            style="display: inline-block; padding: 12px 24px; background-color: #28a745; color: white; text-decoration: none; border-radius: 4px;">
           Comenzar
         </a>
@@ -164,7 +166,7 @@ export class EmailService {
 
     return this.sendEmail({
       to: email,
-      subject: '¡Bienvenido a Conozca!',
+      subject: "¡Bienvenido a Conozca!",
       html,
       text: `¡Bienvenido a Conozca, ${name}!`,
     });

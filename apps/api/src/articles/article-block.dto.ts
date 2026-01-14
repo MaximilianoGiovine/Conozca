@@ -9,13 +9,13 @@ import {
   Max,
   IsHexColor,
   ArrayNotEmpty,
-} from 'class-validator';
+} from "class-validator";
 import {
   BlockType,
   FontFamily,
   TextAlign,
   PostStatus,
-} from '@conozca/database';
+} from "@conozca/database";
 
 /**
  * DTO para crear/actualizar un bloque de contenido

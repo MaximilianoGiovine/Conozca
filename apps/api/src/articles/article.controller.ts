@@ -13,11 +13,19 @@ import {
   HttpCode,
   HttpStatus,
   Res,
-} from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
-import { Throttle } from '@nestjs/throttler';
-import type { Response } from 'express';
-import { ArticleService } from './article.service';
+} from "@nestjs/common";
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+  ApiBody,
+  ApiParam,
+  ApiQuery,
+} from "@nestjs/swagger";
+import { Throttle } from "@nestjs/throttler";
+import type { Response } from "express";
+import { ArticleService } from "./article.service";
 import {
   CreateArticleDto,
   UpdateArticleDto,
@@ -29,16 +37,16 @@ import {
   ReorderBlocksDto,
   ArticleResponseDto,
   ArticleListResponseDto,
-} from './article.dto';
-import { AuthGuard } from '../auth/auth.guard';
-import { OptionalAuthGuard } from '../auth/optional-auth.guard';
-import { Role } from '@conozca/database';
-import { AuditInterceptor } from '../common/audit.interceptor';
-import * as seoService from '../common/seo.service';
+} from "./article.dto";
+import { AuthGuard } from "../auth/auth.guard";
+import { OptionalAuthGuard } from "../auth/optional-auth.guard";
+import { Role } from "@conozca/database";
+import { AuditInterceptor } from "../common/audit.interceptor";
+import * as seoService from "../common/seo.service";
 
 /**
  * ArticleController
- * 
+ *
  * Controlador para gestionar artículos
  * NOTA: Las rutas específicas (categories, authors) DEBEN estar antes de :slugOrId
  * Endpoints:
@@ -50,10 +58,13 @@ import * as seoService from '../common/seo.service';
  * - PATCH /articles/:id - Actualizar artículo (requiere auth)
  * - DELETE /articles/:id - Eliminar artículo (requiere auth)
  */
-@ApiTags('articles')
-@Controller('articles')
+@ApiTags("articles")
+@Controller("articles")
 export class ArticleController {
-  constructor(private articleService: ArticleService, private seo: seoService.SeoService) {}
+  constructor(
+    private articleService: ArticleService,
+    private seo: seoService.SeoService,
+  ) {}
 
   // ===== Categorías (SPECIFIC ROUTES FIRST!) =====
 
@@ -62,24 +73,21 @@ export class ArticleController {
    * Crear una categoría
    * Requiere autenticación y rol ADMIN
    */
-  @Post('categories')
+  @Post("categories")
   @UseGuards(AuthGuard)
   @UseInterceptors(AuditInterceptor)
   async createCategory(
     @Body() createCategoryDto: CreateCategoryDto,
     @Request() req: any,
   ) {
-    return this.articleService.createCategory(
-      createCategoryDto,
-      req.user.role,
-    );
+    return this.articleService.createCategory(createCategoryDto, req.user.role);
   }
 
   /**
    * GET /articles/categories
    * Obtener todas las categorías
    */
-  @Get('categories')
+  @Get("categories")
   async findAllCategories() {
     return this.articleService.findAllCategories();
   }
@@ -91,7 +99,7 @@ export class ArticleController {
    * Crear un autor
    * Requiere autenticación y rol ADMIN
    */
-  @Post('authors')
+  @Post("authors")
   @UseGuards(AuthGuard)
   @UseInterceptors(AuditInterceptor)
   async createAuthor(
@@ -105,7 +113,7 @@ export class ArticleController {
    * GET /articles/authors
    * Obtener todos los autores
    */
-  @Get('authors')
+  @Get("authors")
   async findAllAuthors() {
     return this.articleService.findAllAuthors();
   }
@@ -121,7 +129,10 @@ export class ArticleController {
   @UseGuards(AuthGuard)
   @UseInterceptors(AuditInterceptor)
   @Throttle({ default: { limit: 10, ttl: 3600000 } }) // 10 articles per hour
-  async create(@Body() createArticleDto: CreateArticleDto, @Request() req: any) {
+  async create(
+    @Body() createArticleDto: CreateArticleDto,
+    @Request() req: any,
+  ) {
     return this.articleService.create(
       createArticleDto,
       req.user.sub,
@@ -139,8 +150,8 @@ export class ArticleController {
   @Get()
   @UseGuards(OptionalAuthGuard)
   async findAll(
-    @Query('page') page: string = '1',
-    @Query('pageSize') pageSize: string = '10',
+    @Query("page") page: string = "1",
+    @Query("pageSize") pageSize: string = "10",
     @Request() req: any,
   ) {
     const pageNum = Math.max(1, parseInt(page) || 1);
@@ -160,14 +171,10 @@ export class ArticleController {
    * Registra una vista del artículo si el usuario está autenticado
    * NOTA: Esta ruta DEBE estar al final porque es genérica
    */
-  @Get(':slugOrId')
+  @Get(":slugOrId")
   @UseGuards(OptionalAuthGuard)
-  async findOne(@Param('slugOrId') slugOrId: string, @Request() req: any) {
-    return this.articleService.findOne(
-      slugOrId,
-      req.user?.role,
-      req.user?.sub,
-    );
+  async findOne(@Param("slugOrId") slugOrId: string, @Request() req: any) {
+    return this.articleService.findOne(slugOrId, req.user?.role, req.user?.sub);
   }
 
   /**
@@ -176,11 +183,11 @@ export class ArticleController {
    * Requiere autenticación
    * Solo el editor que lo creó o un ADMIN pueden actualizar
    */
-  @Patch(':id')
+  @Patch(":id")
   @UseGuards(AuthGuard)
   @UseInterceptors(AuditInterceptor)
   async update(
-    @Param('id') id: string,
+    @Param("id") id: string,
     @Body() updateArticleDto: UpdateArticleDto,
     @Request() req: any,
   ) {
@@ -198,11 +205,11 @@ export class ArticleController {
    * Requiere autenticación
    * Solo el editor que lo creó o un ADMIN pueden eliminar
    */
-  @Delete(':id')
+  @Delete(":id")
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(AuthGuard)
   @UseInterceptors(AuditInterceptor)
-  async delete(@Param('id') id: string, @Request() req: any) {
+  async delete(@Param("id") id: string, @Request() req: any) {
     return this.articleService.delete(id, req.user.sub, req.user.role);
   }
 
@@ -213,11 +220,11 @@ export class ArticleController {
    * Crear un bloque de contenido para un artículo
    * Requiere autenticación y ser editor del artículo o admin
    */
-  @Post(':articleId/blocks')
+  @Post(":articleId/blocks")
   @UseGuards(AuthGuard)
   @UseInterceptors(AuditInterceptor)
   async createBlock(
-    @Param('articleId') articleId: string,
+    @Param("articleId") articleId: string,
     @Body() createBlockDto: CreateArticleBlockDto,
     @Request() req: any,
   ) {
@@ -234,11 +241,11 @@ export class ArticleController {
    * Crear múltiples bloques de contenido para un artículo
    * Requiere autenticación y ser editor del artículo o admin
    */
-  @Post(':articleId/blocks/multiple')
+  @Post(":articleId/blocks/multiple")
   @UseGuards(AuthGuard)
   @UseInterceptors(AuditInterceptor)
   async createMultipleBlocks(
-    @Param('articleId') articleId: string,
+    @Param("articleId") articleId: string,
     @Body() createBlocksDto: CreateMultipleBlocksDto,
     @Request() req: any,
   ) {
@@ -254,8 +261,8 @@ export class ArticleController {
    * GET /articles/:articleId/blocks
    * Obtener todos los bloques de un artículo ordenados
    */
-  @Get(':articleId/blocks')
-  async getBlocksByArticle(@Param('articleId') articleId: string) {
+  @Get(":articleId/blocks")
+  async getBlocksByArticle(@Param("articleId") articleId: string) {
     return this.articleService.getBlocksByArticle(articleId);
   }
 
@@ -263,8 +270,8 @@ export class ArticleController {
    * GET /articles/search?q=term
    * Búsqueda simple por título/contenido (case-insensitive)
    */
-  @Get('search')
-  async search(@Query('q') q: string) {
+  @Get("search")
+  async search(@Query("q") q: string) {
     if (!q || q.trim().length === 0) return [];
     return this.articleService.searchArticles(q.trim());
   }
@@ -273,8 +280,8 @@ export class ArticleController {
    * GET /articles/:articleId/blocks/:blockId
    * Obtener un bloque específico
    */
-  @Get(':articleId/blocks/:blockId')
-  async getBlock(@Param('blockId') blockId: string) {
+  @Get(":articleId/blocks/:blockId")
+  async getBlock(@Param("blockId") blockId: string) {
     return this.articleService.getBlock(blockId);
   }
 
@@ -283,11 +290,11 @@ export class ArticleController {
    * Actualizar un bloque
    * Requiere autenticación y ser editor del artículo o admin
    */
-  @Patch(':articleId/blocks/:blockId')
+  @Patch(":articleId/blocks/:blockId")
   @UseGuards(AuthGuard)
   @UseInterceptors(AuditInterceptor)
   async updateBlock(
-    @Param('blockId') blockId: string,
+    @Param("blockId") blockId: string,
     @Body() updateBlockDto: UpdateArticleBlockDto,
     @Request() req: any,
   ) {
@@ -304,14 +311,11 @@ export class ArticleController {
    * Eliminar un bloque
    * Requiere autenticación y ser editor del artículo o admin
    */
-  @Delete(':articleId/blocks/:blockId')
+  @Delete(":articleId/blocks/:blockId")
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
   @UseInterceptors(AuditInterceptor)
-  async deleteBlock(
-    @Param('blockId') blockId: string,
-    @Request() req: any,
-  ) {
+  async deleteBlock(@Param("blockId") blockId: string, @Request() req: any) {
     return this.articleService.deleteBlock(
       blockId,
       req.user.sub,
@@ -324,11 +328,11 @@ export class ArticleController {
    * Reordenar bloques de un artículo
    * Requiere autenticación y ser editor del artículo o admin
    */
-  @Post(':articleId/blocks/reorder')
+  @Post(":articleId/blocks/reorder")
   @UseGuards(AuthGuard)
   @UseInterceptors(AuditInterceptor)
   async reorderBlocks(
-    @Param('articleId') articleId: string,
+    @Param("articleId") articleId: string,
     @Body() reorderDto: ReorderBlocksDto,
     @Request() req: any,
   ) {
@@ -345,12 +349,9 @@ export class ArticleController {
    * Obtener artículo completo con todos sus bloques
    * Requiere autenticación para artículos no publicados
    */
-  @Get(':id/full')
+  @Get(":id/full")
   @UseGuards(AuthGuard)
-  async getArticleWithBlocks(
-    @Param('id') id: string,
-    @Request() req: any,
-  ) {
+  async getArticleWithBlocks(@Param("id") id: string, @Request() req: any) {
     return this.articleService.getArticleWithBlocks(
       id,
       req.user?.role,
@@ -365,14 +366,14 @@ export class ArticleController {
    * - includeWatermark: incluir marca de agua (default: true)
    * - watermarkText: texto de marca de agua (default: "Propiedad de Conozca")
    */
-  @Get(':id/pdf')
+  @Get(":id/pdf")
   async downloadPdf(
-    @Param('id') id: string,
-    @Query('includeWatermark') includeWatermark: string = 'true',
-    @Query('watermarkText') watermarkText: string = 'Propiedad de Conozca',
+    @Param("id") id: string,
+    @Query("includeWatermark") includeWatermark: string = "true",
+    @Query("watermarkText") watermarkText: string = "Propiedad de Conozca",
     @Res() res: Response,
   ) {
-    const includeWatermarkBool = includeWatermark === 'true';
+    const includeWatermarkBool = includeWatermark === "true";
 
     const pdfStream = await this.articleService.generatePdf(
       id,
@@ -381,9 +382,9 @@ export class ArticleController {
     );
 
     // Configurar headers para descarga
-    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
-      'Content-Disposition',
+      "Content-Disposition",
       `attachment; filename="article-${id}.pdf"`,
     );
 
@@ -395,8 +396,8 @@ export class ArticleController {
    * GET /articles/:id/seo
    * Devuelve metadatos SEO almacenados en memoria (fallback)
    */
-  @Get(':id/seo')
-  async getSeo(@Param('id') id: string) {
+  @Get(":id/seo")
+  async getSeo(@Param("id") id: string) {
     return this.seo.getMeta(id) ?? {};
   }
 
@@ -404,10 +405,10 @@ export class ArticleController {
    * PATCH /articles/:id/seo
    * Actualiza metadatos SEO (fallback en memoria)
    */
-  @Patch(':id/seo')
+  @Patch(":id/seo")
   @UseGuards(AuthGuard)
   @UseInterceptors(AuditInterceptor)
-  async setSeo(@Param('id') id: string, @Body() body: seoService.SeoMeta) {
+  async setSeo(@Param("id") id: string, @Body() body: seoService.SeoMeta) {
     this.seo.setMeta(id, body || {});
     return { ok: true };
   }

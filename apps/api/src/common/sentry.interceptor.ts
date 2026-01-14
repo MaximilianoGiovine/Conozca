@@ -1,7 +1,12 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { SentryService } from './sentry.service';
+import {
+  Injectable,
+  NestInterceptor,
+  ExecutionContext,
+  CallHandler,
+} from "@nestjs/common";
+import { Observable, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
+import { SentryService } from "./sentry.service";
 
 /**
  * Interceptor para capturar errores automáticamente con Sentry
@@ -28,8 +33,8 @@ export class SentryInterceptor implements NestInterceptor {
         // Agregar breadcrumb con detalles de la request
         this.sentryService.addBreadcrumb({
           message: `${request.method} ${request.url}`,
-          category: 'http',
-          level: 'error',
+          category: "http",
+          level: "error",
           data: {
             method: request.method,
             url: request.url,

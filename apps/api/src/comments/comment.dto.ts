@@ -1,13 +1,19 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsBoolean, IsOptional, MaxLength } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import {
+  IsString,
+  IsNotEmpty,
+  IsBoolean,
+  IsOptional,
+  MaxLength,
+} from "class-validator";
 
 /**
  * DTO para crear un comentario
  */
 export class CreateCommentDto {
   @ApiProperty({
-    description: 'Contenido del comentario',
-    example: 'Excelente artículo, muy informativo.',
+    description: "Contenido del comentario",
+    example: "Excelente artículo, muy informativo.",
   })
   @IsString()
   @IsNotEmpty()
@@ -20,8 +26,8 @@ export class CreateCommentDto {
  */
 export class UpdateCommentDto {
   @ApiPropertyOptional({
-    description: 'Nuevo contenido del comentario',
-    example: 'Actualizado: Excelente artículo.',
+    description: "Nuevo contenido del comentario",
+    example: "Actualizado: Excelente artículo.",
   })
   @IsString()
   @IsOptional()
@@ -29,7 +35,7 @@ export class UpdateCommentDto {
   content?: string;
 
   @ApiPropertyOptional({
-    description: 'Estado de aprobación (solo ADMIN)',
+    description: "Estado de aprobación (solo ADMIN)",
     example: true,
   })
   @IsBoolean()
@@ -37,7 +43,7 @@ export class UpdateCommentDto {
   isApproved?: boolean;
 
   @ApiPropertyOptional({
-    description: 'Marcar como reportado (solo ADMIN)',
+    description: "Marcar como reportado (solo ADMIN)",
     example: false,
   })
   @IsBoolean()

@@ -1,14 +1,14 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import * as Sentry from '@sentry/node';
-import { nodeProfilingIntegration } from '@sentry/profiling-node';
-import { LoggerService } from './logger.service';
+import { Injectable, OnModuleInit } from "@nestjs/common";
+import * as Sentry from "@sentry/node";
+import { nodeProfilingIntegration } from "@sentry/profiling-node";
+import { LoggerService } from "./logger.service";
 
 /**
  * Sentry service para error tracking y monitoring
  */
 @Injectable()
 export class SentryService implements OnModuleInit {
-  private logger = new LoggerService('SentryService');
+  private logger = new LoggerService("SentryService");
   private isEnabled: boolean;
 
   onModuleInit() {
@@ -19,32 +19,30 @@ export class SentryService implements OnModuleInit {
     const { SENTRY_DSN, NODE_ENV, SENTRY_ENABLED } = process.env;
 
     // Solo habilitar en producción o si está explícitamente habilitado
-    if (SENTRY_ENABLED !== 'true' || !SENTRY_DSN) {
-      this.logger.warn('Sentry not configured, error tracking disabled');
+    if (SENTRY_ENABLED !== "true" || !SENTRY_DSN) {
+      this.logger.warn("Sentry not configured, error tracking disabled");
       return false;
     }
 
     try {
       Sentry.init({
         dsn: SENTRY_DSN,
-        environment: NODE_ENV || 'development',
-        
+        environment: NODE_ENV || "development",
+
         // Performance Monitoring
-        tracesSampleRate: NODE_ENV === 'production' ? 0.1 : 1.0,
-        
+        tracesSampleRate: NODE_ENV === "production" ? 0.1 : 1.0,
+
         // Profiling
-        profilesSampleRate: NODE_ENV === 'production' ? 0.1 : 1.0,
-        
-        integrations: [
-          nodeProfilingIntegration(),
-        ],
+        profilesSampleRate: NODE_ENV === "production" ? 0.1 : 1.0,
+
+        integrations: [nodeProfilingIntegration()],
 
         // Filtrar información sensible
         beforeSend(event, hint) {
           // No enviar contraseñas ni tokens
           if (event.request?.data) {
             const data = event.request.data as any;
-            if (typeof data === 'object') {
+            if (typeof data === "object") {
               delete data.password;
               delete data.token;
               delete data.access_token;
@@ -55,10 +53,10 @@ export class SentryService implements OnModuleInit {
         },
       });
 
-      this.logger.log('Sentry initialized successfully');
+      this.logger.log("Sentry initialized successfully");
       return true;
     } catch (error) {
-      this.logger.error('Failed to initialize Sentry', error.stack);
+      this.logger.error("Failed to initialize Sentry", error.stack);
       return false;
     }
   }
@@ -68,7 +66,9 @@ export class SentryService implements OnModuleInit {
    */
   captureException(error: Error, context?: Record<string, any>) {
     if (!this.isEnabled) {
-      this.logger.debug(`[MOCK] Sentry would capture exception: ${error.message}`);
+      this.logger.debug(
+        `[MOCK] Sentry would capture exception: ${error.message}`,
+      );
       return;
     }
 
@@ -80,7 +80,11 @@ export class SentryService implements OnModuleInit {
   /**
    * Capturar un mensaje
    */
-  captureMessage(message: string, level: Sentry.SeverityLevel = 'info', context?: Record<string, any>) {
+  captureMessage(
+    message: string,
+    level: Sentry.SeverityLevel = "info",
+    context?: Record<string, any>,
+  ) {
     if (!this.isEnabled) {
       this.logger.debug(`[MOCK] Sentry would capture message: ${message}`);
       return;
@@ -116,13 +120,18 @@ export class SentryService implements OnModuleInit {
   /**
    * Agregar breadcrumb (traza de navegación)
    */
-  addBreadcrumb(breadcrumb: { message: string; category?: string; level?: Sentry.SeverityLevel; data?: Record<string, any> }) {
+  addBreadcrumb(breadcrumb: {
+    message: string;
+    category?: string;
+    level?: Sentry.SeverityLevel;
+    data?: Record<string, any>;
+  }) {
     if (!this.isEnabled) return;
 
     Sentry.addBreadcrumb({
       message: breadcrumb.message,
-      category: breadcrumb.category || 'custom',
-      level: breadcrumb.level || 'info',
+      category: breadcrumb.category || "custom",
+      level: breadcrumb.level || "info",
       data: breadcrumb.data,
     });
   }
@@ -148,12 +157,9 @@ export class SentryService implements OnModuleInit {
       return operation();
     }
 
-    return await Sentry.startSpan(
-      { name, op: 'custom' },
-      async () => {
-        return await operation();
-      }
-    );
+    return await Sentry.startSpan({ name, op: "custom" }, async () => {
+      return await operation();
+    });
   }
 
   /**
@@ -165,7 +171,7 @@ export class SentryService implements OnModuleInit {
     try {
       return await Sentry.flush(timeout);
     } catch (error) {
-      this.logger.error('Failed to flush Sentry events', error.stack);
+      this.logger.error("Failed to flush Sentry events", error.stack);
       return false;
     }
   }

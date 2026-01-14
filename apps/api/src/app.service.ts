@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from './prisma.service';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "./prisma.service";
 
 /**
  * AppService
- * 
+ *
  * Servicio principal de la aplicación.
  * Contiene la lógica de negocio y se comunica con la base de datos vía Prisma.
  */
@@ -13,7 +13,7 @@ export class AppService {
 
   /**
    * Health check endpoint que verifica la conexión con la base de datos.
-   * 
+   *
    * @returns Mensaje con el número de usuarios registrados en el sistema
    */
   async getHello() {
