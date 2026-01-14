@@ -14,6 +14,9 @@ import { join } from 'path';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   
+  // Trust proxy for Nginx/Load Balancer (security)
+  app.set('trust proxy', 1);
+  
   // Puerto configurable vía variable de entorno, por defecto 4000
   const port = process.env.PORT ?? 3000;
   

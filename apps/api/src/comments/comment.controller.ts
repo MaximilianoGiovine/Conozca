@@ -18,6 +18,7 @@ import {
   ApiParam,
   ApiQuery,
 } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { CommentService } from './comment.service';
 import { CreateCommentDto, UpdateCommentDto, CommentResponseDto } from './comment.dto';
 import { AuthGuard } from '../auth/auth.guard';
@@ -33,9 +34,11 @@ export class CommentController {
 
   /**
    * Crear un comentario en un artículo
+   * Rate limit: 10 comentarios por minuto
    */
   @Post('article/:articleId')
   @UseGuards(AuthGuard)
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Crear un comentario en un artículo' })
   @ApiParam({ name: 'articleId', description: 'ID del artículo' })
