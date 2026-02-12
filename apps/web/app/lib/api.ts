@@ -12,7 +12,10 @@ async function fetchJson<T>(path: string, init?: RequestInit): Promise<T> {
   });
 
   if (!response.ok) {
-    throw new Error(`API request failed: ${response.status}`);
+    const errorText = await response.text().catch(() => "Unknown error");
+    throw new Error(
+      `API request failed: ${response.status} ${response.statusText} - ${errorText}`
+    );
   }
 
   return response.json() as Promise<T>;

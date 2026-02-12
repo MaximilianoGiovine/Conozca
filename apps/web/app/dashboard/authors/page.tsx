@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { getAuthors } from "../../lib/api";
+import { NewAuthorModal } from "../components/Modals";
 import type { Author } from "../../lib/types";
 import styles from "../dashboard.module.css";
 
@@ -10,6 +12,22 @@ export default function AuthorsPage() {
   const [authors, setAuthors] = useState<Author[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showAuthorModal, setShowAuthorModal] = useState(false);
+
+  const handleNewAuthor = (data: { name: string; bio: string }) => {
+    // Demo: add new author to list
+    const newAuthor: Author = {
+      id: `demo-${Date.now()}`,
+      name: data.name,
+      bio: data.bio,
+      slug: data.name.toLowerCase().replace(/\s+/g, "-"),
+      _count: { articles: 0 },
+    };
+    setAuthors((prev) => [newAuthor, ...prev]);
+
+    // Show success feedback
+    alert(`✅ Author added: "${data.name}"`);
+  };
 
   useEffect(() => {
     async function fetchAuthors() {
@@ -36,7 +54,12 @@ export default function AuthorsPage() {
           <h1>Authors</h1>
           <p className={styles.subtitle}>Manage your editorial contributors</p>
         </div>
-        <button className={styles.primaryButton}>New Author</button>
+        <button
+          className={styles.primaryButton}
+          onClick={() => setShowAuthorModal(true)}
+        >
+          New Author
+        </button>
       </div>
 
       <div className={styles.filterBar}>
@@ -57,7 +80,13 @@ export default function AuthorsPage() {
             <div key={author.id} className={styles.authorCard}>
               <div className={styles.authorAvatar}>
                 {author.avatar ? (
-                  <img src={author.avatar} alt={author.name} />
+                  <Image
+                    src={author.avatar}
+                    alt={author.name}
+                    width={80}
+                    height={80}
+                    className={styles.avatarImage}
+                  />
                 ) : (
                   <div className={styles.avatarPlaceholder}>
                     {author.name.charAt(0).toUpperCase()}
@@ -101,6 +130,12 @@ export default function AuthorsPage() {
           <p>No authors found</p>
         </div>
       )}
+
+      <NewAuthorModal
+        isOpen={showAuthorModal}
+        onClose={() => setShowAuthorModal(false)}
+        onSubmit={handleNewAuthor}
+      />
     </div>
   );
 }

@@ -1,6 +1,15 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import styles from "../dashboard.module.css";
 
 export default function TopNav() {
+  const router = useRouter();
+
+  const handleSignOut = () => {
+    router.push("/login");
+  };
+
   return (
     <div className={styles.topNav}>
       <div>
@@ -13,7 +22,9 @@ export default function TopNav() {
           type="search"
           placeholder="Search articles, authors"
         />
-        <button className={styles.ghostButton}>Invite</button>
+        <button onClick={handleSignOut} className={styles.ghostButton}>
+          Sign out
+        </button>
       </div>
     </div>
   );

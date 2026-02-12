@@ -35,7 +35,7 @@ const mockComments = [
 ];
 
 export default function CommentsPage() {
-  const [comments] = useState(mockComments);
+  const [comments, setComments] = useState(mockComments);
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
   const filteredComments = comments.filter(
@@ -43,13 +43,17 @@ export default function CommentsPage() {
   );
 
   const handleApprove = (id: number) => {
-    console.log("Approve comment:", id);
-    // TODO: Connect to API
+    setComments((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, status: "approved" } : c))
+    );
+    alert("✅ Comment approved!");
   };
 
   const handleReject = (id: number) => {
-    console.log("Reject comment:", id);
-    // TODO: Connect to API
+    setComments((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, status: "rejected" } : c))
+    );
+    alert("🚫 Comment rejected");
   };
 
   return (

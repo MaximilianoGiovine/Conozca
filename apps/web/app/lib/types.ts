@@ -39,7 +39,16 @@ export type ApiCategory = {
 export type ApiAuthor = {
   id: string;
   name: string;
+  slug?: string;
   bio?: string | null;
+  avatar?: string | null;
   avatarUrl?: string | null;
+  twitter?: string | null;
   _count?: { articles: number };
 };
+
+// Type aliases for easier imports
+export type Article = ApiArticle;
+export type Category = ApiCategory;
+export type Author = ApiAuthor;
+
