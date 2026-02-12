@@ -178,7 +178,10 @@ describe("Authentication E2E Tests", () => {
       emailService = app.get(EmailService);
 
       // Spy on sendPasswordResetEmail to capture the token
-      sendPasswordResetEmailSpy = jest.spyOn(emailService, 'sendPasswordResetEmail');
+      sendPasswordResetEmailSpy = jest.spyOn(
+        emailService,
+        "sendPasswordResetEmail",
+      );
 
       // Crear usuario para reset
       await request(app.getHttpServer()).post("/auth/register").send({
@@ -221,7 +224,10 @@ describe("Authentication E2E Tests", () => {
 
     it("✅ PASO 3: Debe obtener reset token de la BD y resetear contraseña", async () => {
       // Get the token from the email spy (last call)
-      const lastCall = sendPasswordResetEmailSpy.mock.calls[sendPasswordResetEmailSpy.mock.calls.length - 1];
+      const lastCall =
+        sendPasswordResetEmailSpy.mock.calls[
+          sendPasswordResetEmailSpy.mock.calls.length - 1
+        ];
       expect(lastCall).toBeDefined();
       resetToken = lastCall[1]; // Second argument is the token
       expect(resetToken).toBeTruthy();

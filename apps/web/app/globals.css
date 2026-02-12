@@ -1,13 +1,14 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --brand-cream: #fff1e6;
+  --brand-red: #8F0221;
+  --ink: #141414;
+  --ink-soft: #4b4b4b;
+  --card: #fff8f1;
+  --card-border: rgba(20, 20, 20, 0.08);
+  --shadow: 0 20px 60px rgba(20, 20, 20, 0.12);
+  --ring: rgba(37, 150, 190, 0.35);
+  --background: var(--brand-cream);
+  --foreground: var(--ink);
 }
 
 html,
@@ -19,6 +20,9 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
 }
 
 * {
@@ -32,19 +36,6 @@ a {
   text-decoration: none;
 }
 
-.imgDark {
-  display: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-
-  .imgLight {
-    display: none;
-  }
-  .imgDark {
-    display: unset;
-  }
+*::selection {
+  background: rgba(37, 150, 190, 0.2);
 }

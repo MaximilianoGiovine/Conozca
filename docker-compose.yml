@@ -61,7 +61,7 @@ services:
       retries: 3
       start_period: 40s
     # Run migrations on startup
-    command: sh -c "cd ../packages/database && npx prisma migrate deploy && cd ../../apps/api && node dist/main.js"
+    command: sh -c "cd /app/packages/database && npx prisma migrate deploy && cd /app/apps/api && node dist/main.js"
 
   # pgAdmin (opcional, solo para desarrollo/staging)
   pgadmin:

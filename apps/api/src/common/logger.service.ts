@@ -1,4 +1,8 @@
-import { Injectable, Optional, LoggerService as NestLoggerService } from "@nestjs/common";
+import {
+  Injectable,
+  Optional,
+  LoggerService as NestLoggerService,
+} from "@nestjs/common";
 import * as winston from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 

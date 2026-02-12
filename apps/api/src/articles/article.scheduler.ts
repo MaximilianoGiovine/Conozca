@@ -6,7 +6,7 @@ import { PostStatus } from "@conozca/database";
 @Injectable()
 export class ArticleScheduler {
   private readonly logger = new Logger(ArticleScheduler.name);
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   // Ejecuta cada minuto; procesa programaciones vencidas
   @Cron("*/1 * * * *")

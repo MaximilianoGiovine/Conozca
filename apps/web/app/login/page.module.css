@@ -1,0 +1,147 @@
+.page {
+  min-height: 100svh;
+  padding: 40px 64px 80px;
+  background: radial-gradient(
+      1200px 500px at 10% -10%,
+      rgba(37, 150, 190, 0.18),
+      transparent 60%
+    ),
+    var(--brand-cream);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  gap: 48px;
+  align-items: center;
+}
+
+.brandPanel h1 {
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(36px, 5vw, 54px);
+  margin-bottom: 12px;
+}
+
+.brandPanel p {
+  color: var(--ink-soft);
+  max-width: 420px;
+}
+
+.kicker {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--ink-soft);
+}
+
+.brandCard {
+  margin-top: 24px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid rgba(20, 20, 20, 0.08);
+  box-shadow: 0 16px 34px rgba(20, 20, 20, 0.08);
+}
+
+.brandCard h3 {
+  font-family: var(--font-fraunces), serif;
+  margin-top: 8px;
+}
+
+.brandCard span {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
+.formCard {
+  background: #fff;
+  border-radius: 28px;
+  padding: 32px;
+  border: 1px solid rgba(20, 20, 20, 0.08);
+  box-shadow: 0 24px 60px rgba(20, 20, 20, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.subtitle {
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.form input[type="email"],
+.form input[type="password"] {
+  border: 1px solid rgba(20, 20, 20, 0.12);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-family: var(--font-manrope), sans-serif;
+  font-size: 14px;
+}
+
+.formActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.remember {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.primaryButton {
+  background: var(--brand-red);
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(37, 150, 190, 0.3);
+}
+
+.textButton {
+  background: none;
+  border: none;
+  color: var(--brand-red);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.footerNote {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .page {
+    padding: 32px 24px 64px;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
