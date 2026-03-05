@@ -1,0 +1,159 @@
+{
+    "Index": {
+        "title": "Bienvenue à Conozca",
+        "description": "Une plateforme mondiale"
+    },
+    "Hero": {
+        "badge": "Avocats en droit de la famille à {city}, {country}",
+        "headline": "Nous nous concentrons sur les besoins de votre famille",
+        "subheadline": "Représentation juridique compatissante et efficace à Managua, Nicaragua. Nous protégeons ce qui compte le plus pour vous.",
+        "ctaText": "Planifier une consultation",
+        "call_to_action": "Appelez le {phone}"
+    },
+    "Values": {
+        "respect": {
+            "label": "Respect et dignité",
+            "title": "Respect et Dignité",
+            "description": "Nos clients font partie de la famille. Nous traitons chaque dossier avec la dignité et le respect qu'il mérite."
+        },
+        "quality": {
+            "label": "Chaque cas est unique",
+            "title": "Représentation Juridique de Haut Niveau",
+            "description": "Chaque dossier fait l'objet d'un dévouement total. Nous restons à l'avant-garde du droit de la famille au Nicaragua."
+        },
+        "team": {
+            "label": "Équipe expérimentée",
+            "title": "Des avocats dévoués et expérimentés",
+            "description": "Une équipe expérimentée et soucieuse d'obtenir les meilleurs résultats pour chaque client."
+        }
+    },
+    "About": {
+        "years": "Années",
+        "tagline": "{firmName} à Managua, Nicaragua",
+        "title": "Nous sommes un cabinet de <highlight>droit de la famille</highlight> à {city}, {country}.",
+        "cta": "Rencontrez Notre Équipe",
+        "yearsText": "Ans",
+        "founderBio": "Avec plus de 9 ans d'expérience dans la résolution de conflits familiaux, Silvia González se spécialise dans les divorces complexes, les accords de garde d'enfants et les litiges de pension alimentaire. Son approche pratique et compatissante garantit que les clients sentent qu'ils ont une alliée à leurs côtés pendant ce qui est souvent la période la plus difficile de leur vie.",
+        "founderTitle": "Avocate Spécialiste en Droit de la Famille",
+        "firmDescription": "Nous comprenons le stress et le fardeau émotionnel du droit de la famille à Managua, Nicaragua. Nous protégeons ce qui compte le plus pour vous et les vôtres."
+    },
+    "Services": {
+        "label": "Vous n'êtes pas obligés de le faire seuls",
+        "title": "Nous pouvons vous aider dans vos affaires de divorce et de droit de la famille.",
+        "more_info": "Plus d'informations",
+        "items": {
+            "separacion": {
+                "title": "Séparation Légale",
+                "shortDescription": "Les accords de séparation sont une alternative mutuellement acceptable et durable pour résoudre les conflits conjugaux."
+            },
+            "divorcio": {
+                "title": "Divorce",
+                "shortDescription": "Un divorce est l'un des aspects les plus pratiques du processus. Nous pouvons vous aider à naviguer à chaque étape."
+            },
+            "custodia": {
+                "title": "Garde et Pension Alimentaire pour Enfants",
+                "shortDescription": "Les intérêts des enfants sont toujours la priorité absolue. Nous pouvons vous aider à protéger votre rôle dans leur vie."
+            },
+            "pension": {
+                "title": "Pension Alimentaire",
+                "shortDescription": "Atteindre l'indépendance financière après une procédure légale. Nous déterminons le montant équitable de la pension."
+            },
+            "mediacion": {
+                "title": "Médiation Familiale",
+                "shortDescription": "Une approche personnelle pour résoudre les conflits. La médiation permet de trouver des solutions sans aller en justice."
+            },
+            "violencia": {
+                "title": "Violence Domestique",
+                "shortDescription": "La sécurité doit être considérée avant tout. Nous sommes là pour protéger vos droits et votre bien-être."
+            }
+        }
+    },
+    "Tabs": {
+        "label": "Services juridiques familiaux de base",
+        "title": "Une approche holistique pour fournir des services juridiques familiaux",
+        "items": {
+            "0": {
+                "title": "Droit Collaboratif",
+                "content": "Vous et votre conjoint pouvez-vous considérer votre problème de droit de la famille comme un \"problème à résoudre\" et non comme une \"compétition à gagner\" ? Le droit collaboratif est un processus juridique qui permet aux couples qui ont décidé de se séparer de résoudre leurs différends en dehors des tribunaux. Notre équipe facilite des négociations respectueuses pour parvenir à des accords qui satisfont les besoins des deux parties et de leurs enfants."
+            },
+            "1": {
+                "title": "Divorce Absolu",
+                "content": "Lorsque la séparation définitive est la meilleure option, notre équipe la guide à travers chaque étape du processus de divorce au Nicaragua. Nous nous occupons de la documentation juridique, de la distribution équitable des biens, des accords de garde et de pension, en veillant à ce que vos droits soient protégés à tout moment. Notre approche est de rendre ce processus aussi efficace et indolore que possible."
+            },
+            "2": {
+                "title": "Litige",
+                "content": "Pour les cas nécessitant une intervention judiciaire, nous avons une vaste expérience dans les litiges en droit de la famille devant les tribunaux de Managua et dans tout le Nicaragua. Nos avocats présentent des cas solides et bien fondés, luttant fermement pour les droits de nos clients. Lorsque la négociation n'est pas possible, la préparation et l'expérience devant les tribunaux font la différence."
+            }
+        }
+    },
+    "CTA": {
+        "title": "Appelez aujourd'hui pour discuter de votre affaire de droit de la famille",
+        "subtitle": "Consultation initiale gratuite. Nous sommes prêts à vous aider.",
+        "button": "Planifier une Consultation"
+    },
+    "Testimonials": {
+        "label": "Témoignages",
+        "title": "Ce que disent nos clients !",
+        "subtitle": "La satisfaction de nos clients est notre plus grande récompense.",
+        "prev": "Précédent",
+        "next": "Suivant",
+        "items": {
+            "0": {
+                "quote": "L'équipe a fait preuve d'un professionnalisme et d'une compassion incroyables pendant mon divorce. Ils m'ont expliqué chaque étape et se sont battus pour mes droits et ceux de mes enfants. Je ne pourrais être plus reconnaissant.",
+                "caseType": "Divorce et Garde"
+            },
+            "1": {
+                "quote": "Nous sommes parvenus à des accords de manière pacifique et sans aller en justice, grâce à leur approche de droit collaboratif. Cela a énormément réduit le stress au sein de notre famille et nous a permis d'aller de l'avant plus rapidement.",
+                "caseType": "Droit Collaboratif"
+            },
+            "2": {
+                "quote": "Dès la première consultation, je me suis senti écouté et compris. Ce sont des experts en droit de la famille et ils ont réussi à obtenir la pension alimentaire juste que mes enfants méritaient. Je les recommande vivement.",
+                "caseType": "Pension Alimentaire"
+            },
+            "3": {
+                "quote": "Dans un moment de grande vulnérabilité, j'ai trouvé le soutien juridique et humain dont j'avais besoin. Ils m'ont aidé à obtenir des mesures de protection et à assurer le bien-être de ma famille à long terme.",
+                "caseType": "Violence Domestique"
+            }
+        }
+    },
+    "Contact": {
+        "title": "Notre équipe est là pour vous aider.",
+        "subtitle": "Avez-vous des questions ou souhaitez-vous prendre rendez-vous ? Contactez-nous.",
+        "officeLocation": "Emplacement du Bureau",
+        "contactDetails": "Coordonnées",
+        "callAt": "Appelez le",
+        "orEmail": "ou envoyez un e-mail à",
+        "officeHours": "Heures d'Ouverture",
+        "button": "Envoyer un Message"
+    },
+    "Navigation": {
+        "Inicio": "Accueil",
+        "Derecho de Familia": "Droit de la Famille",
+        "Divorcio": "Divorce",
+        "Custodia de Menores": "Garde d'Enfants",
+        "Pensión Alimenticia": "Pension Alimentaire",
+        "Mediación Familiar": "Médiation Familiale",
+        "Violencia Doméstica": "Violence Domestique",
+        "Separación Legal": "Séparation Légale",
+        "Equipo Legal": "Équipe Juridique",
+        "Nuestro Enfoque": "Notre Approche",
+        "Contacto": "Contact",
+        "Portal Abogado": "Portail Avocat",
+        "Llama Ahora": "Appeler Maintenant",
+        "Cerrar menú": "Fermer le menu"
+    },
+    "Footer": {
+        "servingClients": "Nous servons nos clients à {city} et dans tout {country}.",
+        "aboutUs": "À Propos de Nous",
+        "services": "Services",
+        "getInTouch": "Contactez-Nous",
+        "privacyPolicy": "Politique de Confidentialité",
+        "termsOfService": "Conditions d'Utilisation",
+        "allRightsReserved": "Tous droits réservés."
+    },
+    "TopBar": {
+        "servicesIn": "Services de droit de la famille à {city}, {country}",
+        "callNow": "Appeler Maintenant",
+        "callAt": "Appelez le {phone}"
+    }
+}

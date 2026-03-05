@@ -1,327 +1,361 @@
-# Conozca Monorepo
+# 🚀 Next.js + Claude Code - Frontend Setup
 
-Monorepo moderno para el proyecto **Conozca**, una revista digital con API REST, aplicaciones web y gestión de contenido.
+Setup completo de Next.js 16 + Supabase + Claude Code listo para producción. Arquitectura Feature-First optimizada para desarrollo asistido por IA.
 
-**📋 Ver todas las características**: [FEATURES.md](FEATURES.md)
+## 🎯 ¿Qué es esto?
 
-## 🏗️ Estructura del Proyecto
+Un template **production-ready** para aplicaciones frontend modernas con:
+
+- ✅ Next.js 16 (App Router) + TypeScript
+- ✅ Supabase (Database + Auth)
+- ✅ Tailwind CSS + shadcn/ui
+- ✅ Claude Code con comandos, agentes y skills
+- ✅ Arquitectura Feature-First optimizada para IA
+- ✅ Auto port detection (3000-3006)
+- ✅ Testing, linting y type checking configurados
+
+## 📦 Tech Stack
+
+```yaml
+Runtime: Node.js + TypeScript
+Framework: Next.js 16 (App Router)
+Database: PostgreSQL/Supabase
+Styling: Tailwind CSS
+State: Zustand
+Testing: Jest + React Testing Library
+Validation: Zod
+AI Tooling: Claude Code + MCPs
+```
+
+## 🏗️ Arquitectura Feature-First
 
 ```
-conozca-monorepo/
-├── apps/
-│   ├── api/          # API REST con NestJS + Swagger
-│   ├── web/          # Aplicación web principal (Next.js)
-│   └── docs/         # Documentación (Next.js)
-├── packages/
-│   ├── database/     # Schema de Prisma y cliente compartido
-│   ├── ui/           # Componentes UI compartidos
-│   ├── eslint-config/    # Configuraciones de ESLint
-│   └── typescript-config/ # Configuraciones de TypeScript
-├── docker-compose.yml    # PostgreSQL + API + pgAdmin
-├── FEATURES.md           # Todas las características implementadas ⭐
-└── API_DOCUMENTATION.md  # Documentación completa de API
-
-## ✨ Características Principales
-
-- 🔐 **Autenticación JWT** - Register, login, refresh tokens, password reset
-- 📝 **Gestión de Artículos** - CRUD completo con estados y scheduling
-- 🏷️ **Categorías y Autores** - Organización de contenido
-- 🧩 **Sistema de Bloques** - Editor avanzado con múltiples tipos de contenido
-- 💬 **Sistema de Comentarios** - Comentarios con moderación y reportes
-- 📤 **Upload de Archivos** - Soporte para Local, Cloudinary, S3
-- 📧 **Email Service** - Verificación, reset de password, notificaciones
-- 🔒 **Rate Limiting** - Global y por endpoint para prevenir abuso
-- 📊 **Roles y Permisos** - USER, EDITOR, ADMIN con permisos granulares
-- 📝 **Winston Logger** - Logging estructurado con rotación de archivos
-- 🐛 **Sentry Integration** - Error tracking y monitoring en producción
-- 🔄 **Health Checks** - Monitoring y status del servicio
-- 📚 **Swagger/OpenAPI** - Documentación interactiva automática
-- 🐳 **Docker Ready** - Containerización completa
-- 🚀 **CI/CD** - GitHub Actions para testing y deployment
+src/
+├── app/                      # Next.js App Router
+│   ├── (auth)/              # Rutas auth (grupo)
+│   ├── (main)/              # Rutas principales
+│   ├── layout.tsx
+│   └── page.tsx
+│
+├── features/                 # 🎯 Organizadas por funcionalidad
+│   ├── auth/
+│   │   ├── components/      # LoginForm, SignupForm
+│   │   ├── hooks/           # useAuth, useSession
+│   │   ├── services/        # authService.ts
+│   │   ├── types/           # User, Session
+│   │   └── store/           # authStore.ts
+│   │
+│   ├── dashboard/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   └── types/
+│   │
+│   └── [tu-feature]/
+│
+└── shared/                   # Código reutilizable
+    ├── components/          # Button, Card, Input
+    ├── hooks/               # useDebounce, useLocalStorage
+    ├── stores/              # appStore.ts
+    ├── types/               # api.ts, domain.ts
+    ├── utils/               # helpers
+    ├── lib/                 # supabase.ts, axios.ts
+    └── constants/
 ```
+
+> **¿Por qué Feature-First?** Cada feature tiene TODO lo necesario en un solo lugar. Perfecto para que la IA entienda contexto completo sin navegar múltiples carpetas.
 
 ## 🚀 Quick Start
 
-### Prerrequisitos
-
-- **Node.js** >= 18
-- **pnpm** 9.0.0 (automático con packageManager)
-- **Docker** (para PostgreSQL)
-
-### Instalación
+### 1. Instalar Dependencias
 
 ```bash
-# 1. Clonar el repositorio
-git clone <repository-url>
-cd conozca-monorepo
-
-# 2. Instalar dependencias
+npm install
+# o
 pnpm install
-
-# 3. Iniciar PostgreSQL
-docker-compose up -d
-
-# 4. Configurar variables de entorno
-cp .env.example packages/database/.env
-
-# 5. Generar cliente Prisma
-cd packages/database
-pnpm prisma generate
-
-# 6. Aplicar migraciones
-pnpm prisma migrate deploy
-
-# 7. Iniciar todas las aplicaciones
-cd ../..
-pnpm dev
 ```
 
-### Aplicaciones Disponibles
-
-Después de ejecutar `pnpm dev`, las aplicaciones estarán disponibles en:
-
-- **Web**: http://localhost:3000
-- **Docs**: http://localhost:3001
-- **API**: http://localhost:4000
-
-## 📦 Packages
-
-### Apps
-
-#### `apps/api`
-API REST construida con NestJS con documentación Swagger/OpenAPI integrada. Maneja autenticación, artículos, y toda la lógica de negocio.
-
-**Puerto:** 4000  
-**Stack:** NestJS 11, Prisma, PostgreSQL, JWT, Swagger  
-**Documentación:** http://localhost:4000/api/docs  
-**Health Check:** http://localhost:4000/health
-
-**Features:**
-- ✅ Autenticación JWT con refresh tokens
-- ✅ Rate limiting (global + por endpoint)
-- ✅ Roles: USER, EDITOR, ADMIN
-- ✅ CRUD de artículos con estados
-- ✅ Sistema de bloques de contenido
-- ✅ Sistema de comentarios con moderación
-- ✅ Upload de archivos (Local/Cloudinary/S3)
-- ✅ Email service con Nodemailer
-- ✅ Winston logger con rotación de archivos
-- ✅ Sentry error tracking
-- ✅ Scheduling de publicaciones
-- ✅ SEO metadata
-- ✅ Redirects automáticos
-- ✅ Swagger UI interactivo
-
-#### `apps/web`
-Aplicación web principal del proyecto Conozca.
-
-**Puerto:** 3000  
-**Stack:** Next.js 16, React 19, Turbopack
-
-#### `apps/docs`
-Documentación del proyecto.
-
-**Puerto:** 3001  
-**Stack:** Next.js 16
-
-### Packages
-
-#### `packages/database`
-Contiene el schema de Prisma, migraciones y exporta el cliente configurado.
-
-**Responsabilidades:**
-- Schema de base de datos (models, enums, relations)
-- Migraciones
-- Cliente Prisma con driver adapter para PostgreSQL
-
-#### `packages/ui`
-Componentes React compartidos entre aplicaciones.
-
-#### `packages/eslint-config` y `packages/typescript-config`
-Configuraciones compartidas para mantener consistencia en el código.
-
-## 🗄️ Base de Datos
-
-### Schema Principal
-
-El proyecto usa PostgreSQL con Prisma 7. Los principales modelos son:
-
-- **User**: Usuarios del sistema (ADMIN, EDITOR, USER)
-- **Author**: Autores/firmas de artículos
-- **Category**: Categorías de contenido
-- **Article**: Artículos de la revista
-- **View**: Registro de visualizaciones (analíticas)
-
-### Comandos Útiles
+### 2. Configurar Variables de Entorno
 
 ```bash
-# Generar cliente Prisma (después de cambios en schema)
-cd packages/database
-pnpm prisma generate
+# Crear .env.local
+cp .env.example .env.local
 
-# Aplicar cambios al schema (desarrollo)
-pnpm prisma db push
-
-# Crear una migración
-pnpm prisma migrate dev --name nombre_migracion
-
-# Abrir Prisma Studio (GUI para ver datos)
-pnpm prisma studio
-
-# Conectarse directamente a PostgreSQL
-docker exec -it conozca-db psql -U admin -d conozca_db
+# Editar con tus credenciales de Supabase
+NEXT_PUBLIC_SUPABASE_URL=tu_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key
 ```
 
-## 🛠️ Scripts Disponibles
+### 3. Configurar MCPs (Opcional)
 
-En la raíz del monorepo:
+Edita `.mcp.json` con tu project ref de Supabase:
+
+```json
+{
+  "mcpServers": {
+    "supabase": {
+      "args": ["--project-ref=TU_PROJECT_REF"],
+      "env": {
+        "SUPABASE_ACCESS_TOKEN": "TU_TOKEN"
+      }
+    }
+  }
+}
+```
+
+### 4. Iniciar Desarrollo
 
 ```bash
-pnpm dev          # Iniciar todas las apps en modo desarrollo
-pnpm build        # Compilar todas las apps
-pnpm lint         # Ejecutar linter en todas las apps
-pnpm format       # Formatear código con Prettier
+npm run dev
+# Auto-detecta puerto disponible (3000-3006)
 ```
 
-## 🔧 Configuración de Prisma 7
+## 🛠️ Comandos Disponibles
 
-Este proyecto usa **Prisma 7**, que introdujo cambios importantes:
+### Development
+```bash
+npm run dev          # Servidor desarrollo (auto-port 3000-3006)
+npm run build        # Build para producción
+npm run start        # Servidor producción
+```
 
-1. **No se usa `url` en el schema**: La URL de conexión se configura en `prisma.config.ts`
-2. **Driver Adapters obligatorios**: Se usa `@prisma/adapter-pg` con `pg` para conexión directa
-3. **Constructor con adapter**: El `PrismaClient` recibe el adapter en el constructor
+### Quality Assurance
+```bash
+npm run test         # Tests con Jest
+npm run test:watch   # Tests en modo watch
+npm run lint         # ESLint
+npm run lint:fix     # Fix automático
+npm run typecheck    # TypeScript check
+```
 
-Ver `apps/api/src/prisma.service.ts` para la implementación.
+### Skills Management
+```bash
+# Crear nuevo skill
+python .claude/skills/skill-creator/scripts/init_skill.py my-skill
 
-## 📝 Convenciones de Código
+# Validar skill
+python .claude/skills/skill-creator/scripts/quick_validate.py ./my-skill
 
-- **TypeScript** para todo el código
-- **ESLint + Prettier** para formateo consistente
-- **Conventional Commits** para mensajes de commit
-- **pnpm workspaces** para gestión de monorepo
-- **Turbo** para builds y dev en paralelo
+# Empaquetar skill
+python .claude/skills/skill-creator/scripts/package_skill.py ./my-skill
+```
 
-## 🐳 Docker
+## 🤖 Claude Code Integration
 
-El proyecto incluye PostgreSQL containerizado:
+### Comandos Disponibles
+
+| Comando | Descripción |
+|---------|-------------|
+| `/explorador` | Explora codebase y arquitectura |
+| `/ejecutar-prp` | Ejecuta PRPs (features complejas) |
+| `/generar-prp` | Genera nuevo PRP |
+| `/preparar-paralelo` | Prepara tareas paralelas |
+| `/ejecutar-paralelo` | Ejecuta en paralelo |
+
+### Agentes Especializados
+
+1. **Codebase Analyst** - Analiza arquitectura y patrones
+2. **Gestor Documentación** - Mantiene docs actualizados
+
+### MCPs Configurados (El Cyborg)
+
+- 🧠 **Next.js DevTools** - Conectado a `/_next/mcp` para debug en tiempo real
+- 👁️ **Playwright** - Validación visual y testing automatizado
+- 🗄️ **Supabase** - Integración directa con DB y auth
+
+## 🎨 Bucle Agéntico con Playwright
+
+Este setup incluye integración con Playwright MCP para desarrollo visual:
+
+```
+1. Implementar componente
+2. Capturar screenshot automático
+3. Comparar vs requirements
+4. Iterar hasta pixel-perfect
+```
+
+Lee `.claude/prompts/bucle-agentico.md` para más detalles.
+
+## 📝 Crear tu Primera Feature
+
+### Opción 1: Manual
 
 ```bash
-# Iniciar PostgreSQL
-docker-compose up -d
-
-# Ver logs
-docker logs conozca-db
-
-# Detener
-docker-compose down
-
-# Detener y eliminar volúmenes
-docker-compose down -v
+mkdir -p src/features/mi-feature/{components,hooks,services,types,store}
 ```
 
-## ✅ Estado del Proyecto
+### Opción 2: Con PRP
 
-### ✅ Fase 1: Production Ready - COMPLETADA
+```bash
+# En Claude Code, ejecuta:
+/generar-prp
 
-**Completado:**
-- ✅ Endpoint-level throttling en endpoints sensibles
-- ✅ Migraciones Prisma (Session, EmailVerificationToken, Redirect, ArticleSchedule)
-- ✅ Docker multi-stage con Alpine
-- ✅ docker-compose.yml completo (postgres, api, pgadmin)
-- ✅ Scripts de deployment (deploy.sh, rollback.sh, generate-secrets.sh)
-- ✅ GitHub Actions CI/CD (6 jobs: lint, test, e2e, build, deploy)
-- ✅ Health check endpoint
-- ✅ Environment configuration (.env.example)
-- ✅ Documentación de deployment
+# Describe tu feature, el agente generará:
+# - Estructura completa
+# - Componentes base
+# - Hooks necesarios
+# - Types + validaciones
+# - Tests
+```
 
-**Ver:** [DEPLOYMENT.md](DEPLOYMENT.md)
+## 🔒 Supabase Setup
 
-### ✅ Fase 2: Documentación & Developer Experience - COMPLETADA
+### 1. Crear Proyecto en Supabase
 
-**Completado:**
-- ✅ Swagger/OpenAPI integrado (http://localhost:4000/api/docs)
-- ✅ Todos los DTOs documentados con @ApiProperty
-- ✅ Auth controller completamente documentado
-- ✅ Article controller con estructura base
-- ✅ Guía completa de API con ejemplos
-- ✅ Rate limiting visible en docs
-- ✅ Roles y permisos documentados
-- ✅ Integration guides para React/Next.js
-- ✅ Postman collection con todos los endpoints
-- ✅ 217 tests pasando (134 unit + 83 E2E)
+```bash
+# Visita: https://supabase.com/dashboard
+# Crea nuevo proyecto
+# Copia URL y Anon Key
+```
 
-**Ver:** [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
+### 2. Configurar Cliente
 
-### ✅ Fase 3: Backend Optimizations - COMPLETADA ✨
+El cliente ya está configurado en `src/shared/lib/supabase.ts`:
 
-**Completado:**
-- ✅ Winston Logger (140 lines) - Logging estructurado con rotación diaria
-- ✅ Email Service (180 lines) - Nodemailer con verificación/reset/notificaciones
-- ✅ Upload Service (200+ lines) - Soporte Local/Cloudinary/S3 con CDN
-- ✅ Comments System (350+ lines) - CRUD con moderación y reportes (13/13 tests ✅)
-- ✅ Sentry Integration (240 lines) - Error tracking y performance monitoring
-- ✅ Migración de base de datos para comentarios
-- ✅ .env.example con 65 variables configurables
-- ✅ Code examples para todas las features
-- ✅ Deployment guides (staging + production)
-- ✅ Setup & verification scripts
-- ✅ TypeScript compilation: 0 errors
-- ✅ **PRODUCTION READY** 🚀
+```typescript
+import { createClient } from '@supabase/supabase-js'
 
-**Ver:**
-- [BACKEND_OPTIMIZATIONS.md](BACKEND_OPTIMIZATIONS.md) - Guía completa 5,000+ palabras
-- [PHASE3_FINAL_SUMMARY.md](PHASE3_FINAL_SUMMARY.md) - Resumen de entrega Phase 3
-- [PHASE3_ALL_STEPS_COMPLETED.md](PHASE3_ALL_STEPS_COMPLETED.md) - Todos los pasos realizados
-- [DEPLOYMENT_PRODUCTION_READY.md](DEPLOYMENT_PRODUCTION_READY.md) - Guía deployment
-- [EXAMPLES_USAGE.md](EXAMPLES_USAGE.md) - Ejemplos de código
-- [PHASE3_BACKEND_QUICK_REFERENCE.md](PHASE3_BACKEND_QUICK_REFERENCE.md) - Quick reference para developers
+export const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
+```
 
-### 🚀 Próximas Fases
+### 3. Crear Migraciones
 
-**Fase 4 (Frontend Development):**
-- [ ] Web application con Next.js
-- [ ] Panel de administración
-- [ ] Editor de artículos avanzado
-- [ ] Integración de comentarios en frontend
-- [ ] Upload de imágenes en editor
+```bash
+# Guardar migraciones en supabase/migrations/
+# Ejemplo: supabase/migrations/001_create_users.sql
+```
 
-**Fase 5 (Advanced Features):**
-- [ ] Notificaciones en tiempo real
-- [ ] Sistema de búsqueda avanzada (Elasticsearch)
-- [ ] CDN y optimización de assets
-- [ ] Analytics dashboard
-- [ ] Newsletter system
+## 🧪 Testing Strategy
+
+### Unit Tests
+
+```typescript
+// src/features/auth/hooks/useAuth.test.ts
+import { renderHook } from '@testing-library/react'
+import { useAuth } from './useAuth'
+
+test('should authenticate user', async () => {
+  const { result } = renderHook(() => useAuth())
+  await result.current.login('test@example.com', 'password')
+  expect(result.current.user).toBeDefined()
+})
+```
+
+### Run Tests
+
+```bash
+npm run test                    # Run all tests
+npm run test:watch              # Watch mode
+npm run test:coverage           # Coverage report
+```
+
+## 🎯 Best Practices
+
+### Component Structure
+
+```typescript
+// ✅ GOOD: Clear props, typed, documented
+interface ButtonProps {
+  children: React.ReactNode
+  variant?: 'primary' | 'secondary'
+  onClick: () => void
+}
+
+export function Button({ children, variant = 'primary', onClick }: ButtonProps) {
+  return (
+    <button
+      onClick={onClick}
+      className={`btn btn-${variant}`}
+    >
+      {children}
+    </button>
+  )
+}
+```
+
+### Feature Organization
+
+```typescript
+// ✅ GOOD: Todo relacionado en un lugar
+src/features/auth/
+├── components/     # UI específicos de auth
+├── hooks/          # Lógica de auth
+├── services/       # API calls
+├── types/          # Types de auth
+└── store/          # Estado de auth
+```
 
 ## 📚 Documentación
 
-- **[API Documentation](API_DOCUMENTATION.md)** - Guía completa de la API REST
-- **[Backend Optimizations](BACKEND_OPTIMIZATIONS.md)** - Guía Phase 3: logger, email, uploads, comments, Sentry (5,000+ palabras)
-- **[Phase 3 Summary](PHASE3_FINAL_SUMMARY.md)** - Resumen de entrega Phase 3
-- **[Phase 3 Complete Steps](PHASE3_ALL_STEPS_COMPLETED.md)** - Todos los próximos pasos realizados
-- **[Production Deployment](DEPLOYMENT_PRODUCTION_READY.md)** - Guía staging + production
-- **[Code Examples](EXAMPLES_USAGE.md)** - Ejemplos prácticos para todas las features
-- **[Quick Reference](PHASE3_BACKEND_QUICK_REFERENCE.md)** - Comandos rápidos para developers
-- **[Integration Guides](INTEGRATION_GUIDES.md)** - Ejemplos de consumo en React/Next.js y Node
-- **[Deployment Guide](DEPLOYMENT.md)** - Instrucciones de deployment básico
-- **[Testing Guide](apps/api/TESTING_GUIDE.md)** - Testing unitario y E2E
-- **[Phase 1 Summary](FASE_1_PRODUCTION_READY.md)** - Resumen Fase 1
-- **[Phase 2 Summary](PHASE2_COMPLETION_SUMMARY.md)** - Resumen Fase 2
-- **[Swagger UI](http://localhost:4000/api/docs)** - Documentación interactiva
-- **Colección Postman**: [postman/ConozcaAPI.postman_collection.json](postman/ConozcaAPI.postman_collection.json)
-- **Environments Postman**: 
-  - [Local](postman/ConozcaAPI.postman_environment.json)
-  - [Staging](postman/ConozcaAPI.postman_environment.staging.json)
-  - [Production](postman/ConozcaAPI.postman_environment.production.json)
+- **CLAUDE.md** - System prompt completo (la fuente de verdad)
+- **.claude/prompts/** - Metodologías y patrones
+- **.claude/PRPs/prp-base.md** - Sistema de Blueprints
+- **.claude/skills/** - Skills reutilizables
 
-Ver [ROADMAP.md](./ROADMAP.md) para el plan completo de 12 fases de desarrollo.
+## 🚨 Troubleshooting
+
+### Puerto Ocupado (EADDRINUSE)
+
+```bash
+# El auto-port detection debería resolver esto
+# Si persiste:
+lsof -i :3000
+kill -9 <PID>
+
+# O usa el script directamente:
+node scripts/dev-server.js
+```
+
+### TypeScript Errors
+
+```bash
+npm run typecheck          # Verificar errores
+rm -rf .next               # Limpiar cache
+npm install                # Reinstalar deps
+```
+
+### Tests Failing
+
+```bash
+npm run test -- --clearCache    # Limpiar cache de Jest
+npm run test -- --verbose       # Ver detalles
+```
+
+## 🎯 Próximos Pasos
+
+1. **Lee CLAUDE.md** - Principios y convenciones completas
+2. **Configura Supabase** - Auth + Database
+3. **Crea tu primera feature** - Usa `/generar-prp`
+4. **Implementa autenticación** - Feature auth incluida
+5. **Deploy** - Vercel/Netlify ready
 
 ## 🤝 Contribuir
 
-1. Crear una rama desde `main`
-2. Hacer cambios siguiendo las convenciones
-3. Asegurar que `pnpm lint` y `pnpm build` pasen
-4. Crear Pull Request
+Este template está diseñado para ser extendido. Algunas ideas:
 
-## 📄 Licencia
+- [ ] Añadir más features base (notifications, settings)
+- [ ] Crear más skills específicos
+- [ ] Mejorar PRPs templates
+- [ ] Añadir más tests de ejemplo
 
-UNLICENSED - Proyecto privado
+## 📦 Deploy
+
+### Vercel (Recomendado)
+
+```bash
+npm install -g vercel
+vercel
+```
+
+### Configurar Variables de Entorno
+
+En tu dashboard de Vercel, añade:
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+---
+
+**Next.js + Claude Code Setup v1.0** | Built with AI-first development in mind 🤖

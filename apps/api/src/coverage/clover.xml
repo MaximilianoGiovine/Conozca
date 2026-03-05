@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1767894678411" clover="3.2.0">
+  <project timestamp="1767894678411" name="All files">
+    <metrics statements="149" coveredstatements="90" conditionals="110" coveredconditionals="67" methods="28" coveredmethods="16" elements="287" coveredelements="173" complexity="0" loc="149" ncloc="149" packages="2" files="12" classes="12"/>
+    <package name="src">
+      <metrics statements="40" coveredstatements="13" conditionals="16" coveredconditionals="9" methods="8" coveredmethods="0"/>
+      <file name="app.controller.ts" path="/Volumes/ssd/conozca-monorepo/apps/api/src/app.controller.ts">
+        <metrics statements="6" coveredstatements="4" conditionals="8" coveredconditionals="6" methods="2" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="0" type="cond" truecount="3" falsecount="1"/>
+        <line num="9" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="10" count="0" type="stmt"/>
+      </file>
+      <file name="app.module.ts" path="/Volumes/ssd/conozca-monorepo/apps/api/src/app.module.ts">
+        <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+      </file>
+      <file name="app.service.ts" path="/Volumes/ssd/conozca-monorepo/apps/api/src/app.service.ts">
+        <metrics statements="6" coveredstatements="3" conditionals="4" coveredconditionals="3" methods="2" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="0" type="cond" truecount="3" falsecount="1"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+      </file>
+      <file name="main.ts" path="/Volumes/ssd/conozca-monorepo/apps/api/src/main.ts">
+        <metrics statements="7" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="14" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+      </file>
+      <file name="prisma.service.ts" path="/Volumes/ssd/conozca-monorepo/apps/api/src/prisma.service.ts">
+        <metrics statements="14" coveredstatements="6" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="24" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.auth">
+      <metrics statements="109" coveredstatements="77" conditionals="94" coveredconditionals="58" methods="20" coveredmethods="16"/>
+      <file name="auth.controller.ts" path="/Volumes/ssd/conozca-monorepo/apps/api/src/auth/auth.controller.ts">
+        <metrics statements="18" coveredstatements="18" conditionals="48" coveredconditionals="36" methods="7" coveredmethods="7"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="32" type="cond" truecount="3" falsecount="1"/>
+        <line num="38" count="1" type="cond" truecount="6" falsecount="2"/>
+        <line num="39" count="14" type="stmt"/>
+        <line num="58" count="1" type="cond" truecount="6" falsecount="2"/>
+        <line num="59" count="21" type="stmt"/>
+        <line num="77" count="1" type="cond" truecount="6" falsecount="2"/>
+        <line num="78" count="6" type="stmt"/>
+        <line num="95" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="96" count="5" type="stmt"/>
+        <line num="114" count="1" type="cond" truecount="6" falsecount="2"/>
+        <line num="115" count="8" type="stmt"/>
+        <line num="134" count="1" type="cond" truecount="6" falsecount="2"/>
+        <line num="135" count="11" type="stmt"/>
+      </file>
+      <file name="auth.dto.ts" path="/Volumes/ssd/conozca-monorepo/apps/api/src/auth/auth.dto.ts">
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+      </file>
+      <file name="auth.guard.ts" path="/Volumes/ssd/conozca-monorepo/apps/api/src/auth/auth.guard.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+      </file>
+      <file name="auth.module.ts" path="/Volumes/ssd/conozca-monorepo/apps/api/src/auth/auth.module.ts">
+        <metrics statements="8" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+      </file>
+      <file name="auth.service.ts" path="/Volumes/ssd/conozca-monorepo/apps/api/src/auth/auth.service.ts">
+        <metrics statements="60" coveredstatements="50" conditionals="38" coveredconditionals="22" methods="9" coveredmethods="9"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="19" count="32" type="cond" truecount="6" falsecount="2"/>
+        <line num="20" count="32" type="stmt"/>
+        <line num="31" count="11" type="stmt"/>
+        <line num="34" count="11" type="stmt"/>
+        <line num="38" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="43" count="10" type="stmt"/>
+        <line num="46" count="10" type="stmt"/>
+        <line num="56" count="10" type="stmt"/>
+        <line num="58" count="10" type="stmt"/>
+        <line num="78" count="2" type="stmt"/>
+        <line num="81" count="2" type="stmt"/>
+        <line num="85" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="86" count="2" type="stmt"/>
+        <line num="90" count="0" type="stmt"/>
+        <line num="92" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="93" count="0" type="stmt"/>
+        <line num="97" count="0" type="stmt"/>
+        <line num="99" count="0" type="stmt"/>
+        <line num="119" count="4" type="stmt"/>
+        <line num="121" count="4" type="stmt"/>
+        <line num="126" count="3" type="stmt"/>
+        <line num="130" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="131" count="1" type="stmt"/>
+        <line num="135" count="2" type="stmt"/>
+        <line num="137" count="2" type="stmt"/>
+        <line num="148" count="2" type="stmt"/>
+        <line num="160" count="3" type="stmt"/>
+        <line num="161" count="3" type="stmt"/>
+        <line num="165" count="2" type="stmt"/>
+        <line num="183" count="14" type="stmt"/>
+        <line num="186" count="14" type="stmt"/>
+        <line num="192" count="14" type="stmt"/>
+        <line num="197" count="14" type="stmt"/>
+        <line num="208" count="3" type="stmt"/>
+        <line num="211" count="3" type="stmt"/>
+        <line num="215" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="217" count="1" type="stmt"/>
+        <line num="223" count="2" type="stmt"/>
+        <line num="232" count="2" type="stmt"/>
+        <line num="234" count="2" type="stmt"/>
+        <line num="245" count="2" type="stmt"/>
+        <line num="258" count="6" type="stmt"/>
+        <line num="260" count="6" type="stmt"/>
+        <line num="262" count="6" type="stmt"/>
+        <line num="267" count="6" type="stmt"/>
+        <line num="271" count="6" type="cond" truecount="3" falsecount="1"/>
+        <line num="272" count="6" type="stmt"/>
+        <line num="276" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="277" count="0" type="stmt"/>
+        <line num="281" count="0" type="stmt"/>
+        <line num="284" count="0" type="stmt"/>
+        <line num="293" count="0" type="stmt"/>
+        <line num="295" count="6" type="stmt"/>
+        <line num="306" count="2" type="stmt"/>
+      </file>
+      <file name="jwt.strategy.ts" path="/Volumes/ssd/conozca-monorepo/apps/api/src/auth/jwt.strategy.ts">
+        <metrics statements="6" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+      </file>
+      <file name="role.guard.ts" path="/Volumes/ssd/conozca-monorepo/apps/api/src/auth/role.guard.ts">
+        <metrics statements="8" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="17" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

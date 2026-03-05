@@ -1,0 +1,28 @@
+[   20188ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/enlaces?_rsc=1sew8:0
+[   52858ms] ReferenceError: PublicPageWrapper is not defined
+    at EnlacesPage (about://React/Server/file:///Volumes/ssd/conozca-monorepo/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__37b9982a._.js?138:86:264)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:1894:106)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2402:29)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2361:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2470:221)
+    at progress (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2640:13)
+[   52915ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/enlaces:0
+[   53193ms] ReferenceError: PublicPageWrapper is not defined
+    at EnlacesPage (about://React/Server/file:///Volumes/ssd/conozca-monorepo/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__37b9982a._.js?0:86:264)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:1894:106)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2402:29)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2361:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2470:221)
+    at progress (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2640:13)
+[   53841ms] [ERROR] ./src/app/[locale]/enlaces/page.tsx:75:11
+Parsing ecmascript source code failed
+  73 |                 </div>
+  74 |             </div>
+> 75 |         </PageShell>
+     |           ^^^^^^^^^
+  76 |     );
+  77 | }
+  78 |
+
+Expected corresponding JSX closing tag for <PublicPageWrapper> @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[   56856ms] [WARNING] The resource http://localhost:3000/_next/static/chunks/src_app_globals_91e4631d.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/enlaces:0
