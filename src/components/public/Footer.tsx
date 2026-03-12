@@ -1,139 +1,89 @@
 import Link from 'next/link'
 import { siteConfig } from '@/config/siteConfig'
-import {
-  BookOpenIcon,
-  MapPinIcon,
-  PhoneIcon,
-  MailIcon,
-  ClockIcon,
-  FacebookIcon,
-  InstagramIcon,
-  LinkedInIcon
-} from './icons'
+import { BookOpenIcon } from './icons'
 import { useTranslations } from 'next-intl'
 
 export function Footer() {
-  const { contact, social, services } = siteConfig
   const currentYear = new Date().getFullYear()
   const t = useTranslations('Footer')
-  const tNav = useTranslations('Navigation')
-  const tServ = useTranslations('Services')
 
   return (
     <footer className="bg-gray-950 text-gray-300">
       {/* Main footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Column 1: About */}
-          <div>
+
+          {/* Column 1: About & Vision */}
+          <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <BookOpenIcon className="w-7 h-7 text-amber-500" />
-              <span className="font-heading text-lg font-bold text-white">CONOZCA</span>
+              <span className="font-heading text-lg font-bold text-white uppercase">{siteConfig.firmName}</span>
             </Link>
-            <p className="text-body-sm text-gray-400 leading-relaxed mb-4">
-              Revista digital con historias pensadas, claras y creadas para enfocarse.
+            <p className="text-body-sm text-gray-400 leading-relaxed mb-6 font-semibold">
+              CONOZCA es el organo oficial del Servicio de Educación Cristiana de las Asambleas de Dios en América Latina.
             </p>
-            <p className="text-body-sm text-gray-400">
-              Cultura, Negocios y Diseño.
+
+            <h3 className="font-heading text-white font-semibold mb-3">Declaración de Visión</h3>
+            <p className="text-body-sm text-gray-400 leading-relaxed">
+              CONOZCA, como la voz oficial del SEC, existe para informar, motivar, orientar y equipar a los educadores cristianos de las Asambleas de Dios de habla hispana, en las áreas espiritual, teológica y ministerial.
             </p>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* Column 2: Editorial Board */}
           <div>
-            <h3 className="font-heading text-white font-semibold mb-4">{t('aboutUs')}</h3>
-            <ul className="space-y-2.5">
-              {siteConfig.navigation.items.map((item) => (
-                <li key={item.label}>
-                  <Link href={item.href} className="text-body-sm text-gray-400 hover:text-amber-500 transition-colors">
-                    {tNav(item.label)}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <Link href="/privacidad" className="text-body-sm text-gray-400 hover:text-amber-500 transition-colors">
-                  {t('privacyPolicy')}
-                </Link>
-              </li>
-              <li>
-                <Link href="/terminos" className="text-body-sm text-gray-400 hover:text-teal-400 transition-colors">
-                  {t('termsOfService')}
-                </Link>
-              </li>
+            <h3 className="font-heading text-white font-semibold mb-4">Comisión Editorial</h3>
+            <ul className="space-y-2 text-body-sm text-gray-400">
+              <li><span className="font-semibold text-gray-300">Editor:</span> Nicolás Marcón </li>
+              <li className="pt-2">Jaime A. Mazurek</li>
+              <li>Pablo Kazim</li>
+              <li>Silverio Manuel Bello</li>
+              <li>Jorge Canto</li>
+              <li>Esteban Pari</li>
+              <li>Betty Zenone</li>
+              <li>Jon Dahlager</li>
+              <li>Miguel Morales</li>
             </ul>
           </div>
 
-          {/* Column 3: Magazine */}
+          {/* Column 3: Magazine Links */}
           <div>
-            <h3 className="font-heading text-white font-semibold mb-4">Magazine</h3>
+            <h3 className="font-heading text-white font-semibold mb-4">Mapeo del Sitio</h3>
             <ul className="space-y-2.5">
               <li>
+                <Link href="/" className="text-body-sm text-gray-400 hover:text-amber-500 transition-colors">
+                  Inicio
+                </Link>
+              </li>
+              <li>
                 <Link href="/blog" className="text-body-sm text-gray-400 hover:text-amber-500 transition-colors">
-                  Últimos Artículos
+                  Artículos
                 </Link>
               </li>
               <li>
                 <Link href="/enlaces" className="text-body-sm text-gray-400 hover:text-amber-500 transition-colors">
-                  Enlaces Útiles
+                  Enlaces
+                </Link>
+              </li>
+              <li>
+                <Link href="/acerca-de" className="text-body-sm text-gray-400 hover:text-amber-500 transition-colors">
+                  Acerca de
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 4: Contact */}
-          <div>
-            <h3 className="font-heading text-white font-semibold mb-4">{t('getInTouch')}</h3>
-            <ul className="space-y-3">
-              <li>
-                <span className="text-body-xs text-gray-500 block">{siteConfig.firmName}</span>
-                <div className="flex items-start gap-2 mt-1">
-                  <MapPinIcon className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
-                  <span className="text-body-sm">{contact.address}, {contact.city}, {contact.country}</span>
-                </div>
-              </li>
-              <li>
-                <a href={`tel:${contact.phone}`} className="flex items-center gap-2 text-body-sm hover:text-amber-500 transition-colors">
-                  <PhoneIcon className="w-4 h-4 text-amber-500" />
-                  {contact.phoneDisplay}
-                </a>
-              </li>
-              <li>
-                <a href={`mailto:${contact.email}`} className="flex items-center gap-2 text-body-sm hover:text-amber-500 transition-colors">
-                  <MailIcon className="w-4 h-4 text-amber-500" />
-                  {contact.email}
-                </a>
-              </li>
-              <li className="flex items-center gap-2 text-body-sm">
-                <ClockIcon className="w-4 h-4 text-amber-500" />
-                {contact.officeHours}
-              </li>
-            </ul>
-
-            {/* Social links */}
-            <div className="flex items-center gap-3 mt-5">
-              {social.facebook && (
-                <a href={social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-9 h-9 rounded-full bg-gray-900 hover:bg-gray-800 flex items-center justify-center transition-colors">
-                  <FacebookIcon className="w-4 h-4 text-teal-400" />
-                </a>
-              )}
-              {social.instagram && (
-                <a href={social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-9 h-9 rounded-full bg-gray-900 hover:bg-gray-800 flex items-center justify-center transition-colors">
-                  <InstagramIcon className="w-4 h-4 text-teal-400" />
-                </a>
-              )}
-              {social.linkedin && (
-                <a href={social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-9 h-9 rounded-full bg-gray-900 hover:bg-gray-800 flex items-center justify-center transition-colors">
-                  <LinkedInIcon className="w-4 h-4 text-teal-400" />
-                </a>
-              )}
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-body-xs text-gray-500">
+      {/* Copyright rules bar */}
+      <div className="border-t border-gray-900 bg-gray-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <h4 className="text-white font-semibold mb-3 text-sm">Derechos Del Autor</h4>
+          <p className="text-xs text-gray-500 leading-relaxed max-w-4xl mb-6">
+            Todos los contenidos en CONOZCA.org son propiedad de Revista CONOZCA y el Servicio de Educación Cristiana. Para reproducir un artículo sírvase pedir permiso al Editor. Se permite la cita directa de citas textuales breves para fines académicos. Dirige toda correspondencia a: <a href="mailto:conozcaeditor@gmail.com" className="hover:text-amber-500 transition-colors">conozcaeditor@gmail.com</a>
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-body-xs text-gray-600 border-t border-gray-900 pt-5">
             <p>Copyright &copy; {currentYear} {siteConfig.firmName}. {t('allRightsReserved')}</p>
             <div className="flex items-center gap-4">
               <Link href="/privacidad" className="hover:text-amber-500 transition-colors">{t('privacyPolicy')}</Link>
