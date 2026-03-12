@@ -5,18 +5,19 @@ import {
     LayoutDashboard, FileText, MessageSquare, Users, UserCheck, LogOut
 } from 'lucide-react'
 
-const navItems = [
-    { href: '/admin-dashboard', label: 'Stats', icon: LayoutDashboard },
-    { href: '/admin-dashboard/articles', label: 'Artículos', icon: FileText },
-    { href: '/admin-dashboard/comments', label: 'Comentarios', icon: MessageSquare },
-    { href: '/admin-dashboard/authors', label: 'Autores', icon: UserCheck },
-    { href: '/admin-dashboard/users', label: 'Usuarios', icon: Users },
+const allNavItems = [
+    { href: '/admin-dashboard', label: 'Stats', icon: LayoutDashboard, roles: ['admin', 'superadmin'] },
+    { href: '/admin-dashboard/articles', label: 'Artículos', icon: FileText, roles: ['editor', 'admin', 'superadmin'] },
+    { href: '/admin-dashboard/comments', label: 'Comentarios', icon: MessageSquare, roles: ['admin', 'superadmin'] },
+    { href: '/admin-dashboard/authors', label: 'Autores', icon: UserCheck, roles: ['admin', 'superadmin'] },
+    { href: '/admin-dashboard/users', label: 'Usuarios', icon: Users, roles: ['superadmin'] },
 ]
 
 interface Props { userRole: string }
 
 export function CmsSidebar({ userRole }: Props) {
     const pathname = usePathname()
+    const navItems = allNavItems.filter(item => item.roles.includes(userRole))
 
     return (
         <aside className="w-64 bg-gray-900 border-r border-gray-800 flex flex-col min-h-screen sticky top-0">

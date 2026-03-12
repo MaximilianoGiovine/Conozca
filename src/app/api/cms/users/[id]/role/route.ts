@@ -11,8 +11,16 @@ export async function PUT(request: NextRequest, { params }: Params) {
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     try {
-        const { role } = await request.json()
-        await cmsService.updateUserRole(id, role)
+        const body = await request.json()
+        
+        if (body.role !== undefined) {
+             await cmsService.updateUserRole(id, body.role)
+        }
+        
+        if (body.is_approved !== undefined) {
+             await cmsService.updateUserApproval(id, body.is_approved)
+        }
+        
         return NextResponse.json({ success: true })
     } catch (e: any) {
         return NextResponse.json({ error: e.message }, { status: 500 })

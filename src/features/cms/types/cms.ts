@@ -15,6 +15,7 @@ export interface ArticleListItem {
     published_at: string | null
     created_at: string
     updated_at: string
+    author_name: string | null
     author?: {
         id: string
         slug: string
@@ -53,6 +54,7 @@ export interface UserListItem {
     avatar_url: string | null
     created_at: string
     role?: string
+    is_approved?: boolean
 }
 
 export type TranslationLanguage = 'es' | 'en' | 'fr' | 'pt'
@@ -67,6 +69,7 @@ export interface ArticleTranslationDraft {
 export interface ArticleDraft {
     slug: string
     category_id: string | null
+    author_name: string | null
     published_at: string | null
     translations: ArticleTranslationDraft[]
 }

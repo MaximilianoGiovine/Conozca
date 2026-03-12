@@ -26,12 +26,14 @@ interface Props {
         slug: string
         category_id: string | null
         published_at: string | null
+        author_name: string | null
         translations: ArticleTranslationDraft[]
     }
 }
 
 export function ArticleEditor({ articleId, initialData }: Props) {
     const [slug, setSlug] = useState(initialData?.slug ?? '')
+    const [authorName, setAuthorName] = useState(initialData?.author_name ?? '')
     const [categoryId, setCategoryId] = useState(initialData?.category_id ?? '')
     const [published, setPublished] = useState(!!initialData?.published_at)
     const [activeLang, setActiveLang] = useState<TranslationLanguage>('es')
@@ -65,12 +67,16 @@ export function ArticleEditor({ articleId, initialData }: Props) {
         try {
             const url = articleId ? `/api/cms/articles/${articleId}` : '/api/cms/articles'
             const method = articleId ? 'PUT' : 'POST'
+            const finalSlug = slug || activeTranslation.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+            if (!finalSlug) throw new Error('El artículo debe tener un título para generar su URL')
+
             const res = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    slug,
+                    slug: finalSlug,
                     category_id: categoryId || null,
+                    author_name: authorName || null,
                     published_at: published ? new Date().toISOString() : null,
                     translations: translations.filter(t => t.title && t.content),
                 }),
@@ -91,13 +97,13 @@ export function ArticleEditor({ articleId, initialData }: Props) {
             {/* Metadata row */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="md:col-span-2">
-                    <label className="text-xs text-gray-500 font-medium uppercase tracking-wide block mb-1">Slug URL</label>
+                    <label className="text-xs text-gray-500 font-medium uppercase tracking-wide block mb-1">Autor del Artículo</label>
                     <input
                         type="text"
-                        value={slug}
-                        onChange={e => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
-                        placeholder="mi-articulo-academico"
-                        className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-amber-500 font-mono"
+                        value={authorName}
+                        onChange={e => setAuthorName(e.target.value)}
+                        placeholder="Ej. Juan Pérez"
+                        className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-amber-500"
                     />
                 </div>
                 <div>
@@ -208,7 +214,7 @@ export function ArticleEditor({ articleId, initialData }: Props) {
                 <button
                     type="button"
                     onClick={handleSave}
-                    disabled={saving || !slug}
+                    disabled={saving || (!slug && !activeTranslation.title)}
                     className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 disabled:bg-amber-500/40 text-gray-900 font-bold px-6 py-3 rounded-xl transition-colors"
                 >
                     {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}

@@ -45,7 +45,7 @@ export default async function ArticlesPage() {
                             const title = article.translations?.find(t => t.language_code === 'es')?.title
                                 ?? article.translations?.[0]?.title ?? article.slug
                             const langs = article.translations?.map(t => t.language_code) ?? []
-                            const authorName = (article.author as any)?.user?.full_name ?? (article.author as any)?.slug ?? '—'
+                            const authorName = article.author_name ?? (article.author as any)?.user?.full_name ?? (article.author as any)?.slug ?? '—'
 
                             return (
                                 <tr key={article.id} className="border-b border-gray-800/50 hover:bg-gray-900/40 transition-colors">

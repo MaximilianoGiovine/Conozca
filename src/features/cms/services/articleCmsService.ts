@@ -11,7 +11,8 @@ export const articleCmsService = {
             .from('articles')
             .insert({
                 slug: draft.slug,
-                author_id: authorId,
+                author_id: null, // Unlinked author ID for raw articles
+                author_name: draft.author_name,
                 category_id: draft.category_id,
                 published_at: draft.published_at,
             })
@@ -46,6 +47,7 @@ export const articleCmsService = {
             .from('articles')
             .update({
                 slug: draft.slug,
+                author_name: draft.author_name,
                 category_id: draft.category_id,
                 published_at: draft.published_at,
             })
@@ -75,7 +77,7 @@ export const articleCmsService = {
         const { data, error } = await supabase
             .from('articles')
             .select(`
-        id, slug, published_at, category_id,
+        id, slug, published_at, category_id, author_name,
         author:authors(id, slug),
         translations:article_translations(*)
       `)

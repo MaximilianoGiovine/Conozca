@@ -16,6 +16,7 @@ export function ArticleCard({ article }: { article: Article }) {
             )}
             <div className="text-sm text-gray-400 font-medium">
                 {article.published_at ? new Date(article.published_at).toLocaleDateString() : 'Borrador'}
+                {article.author_name && ` • Por ${article.author_name}`}
             </div>
         </div>
     );

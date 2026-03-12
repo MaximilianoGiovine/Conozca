@@ -34,7 +34,8 @@ export interface CategoryTranslation {
 export interface Article {
     id: string;
     slug: string;
-    author_id: string;
+    author_id?: string | null;
+    author_name?: string | null;
     category_id?: string;
     published_at?: string;
     created_at: string;

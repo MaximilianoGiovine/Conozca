@@ -16,7 +16,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         .single()
 
     const role = roleData?.role
-    if (!role || !['superadmin', 'admin'].includes(role)) {
+    if (!role || !['superadmin', 'admin', 'editor'].includes(role)) {
         redirect('/')
     }
 
