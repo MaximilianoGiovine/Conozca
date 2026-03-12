@@ -80,9 +80,7 @@ export default function EnlacesPage() {
                                         src={resource.imagePath} 
                                         alt={`Logo de ${resource.title}`}
                                         className="max-h-full max-w-full object-contain p-2"
-                                        onError={(e) => {
-                                            (e.target as HTMLImageElement).style.display = 'none';
-                                        }}
+
                                     />
                                     <span className="absolute text-xs text-gray-400 -z-10 text-center px-4">
                                         Imagen pendiente: {resource.imagePath}
