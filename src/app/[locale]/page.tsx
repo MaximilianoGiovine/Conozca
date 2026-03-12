@@ -67,6 +67,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <div className={styles.cardFooter}>
               <div className={styles.authorStack}>
                 <span className={styles.authorAvatar} />
+                {mainFeatured?.author_name && (
+                    <span className="text-sm font-medium text-gray-700">{mainFeatured.author_name}</span>
+                )}
               </div>
               {mainFeatured ? (
                 <Link className={styles.textButton} href={`/blog/${mainFeatured.slug}`}>
@@ -96,6 +99,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                     {item.translation?.excerpt || "Análisis calmado y preciso con detalles para mentes enfocadas."}
                   </p>
                   <div className={styles.cardFooter}>
+                    <div className="text-xs text-gray-500 font-medium my-auto">
+                        {item.author_name ? `Por ${item.author_name}` : ''}
+                    </div>
                     <Link className={styles.textButton} href={`/blog/${item.slug}`}>
                       Abrir
                     </Link>
@@ -121,6 +127,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 <article key={item.id} className={styles.latestCard}>
                   <span className={styles.latestTag}>Editorial</span>
                   <h4>{item.translation?.title}</h4>
+                  {item.author_name && <p className="text-xs text-gray-500 mb-2">Por {item.author_name}</p>}
                   <Link className={styles.textButton} href={`/blog/${item.slug}`}>
                     Leer
                   </Link>

@@ -18,7 +18,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ locale
                         {article.translation.title}
                     </h1>
                     <div className="flex items-center justify-center space-x-4 text-gray-500 dark:text-gray-400">
-                        <span>{article.published_at && new Date(article.published_at).toLocaleDateString(locale)}</span>
+                        {article.published_at && (
+                            <span>{new Date(article.published_at).toLocaleDateString(locale)}</span>
+                        )}
+                        {article.author_name && (
+                            <>
+                                <span>•</span>
+                                <span>Por {article.author_name}</span>
+                            </>
+                        )}
                     </div>
                 </header>
                 <div className="prose prose-lg dark:prose-invert mx-auto">
