@@ -11,8 +11,9 @@ interface UserManagementProps {
 }
 
 const ROLES: { value: UserRole; label: string; color: string }[] = [
+  { value: 'superadmin', label: 'Superadmin', color: 'bg-amber-100 text-amber-700' },
   { value: 'admin', label: 'Admin', color: 'bg-secondary-100 text-secondary-700' },
-  { value: 'lawyer', label: 'Abogado', color: 'bg-accent-100 text-accent-700' },
+  { value: 'editor', label: 'Editor', color: 'bg-purple-100 text-purple-700' },
   { value: 'client', label: 'Cliente', color: 'bg-success-100 text-success-700' },
 ]
 

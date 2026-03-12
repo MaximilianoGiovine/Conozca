@@ -29,7 +29,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { href: '/admin-dashboard', label: 'CMS Dashboard', icon: HomeIcon, roles: ['admin', 'superadmin'] },
-  { href: '/admin-dashboard/articles', label: 'Artículos', icon: FileTextIcon, roles: ['admin', 'superadmin', 'author'] },
+  { href: '/admin-dashboard/articles', label: 'Artículos', icon: FileTextIcon, roles: ['admin', 'superadmin', 'editor'] },
   { href: '/admin-dashboard/comments', label: 'Comentarios', icon: MessageSquareIcon, roles: ['admin', 'superadmin'] },
   { href: '/admin-dashboard/authors', label: 'Autores', icon: UserCheckIcon, roles: ['admin', 'superadmin'] },
   { href: '/admin-dashboard/users', label: 'Usuarios', icon: UsersIcon, roles: ['superadmin'] },
@@ -87,8 +87,7 @@ export function Sidebar() {
     const badges: Record<string, { label: string, color: string }> = {
       superadmin: { label: 'Superadmin', color: 'bg-amber-600' },
       admin: { label: 'Admin', color: 'bg-amber-500' },
-      author: { label: 'Autor', color: 'bg-purple-500' },
-      lawyer: { label: 'Abogado', color: 'bg-accent-500' },
+      editor: { label: 'Editor', color: 'bg-purple-500' },
       client: { label: 'Cliente', color: 'bg-success-500' },
       user: { label: 'Usuario', color: 'bg-gray-500' },
     }

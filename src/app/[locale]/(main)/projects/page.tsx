@@ -21,7 +21,7 @@ export default async function ProjectsPage() {
     .eq('id', user.id)
     .single()
 
-  const userRole = profile?.role as 'client' | 'lawyer' | 'admin'
+  const userRole = profile?.role as any
 
   // Clients don't have access to projects view
   if (userRole === 'client') {
