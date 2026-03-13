@@ -1,9 +1,9 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { AcademicEditor } from './AcademicEditor'
 import { ArticleImporter } from './ArticleImporter'
 import { TranslationPanel } from './TranslationPanel'
-import { Save, Globe, Eye, EyeOff, Loader2 } from 'lucide-react'
+import { Save, Globe, Eye, EyeOff, Loader2, CalendarClock, BookOpen } from 'lucide-react'
 import type { ArticleTranslationDraft, TranslationLanguage } from '../../types/cms'
 
 const LANGUAGES: { code: TranslationLanguage; label: string; flag: string }[] = [
@@ -11,6 +11,14 @@ const LANGUAGES: { code: TranslationLanguage; label: string; flag: string }[] = 
     { code: 'en', label: 'English', flag: '🇺🇸' },
     { code: 'fr', label: 'Français', flag: '🇫🇷' },
     { code: 'pt', label: 'Português', flag: '🇧🇷' },
+]
+
+const CATEGORIES = [
+    { id: '', label: 'Sin categoría' },
+    { id: '11111111-1111-1111-1111-111111111111', label: 'Literatura Bíblica' },
+    { id: '22222222-2222-2222-2222-222222222222', label: 'Teología' },
+    { id: '33333333-3333-3333-3333-333333333333', label: 'Ministerio' },
+    { id: '44444444-4444-4444-4444-444444444444', label: 'Misceláneo' },
 ]
 
 const emptyTranslation = (lang: TranslationLanguage): ArticleTranslationDraft => ({
@@ -35,7 +43,13 @@ export function ArticleEditor({ articleId, initialData }: Props) {
     const [slug, setSlug] = useState(initialData?.slug ?? '')
     const [authorName, setAuthorName] = useState(initialData?.author_name ?? '')
     const [categoryId, setCategoryId] = useState(initialData?.category_id ?? '')
-    const [published, setPublished] = useState(!!initialData?.published_at)
+    // Scheduling: null = draft, '' = publish now, filled = scheduled date
+    const [scheduledDate, setScheduledDate] = useState<string>(
+        initialData?.published_at
+            ? new Date(initialData.published_at).toISOString().slice(0, 16)
+            : ''
+    )
+    const [isScheduled, setIsScheduled] = useState(!!initialData?.published_at)
     const [activeLang, setActiveLang] = useState<TranslationLanguage>('es')
     const [translations, setTranslations] = useState<ArticleTranslationDraft[]>(
         LANGUAGES.map(l => initialData?.translations?.find(t => t.language_code === l.code) ?? emptyTranslation(l.code))
@@ -43,6 +57,7 @@ export function ArticleEditor({ articleId, initialData }: Props) {
     const [saving, setSaving] = useState(false)
     const [saved, setSaved] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    const [showPreview, setShowPreview] = useState(false)
 
     const activeTranslation = translations.find(t => t.language_code === activeLang) ?? emptyTranslation(activeLang)
 
@@ -61,6 +76,13 @@ export function ArticleEditor({ articleId, initialData }: Props) {
         }
     }
 
+    // Compute published_at: null for draft, scheduled date, or "now" for immediate publish
+    function getPublishedAt(): string | null {
+        if (!isScheduled) return null
+        if (scheduledDate) return new Date(scheduledDate).toISOString()
+        return new Date().toISOString()
+    }
+
     async function handleSave() {
         setSaving(true)
         setError(null)
@@ -77,7 +99,7 @@ export function ArticleEditor({ articleId, initialData }: Props) {
                     slug: finalSlug,
                     category_id: categoryId || null,
                     author_name: authorName || null,
-                    published_at: published ? new Date().toISOString() : null,
+                    published_at: getPublishedAt(),
                     translations: translations.filter(t => t.title && t.content),
                 }),
             })
@@ -92,11 +114,44 @@ export function ArticleEditor({ articleId, initialData }: Props) {
         }
     }
 
+    const previewArticle = translations.find(t => t.language_code === 'es') ?? translations[0]
+
     return (
         <div className="space-y-6">
+            {/* Preview overlay */}
+            {showPreview && (
+                <div className="fixed inset-0 z-50 bg-white overflow-auto">
+                    <div className="max-w-4xl mx-auto py-20 px-6">
+                        <div className="flex justify-end mb-6">
+                            <button
+                                onClick={() => setShowPreview(false)}
+                                className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-700"
+                            >
+                                <EyeOff className="w-4 h-4" /> Cerrar vista previa
+                            </button>
+                        </div>
+                        {authorName && (
+                            <p className="text-sm font-medium text-amber-700 mb-2">Por {authorName}</p>
+                        )}
+                        <h1 className="text-5xl font-extrabold text-gray-900 mb-6" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                            {previewArticle?.title || 'Sin título'}
+                        </h1>
+                        {previewArticle?.excerpt && (
+                            <p className="text-lg text-gray-600 italic mb-8 border-l-4 border-amber-500 pl-4">
+                                {previewArticle.excerpt}
+                            </p>
+                        )}
+                        <div
+                            className="prose prose-lg max-w-none text-gray-800"
+                            dangerouslySetInnerHTML={{ __html: previewArticle?.content || '<p>Sin contenido.</p>' }}
+                        />
+                    </div>
+                </div>
+            )}
+
             {/* Metadata row */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="md:col-span-2">
+                <div>
                     <label className="text-xs text-gray-500 font-medium uppercase tracking-wide block mb-1">Autor del Artículo</label>
                     <input
                         type="text"
@@ -107,20 +162,57 @@ export function ArticleEditor({ articleId, initialData }: Props) {
                     />
                 </div>
                 <div>
-                    <label className="text-xs text-gray-500 font-medium uppercase tracking-wide block mb-1">Estado</label>
+                    <label className="text-xs text-gray-500 font-medium uppercase tracking-wide block mb-1">Categoría</label>
+                    <select
+                        value={categoryId}
+                        onChange={e => setCategoryId(e.target.value)}
+                        className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-amber-500"
+                    >
+                        {CATEGORIES.map(cat => (
+                            <option key={cat.id} value={cat.id}>{cat.label}</option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label className="text-xs text-gray-500 font-medium uppercase tracking-wide block mb-1">Publicación</label>
                     <button
                         type="button"
-                        onClick={() => setPublished(!published)}
-                        className={`flex items-center gap-2 w-full px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${published
-                                ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                                : 'bg-gray-800 text-gray-400 border border-gray-700 hover:border-gray-600'
-                            }`}
+                        onClick={() => setIsScheduled(!isScheduled)}
+                        className={`flex items-center gap-2 w-full px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${isScheduled
+                            ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                            : 'bg-gray-800 text-gray-400 border border-gray-700 hover:border-gray-600'
+                        }`}
                     >
-                        {published ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-                        {published ? 'Publicado' : 'Borrador'}
+                        {isScheduled ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                        {isScheduled ? 'Publicado / Programado' : 'Borrador'}
                     </button>
                 </div>
             </div>
+
+            {/* Scheduled date picker */}
+            {isScheduled && (
+                <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+                    <label className="text-xs text-gray-500 font-medium uppercase tracking-wide flex items-center gap-2 mb-2">
+                        <CalendarClock className="w-4 h-4" /> Fecha y hora de publicación
+                    </label>
+                    <div className="flex items-center gap-3">
+                        <input
+                            type="datetime-local"
+                            value={scheduledDate}
+                            onChange={e => setScheduledDate(e.target.value)}
+                            className="bg-gray-900 border border-gray-600 rounded-lg px-4 py-2 text-white text-sm focus:outline-none focus:border-amber-500"
+                        />
+                        {!scheduledDate && (
+                            <span className="text-amber-400 text-sm">Sin fecha = publicar ahora</span>
+                        )}
+                        {scheduledDate && new Date(scheduledDate) > new Date() && (
+                            <span className="text-blue-400 text-sm flex items-center gap-1">
+                                <CalendarClock className="w-4 h-4" /> Programado
+                            </span>
+                        )}
+                    </div>
+                </div>
+            )}
 
             {/* Document importer */}
             <ArticleImporter onImport={handleImport} />
@@ -145,8 +237,8 @@ export function ArticleEditor({ articleId, initialData }: Props) {
                                 type="button"
                                 onClick={() => setActiveLang(code)}
                                 className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-t-lg border-b-2 transition-all ${activeLang === code
-                                        ? 'border-amber-500 text-amber-400 bg-amber-500/5'
-                                        : 'border-transparent text-gray-500 hover:text-gray-300'
+                                    ? 'border-amber-500 text-amber-400 bg-amber-500/5'
+                                    : 'border-transparent text-gray-500 hover:text-gray-300'
                                     }`}
                             >
                                 <span>{flag}</span>
@@ -157,9 +249,7 @@ export function ArticleEditor({ articleId, initialData }: Props) {
                     })}
                 </div>
 
-                {/* Per-language fields */}
                 <div className="space-y-4">
-                    {/* Article title */}
                     <div>
                         <label className="text-xs text-gray-500 font-medium uppercase tracking-wide block mb-1">
                             Título del artículo
@@ -168,13 +258,12 @@ export function ArticleEditor({ articleId, initialData }: Props) {
                             type="text"
                             value={activeTranslation.title}
                             onChange={e => updateTranslation(activeLang, 'title', e.target.value)}
-                            placeholder="Título distinguido del artículo académico..."
+                            placeholder="Título del artículo académico..."
                             className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white text-xl font-bold focus:outline-none focus:border-amber-500"
                             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                         />
                     </div>
 
-                    {/* Excerpt */}
                     <div>
                         <label className="text-xs text-gray-500 font-medium uppercase tracking-wide block mb-1">
                             Extracto / Resumen
@@ -188,7 +277,6 @@ export function ArticleEditor({ articleId, initialData }: Props) {
                         />
                     </div>
 
-                    {/* Academic editor */}
                     <div>
                         <label className="text-xs text-gray-500 font-medium uppercase tracking-wide block mb-1">
                             Contenido del artículo
@@ -209,8 +297,16 @@ export function ArticleEditor({ articleId, initialData }: Props) {
                 </div>
             )}
 
-            {/* Save button */}
-            <div className="flex justify-end gap-3 pt-4 border-t border-gray-800">
+            {/* Action buttons */}
+            <div className="flex justify-between items-center gap-3 pt-4 border-t border-gray-800">
+                <button
+                    type="button"
+                    onClick={() => setShowPreview(true)}
+                    className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-medium px-5 py-3 rounded-xl transition-colors"
+                >
+                    <BookOpen className="w-4 h-4" />
+                    Vista Previa
+                </button>
                 <button
                     type="button"
                     onClick={handleSave}

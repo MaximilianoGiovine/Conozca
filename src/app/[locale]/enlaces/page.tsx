@@ -34,17 +34,6 @@ export default function EnlacesPage() {
             href: 'https://www.facultadad.org',
             imagePath: '/images/facultad.gif',
             description: 'La Facultad de Teología es un seminario de nivel posgrado que ofrece estudios presenciales en formato modular en diferentes de América Latina y el Caribe. Ofrece los títulos de Maestría en Teología Práctica y Maestría en Educación Cristiana.'
-        },
-        {
-            title: 'Asociación Teológica de América Latina (ATAL)',
-            href: 'https://www.atalad.net',
-            description: 'ATAL es la asociación de acreditación propia del SEC que sirve a institutos bíblicos, seminarios, y profesores de Biblia y Teología de América Latina con procesos de evaluación y certificación de calidad.'
-        },
-        {
-            title: 'Asistencia Bibliotecaria para América Latina y el Caribe (ABALC)',
-            href: 'https://www.lacls.org',
-            imagePath: '/images/abal.png',
-            description: 'ABALC tiene la misión de ayudar en el desarrollo de las bibliotecas de los institutos bíblicos de América Latina y el Caribe para así mejorar la capacitación de pastores y líderes.'
         }
     ];
 

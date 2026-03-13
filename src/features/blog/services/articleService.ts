@@ -6,15 +6,23 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export const articleService = {
-    async getArticles(locale: string) {
-        const { data, error } = await supabase
+    async getArticles(locale: string, categoryId?: string | null) {
+        let query = supabase
             .from('articles')
             .select(`
         *,
-        translations:article_translations(*)
+        translations:article_translations(*),
+        category:categories(id, slug, translations:category_translations(*))
       `)
+            .not('published_at', 'is', null)
+            .lte('published_at', new Date().toISOString())
             .order('published_at', { ascending: false });
 
+        if (categoryId) {
+            query = query.eq('category_id', categoryId);
+        }
+
+        const { data, error } = await query;
         if (error) throw error;
 
         // Filter translations to match the desired locale, or fallback to 'es'
@@ -34,9 +42,12 @@ export const articleService = {
             .from('articles')
             .select(`
         *,
-        translations:article_translations(*)
+        translations:article_translations(*),
+        category:categories(id, slug, translations:category_translations(*))
       `)
             .eq('slug', slug)
+            .not('published_at', 'is', null)
+            .lte('published_at', new Date().toISOString())
             .single();
 
         if (error) return null;
