@@ -22,9 +22,25 @@ export default async function ArticlePage({ params }: { params: Promise<{ locale
 
     return (
         <PageShell>
-            <article className="container mx-auto py-20 px-4 md:px-8 max-w-4xl">
+            {/* Header sticky con botón de descargar */}
+            <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+                <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+                    <div className="text-sm text-gray-500">
+                        {article.category?.translation?.name && (
+                            <span className="font-medium">{article.category.translation.name}</span>
+                        )}
+                    </div>
+                    <DownloadPdfButton article={pdfData} />
+                </div>
+            </div>
+
+            {/* Contenido del artículo */}
+            <article className="max-w-4xl mx-auto py-20 px-6">
                 <header className="mb-12 text-center">
-                    <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 mb-6">
+                    <h1
+                        className="text-5xl font-extrabold text-gray-900 mb-6"
+                        style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                    >
                         {article.translation.title}
                     </h1>
                     <div className="flex items-center justify-center space-x-4 text-gray-700">
@@ -38,13 +54,16 @@ export default async function ArticlePage({ params }: { params: Promise<{ locale
                             </>
                         )}
                     </div>
-                    <div className="mt-6">
-                        <DownloadPdfButton article={pdfData} />
-                    </div>
+                    {article.translation.excerpt && (
+                        <p className="text-lg text-gray-600 italic mt-8 border-l-4 border-amber-500 pl-4 text-left">
+                            {article.translation.excerpt}
+                        </p>
+                    )}
                 </header>
-                <div className="prose prose-lg dark:prose-invert mx-auto">
-                    <div dangerouslySetInnerHTML={{ __html: String(article.translation.content) }} />
-                </div>
+                <div
+                    className="prose prose-lg max-w-none text-gray-800"
+                    dangerouslySetInnerHTML={{ __html: String(article.translation.content) }}
+                />
             </article>
         </PageShell>
     );
