@@ -1,0 +1,158 @@
+{
+    "Index": {
+        "title": "Welcome to Conozca",
+        "description": "A global platform"
+    },
+    "Hero": {
+        "badge": "Family Law Attorneys in {city}, {country}",
+        "headline": "We focus on your family's needs",
+        "subheadline": "Compassionate and effective legal representation in Managua, Nicaragua. We protect what matters most to you and yours.",
+        "ctaText": "Schedule a Consultation",
+        "call_to_action": "Call {phone}"
+    },
+    "Values": {
+        "respect": {
+            "label": "Respect and dignity",
+            "title": "Respect and Dignity",
+            "description": "Our clients are like family. We treat every case with the dignity and respect it deserves."
+        },
+        "quality": {
+            "label": "Every case is unique",
+            "title": "Top-Tier Legal Representation",
+            "description": "Every case receives full dedication. We stay at the forefront of family law in Nicaragua."
+        },
+        "team": {
+            "label": "Experienced team",
+            "title": "Dedicated and Experienced Attorneys",
+            "description": "An experienced team committed to achieving the best results for every client."
+        }
+    },
+    "About": {
+        "tagline": "{firmName} in Managua, Nicaragua",
+        "title": "We are a <highlight>family law</highlight> firm in {city}, {country}.",
+        "cta": "Meet Our Team",
+        "yearsText": "Years",
+        "founderBio": "With over 9 years of experience resolving family conflicts, Silvia González specializes in complex divorces, child custody agreements, and alimony litigation. Her practical and compassionate approach ensures clients feel they have an ally by their side during what is often the most difficult time of their lives.",
+        "founderTitle": "Family Law Specialist Attorney",
+        "firmDescription": "We understand the stress and emotional toll of family law in Managua, Nicaragua. We protect what matters most to you and yours."
+    },
+    "Services": {
+        "label": "You don't have to do it alone",
+        "title": "We can help you with your divorce and family law matters.",
+        "more_info": "More information",
+        "items": {
+            "separacion": {
+                "title": "Legal Separation",
+                "shortDescription": "Separation agreements are a mutually acceptable and lasting alternative for resolving couple conflicts."
+            },
+            "divorcio": {
+                "title": "Divorce",
+                "shortDescription": "A divorce is one of the most practical aspects of the process. We can help you navigate each stage."
+            },
+            "custodia": {
+                "title": "Child Custody and Support",
+                "shortDescription": "The interests of the children are always the top priority. We can help you protect your role in their lives."
+            },
+            "pension": {
+                "title": "Alimony",
+                "shortDescription": "Achieve financial independence after a legal process. We determine the fair amount of alimony."
+            },
+            "mediacion": {
+                "title": "Family Mediation",
+                "shortDescription": "A personal approach to resolving conflicts. Mediation helps find solutions without going to trial."
+            },
+            "violencia": {
+                "title": "Domestic Violence",
+                "shortDescription": "Safety must be considered above all. We are here to protect your rights and your well-being."
+            }
+        }
+    },
+    "Tabs": {
+        "label": "Basic family law services",
+        "title": "A holistic approach to providing family law services",
+        "items": {
+            "0": {
+                "title": "Collaborative Law",
+                "content": "Can you and your spouse consider your family law issue as a \"problem to solve\" and not as a \"competition to win\"? Collaborative law is a legal process that allows couples who have decided to separate to resolve their differences outside of court. Our team facilitates respectful negotiations to reach agreements that satisfy the needs of both parties and their children."
+            },
+            "1": {
+                "title": "Absolute Divorce",
+                "content": "When definitive separation is the best option, our team guides you through each stage of the divorce process in Nicaragua. We handle legal documentation, equitable distribution of assets, custody and support agreements, ensuring that your rights are protected at all times. Our approach is to make this process as efficient and painless as possible."
+            },
+            "2": {
+                "title": "Litigation",
+                "content": "For cases that require judicial intervention, we have extensive experience in family law litigation before the courts of Managua and throughout Nicaragua. Our lawyers present solid and well-founded cases, fighting firmly for the rights of our clients. When negotiation is not possible, preparation and experience in court make the difference."
+            }
+        }
+    },
+    "CTA": {
+        "title": "Call today to discuss your family law case",
+        "subtitle": "Free initial consultation. We are ready to help you.",
+        "button": "Schedule Consultation"
+    },
+    "Testimonials": {
+        "label": "Testimonials",
+        "title": "What our clients say!",
+        "subtitle": "The satisfaction of our clients is our greatest reward.",
+        "prev": "Previous",
+        "next": "Next",
+        "items": {
+            "0": {
+                "quote": "The team was incredibly professional and compassionate during my divorce. They explained every step of the process and fought for my rights and those of my children. I couldn't be more grateful.",
+                "caseType": "Divorce and Custody"
+            },
+            "1": {
+                "quote": "We reached agreements peacefully and without going to trial, thanks to their collaborative law approach. This greatly reduced the stress on our family and allowed us to move forward faster.",
+                "caseType": "Collaborative Law"
+            },
+            "2": {
+                "quote": "From the first consultation, I felt heard and understood. They are family law experts and managed to get the fair alimony my children deserved. Highly recommended.",
+                "caseType": "Alimony"
+            },
+            "3": {
+                "quote": "In a moment of great vulnerability, I found the legal and human support I needed. They helped me obtain protective measures and ensure my family's long-term well-being.",
+                "caseType": "Domestic Violence"
+            }
+        }
+    },
+    "Contact": {
+        "title": "Our team is here to help.",
+        "subtitle": "Do you have any questions or want to schedule an appointment? Contact us.",
+        "officeLocation": "Office Location",
+        "contactDetails": "Contact Details",
+        "callAt": "Call",
+        "orEmail": "or send an email to",
+        "officeHours": "Business Hours",
+        "button": "Send Message"
+    },
+    "Navigation": {
+        "Inicio": "Home",
+        "Derecho de Familia": "Family Law",
+        "Divorcio": "Divorce",
+        "Custodia de Menores": "Child Custody",
+        "Pensión Alimenticia": "Alimony",
+        "Mediación Familiar": "Family Mediation",
+        "Violencia Doméstica": "Domestic Violence",
+        "Separación Legal": "Legal Separation",
+        "Equipo Legal": "Legal Team",
+        "Nuestro Enfoque": "Our Approach",
+        "Contacto": "Contact",
+        "Portal Abogado": "Lawyer Portal",
+        "Llama Ahora": "Call Now",
+        "Cerrar menú": "Close menu"
+    },
+    "Footer": {
+        "servingClients": "Serving clients in {city} and throughout {country}.",
+        "aboutUs": "About Us",
+        "services": "Services",
+        "getInTouch": "Get in Touch",
+        "privacyPolicy": "Privacy Policy",
+        "termsOfService": "Terms of Service",
+        "allRightsReserved": "All rights reserved."
+    },
+    "TopBar": {
+        "servicesIn": "Family law services in {city}, {country}",
+        "callNow": "Call Now",
+        "callAt": "Call {phone}"
+    }
+}

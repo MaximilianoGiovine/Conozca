@@ -1,0 +1,350 @@
+2026-01-14 13:30:47 [33mwarn[39m [EmailService] Email service not configured, using mock mode 
+2026-01-14 13:30:47 [33mwarn[39m [EmailService] Email service not configured, using mock mode 
+2026-01-14 13:30:47 [33mwarn[39m [SentryService] Sentry not configured, error tracking disabled 
+2026-01-14 13:30:48 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:48 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"55fdf800-af6b-40f1-8969-a1b13e073d5d","email":"user1768408247818@e2etest.com","role":"USER"}
+2026-01-14 13:30:48 [34mdebug[39m [EmailService] [MOCK] Email would be sent to user1768408247818@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:48 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"331ms"}
+2026-01-14 13:30:48 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:48 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Email already registered 
+2026-01-14 13:30:48 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":409,"duration":"8ms"}
+2026-01-14 13:30:48 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:48 [32minfo[39m [Business] Business Event: user_login {"event":"user_login","userId":"55fdf800-af6b-40f1-8969-a1b13e073d5d","email":"user1768408247818@e2etest.com"}
+2026-01-14 13:30:48 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":200,"duration":"244ms"}
+2026-01-14 13:30:48 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:48 [32minfo[39m [Business] Business Event: login_failed {"event":"login_failed","email":"user1768408247818@e2etest.com","reason":"invalid_password"}
+2026-01-14 13:30:48 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Invalid email or password 
+2026-01-14 13:30:48 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":401,"duration":"235ms"}
+2026-01-14 13:30:48 [34mdebug[39m [HTTP] Incoming request: POST /auth/refresh 
+2026-01-14 13:30:48 [32minfo[39m [Business] Business Event: invalid_refresh_token {"event":"invalid_refresh_token","userId":"55fdf800-af6b-40f1-8969-a1b13e073d5d","reason":"not_found_or_revoked"}
+2026-01-14 13:30:48 [32minfo[39m [Business] Business Event: refresh_failed {"event":"refresh_failed","reason":"Start session failed"}
+2026-01-14 13:30:48 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Invalid refresh token 
+2026-01-14 13:30:48 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/refresh","statusCode":401,"duration":"14ms"}
+2026-01-14 13:30:48 [34mdebug[39m [HTTP] Incoming request: POST /auth/refresh 
+2026-01-14 13:30:48 [32minfo[39m [Business] Business Event: refresh_failed {"event":"refresh_failed","reason":"invalid token"}
+2026-01-14 13:30:48 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Invalid refresh token 
+2026-01-14 13:30:48 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/refresh","statusCode":401,"duration":"1ms"}
+2026-01-14 13:30:48 [34mdebug[39m [HTTP] Incoming request: POST /auth/logout 
+2026-01-14 13:30:48 [32minfo[39m [Business] Business Event: user_logout {"event":"user_logout","userId":"55fdf800-af6b-40f1-8969-a1b13e073d5d"}
+2026-01-14 13:30:48 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/logout","statusCode":200,"duration":"10ms","userId":"55fdf800-af6b-40f1-8969-a1b13e073d5d"}
+2026-01-14 13:30:48 [34mdebug[39m [HTTP] Incoming request: POST /auth/logout 
+2026-01-14 13:30:48 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/logout","statusCode":401,"duration":"1ms"}
+2026-01-14 13:30:48 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:49 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"da97a1fd-338a-495e-9e4d-3be35b9e9d15","email":"reset1768408248887@e2etest.com","role":"USER"}
+2026-01-14 13:30:49 [34mdebug[39m [EmailService] [MOCK] Email would be sent to reset1768408248887@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:49 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"244ms"}
+2026-01-14 13:30:49 [34mdebug[39m [HTTP] Incoming request: POST /auth/forgot-password 
+2026-01-14 13:30:49 [34mdebug[39m [EmailService] [MOCK] Email would be sent to reset1768408248887@e2etest.com: Resetea tu contraseña en Conozca 
+2026-01-14 13:30:49 [32minfo[39m [Business] Business Event: password_reset_requested {"event":"password_reset_requested","userId":"da97a1fd-338a-495e-9e4d-3be35b9e9d15","email":"reset1768408248887@e2etest.com"}
+2026-01-14 13:30:50 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/forgot-password","statusCode":200,"duration":"1003ms"}
+2026-01-14 13:30:50 [34mdebug[39m [HTTP] Incoming request: POST /auth/forgot-password 
+2026-01-14 13:30:51 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/forgot-password","statusCode":200,"duration":"1003ms"}
+2026-01-14 13:30:51 [34mdebug[39m [HTTP] Incoming request: POST /auth/reset-password 
+2026-01-14 13:30:51 [32minfo[39m [Business] Business Event: password_reset_failed {"event":"password_reset_failed","email":"reset1768408248887@e2etest.com","reason":"invalid_token"}
+2026-01-14 13:30:51 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Invalid reset token 
+2026-01-14 13:30:51 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/reset-password","statusCode":401,"duration":"4ms"}
+2026-01-14 13:30:51 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:51 [32minfo[39m [Business] Business Event: login_failed {"event":"login_failed","email":"reset1768408248887@e2etest.com","reason":"invalid_password"}
+2026-01-14 13:30:51 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Invalid email or password 
+2026-01-14 13:30:51 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":401,"duration":"243ms"}
+2026-01-14 13:30:51 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:51 [32minfo[39m [Business] Business Event: user_login {"event":"user_login","userId":"da97a1fd-338a-495e-9e4d-3be35b9e9d15","email":"reset1768408248887@e2etest.com"}
+2026-01-14 13:30:51 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":200,"duration":"242ms"}
+2026-01-14 13:30:51 [34mdebug[39m [HTTP] Incoming request: POST /auth/reset-password 
+2026-01-14 13:30:51 [32minfo[39m [Business] Business Event: password_reset_failed {"event":"password_reset_failed","email":"reset1768408248887@e2etest.com","reason":"invalid_token"}
+2026-01-14 13:30:51 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Invalid reset token 
+2026-01-14 13:30:51 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/reset-password","statusCode":401,"duration":"4ms"}
+2026-01-14 13:30:51 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:51 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Bad Request Exception 
+2026-01-14 13:30:51 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":400,"duration":"2ms"}
+2026-01-14 13:30:51 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:51 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Bad Request Exception 
+2026-01-14 13:30:51 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":400,"duration":"1ms"}
+2026-01-14 13:30:51 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:51 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Bad Request Exception 
+2026-01-14 13:30:51 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":400,"duration":"1ms"}
+2026-01-14 13:30:51 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:51 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Bad Request Exception 
+2026-01-14 13:30:51 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":400,"duration":"0ms"}
+2026-01-14 13:30:51 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:51 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Bad Request Exception 
+2026-01-14 13:30:51 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":400,"duration":"1ms"}
+2026-01-14 13:30:51 [34mdebug[39m [HTTP] Incoming request: POST /auth/refresh 
+2026-01-14 13:30:51 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Bad Request Exception 
+2026-01-14 13:30:51 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/refresh","statusCode":400,"duration":"1ms"}
+2026-01-14 13:30:51 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:51 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"0ab36bd4-25cd-436e-92e6-0c775584216f","email":"security1768408251683@e2etest.com","role":"USER"}
+2026-01-14 13:30:51 [34mdebug[39m [EmailService] [MOCK] Email would be sent to security1768408251683@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:51 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"238ms"}
+2026-01-14 13:30:51 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:51 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Bad Request Exception 
+2026-01-14 13:30:51 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":400,"duration":"1ms"}
+2026-01-14 13:30:51 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:52 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"c9ab537b-f71c-4159-9084-334cf8f38965","email":"xss1768408251925@e2etest.com","role":"USER"}
+2026-01-14 13:30:52 [34mdebug[39m [EmailService] [MOCK] Email would be sent to xss1768408251925@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:52 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"250ms"}
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/logout 
+2026-01-14 13:30:52 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/logout","statusCode":401,"duration":"1ms"}
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:52 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"576bc830-9128-4974-acc3-924861538ebd","email":"other1768408252180@e2etest.com","role":"USER"}
+2026-01-14 13:30:52 [34mdebug[39m [EmailService] [MOCK] Email would be sent to other1768408252180@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:52 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"246ms"}
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/logout 
+2026-01-14 13:30:52 [32minfo[39m [Business] Business Event: user_logout {"event":"user_logout","userId":"576bc830-9128-4974-acc3-924861538ebd"}
+2026-01-14 13:30:52 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/logout","statusCode":200,"duration":"6ms","userId":"576bc830-9128-4974-acc3-924861538ebd"}
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:52 [32minfo[39m [Business] Business Event: user_login {"event":"user_login","userId":"0ab36bd4-25cd-436e-92e6-0c775584216f","email":"security1768408251683@e2etest.com"}
+2026-01-14 13:30:52 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":200,"duration":"241ms"}
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:52 [32minfo[39m [Business] Business Event: user_login {"event":"user_login","userId":"0ab36bd4-25cd-436e-92e6-0c775584216f","email":"security1768408251683@e2etest.com"}
+2026-01-14 13:30:52 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":200,"duration":"240ms"}
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/logout 
+2026-01-14 13:30:52 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/logout","statusCode":401,"duration":"0ms"}
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:52 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:53 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"7ac9c59c-dac0-4f39-8c56-6aaacab5e91b","email":"concurrent1768408252921-0@e2etest.com","role":"USER"}
+2026-01-14 13:30:53 [34mdebug[39m [EmailService] [MOCK] Email would be sent to concurrent1768408252921-0@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:53 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"258ms"}
+2026-01-14 13:30:53 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"62351977-69b1-410d-8cef-c86292aec469","email":"concurrent1768408252921-6@e2etest.com","role":"USER"}
+2026-01-14 13:30:53 [34mdebug[39m [EmailService] [MOCK] Email would be sent to concurrent1768408252921-6@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:53 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"259ms"}
+2026-01-14 13:30:53 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"b51400e7-bc81-4b56-bd9c-adda149f4f1e","email":"concurrent1768408252921-2@e2etest.com","role":"USER"}
+2026-01-14 13:30:53 [34mdebug[39m [EmailService] [MOCK] Email would be sent to concurrent1768408252921-2@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:53 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"275ms"}
+2026-01-14 13:30:53 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"907a2f6b-3f87-4783-8b39-ec9e848c9cb0","email":"concurrent1768408252921-8@e2etest.com","role":"USER"}
+2026-01-14 13:30:53 [34mdebug[39m [EmailService] [MOCK] Email would be sent to concurrent1768408252921-8@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:53 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"480ms"}
+2026-01-14 13:30:53 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"b541bdca-19aa-45d6-af44-667fb84ba34b","email":"concurrent1768408252921-1@e2etest.com","role":"USER"}
+2026-01-14 13:30:53 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"86e5b572-9c53-4ffe-ad88-d29e58c5b9dc","email":"concurrent1768408252921-3@e2etest.com","role":"USER"}
+2026-01-14 13:30:53 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"61263aad-9559-4a87-ae56-e658240c43bb","email":"concurrent1768408252921-7@e2etest.com","role":"USER"}
+2026-01-14 13:30:53 [34mdebug[39m [EmailService] [MOCK] Email would be sent to concurrent1768408252921-1@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:53 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"510ms"}
+2026-01-14 13:30:53 [34mdebug[39m [EmailService] [MOCK] Email would be sent to concurrent1768408252921-3@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:53 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"507ms"}
+2026-01-14 13:30:53 [34mdebug[39m [EmailService] [MOCK] Email would be sent to concurrent1768408252921-7@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:53 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"499ms"}
+2026-01-14 13:30:53 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"c6b308cc-7025-472b-b27c-401c5885ce44","email":"concurrent1768408252921-4@e2etest.com","role":"USER"}
+2026-01-14 13:30:53 [34mdebug[39m [EmailService] [MOCK] Email would be sent to concurrent1768408252921-4@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:53 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"513ms"}
+2026-01-14 13:30:53 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"aca50267-c2ef-4a4b-a80f-6aab42797f88","email":"concurrent1768408252921-9@e2etest.com","role":"USER"}
+2026-01-14 13:30:53 [34mdebug[39m [EmailService] [MOCK] Email would be sent to concurrent1768408252921-9@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:53 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"714ms"}
+2026-01-14 13:30:53 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"a0235436-2898-4328-88b3-450637045621","email":"concurrent1768408252921-5@e2etest.com","role":"USER"}
+2026-01-14 13:30:53 [34mdebug[39m [EmailService] [MOCK] Email would be sent to concurrent1768408252921-5@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:53 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"734ms"}
+2026-01-14 13:30:53 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:53 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"8633a1c5-e883-4ed8-8bb4-1942fb39ee8d","email":"multilogin1768408253669@e2etest.com","role":"USER"}
+2026-01-14 13:30:53 [34mdebug[39m [EmailService] [MOCK] Email would be sent to multilogin1768408253669@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:53 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"243ms"}
+2026-01-14 13:30:53 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:53 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:53 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:53 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:53 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:54 [32minfo[39m [Business] Business Event: user_login {"event":"user_login","userId":"8633a1c5-e883-4ed8-8bb4-1942fb39ee8d","email":"multilogin1768408253669@e2etest.com"}
+2026-01-14 13:30:54 [32minfo[39m [Business] Business Event: user_login {"event":"user_login","userId":"8633a1c5-e883-4ed8-8bb4-1942fb39ee8d","email":"multilogin1768408253669@e2etest.com"}
+2026-01-14 13:30:54 [32minfo[39m [Business] Business Event: user_login {"event":"user_login","userId":"8633a1c5-e883-4ed8-8bb4-1942fb39ee8d","email":"multilogin1768408253669@e2etest.com"}
+2026-01-14 13:30:54 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":200,"duration":"249ms"}
+2026-01-14 13:30:54 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":200,"duration":"248ms"}
+2026-01-14 13:30:54 [32minfo[39m [Business] Business Event: user_login {"event":"user_login","userId":"8633a1c5-e883-4ed8-8bb4-1942fb39ee8d","email":"multilogin1768408253669@e2etest.com"}
+2026-01-14 13:30:54 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":200,"duration":"250ms"}
+2026-01-14 13:30:54 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":200,"duration":"250ms"}
+2026-01-14 13:30:54 [32minfo[39m [Business] Business Event: user_login {"event":"user_login","userId":"8633a1c5-e883-4ed8-8bb4-1942fb39ee8d","email":"multilogin1768408253669@e2etest.com"}
+2026-01-14 13:30:54 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":200,"duration":"477ms"}
+2026-01-14 13:30:54 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:54 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"a31520f9-f28b-430a-b519-833f5f17c069","email":"perf1768408254400@e2etest.com","role":"USER"}
+2026-01-14 13:30:54 [34mdebug[39m [EmailService] [MOCK] Email would be sent to perf1768408254400@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:54 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"247ms"}
+2026-01-14 13:30:54 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:54 [32minfo[39m [Business] Business Event: user_login {"event":"user_login","userId":"a31520f9-f28b-430a-b519-833f5f17c069","email":"perf1768408254400@e2etest.com"}
+2026-01-14 13:30:54 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":200,"duration":"240ms"}
+2026-01-14 13:30:54 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:55 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"ee611417-8301-429c-89ca-6a738251c509","email":"test+special1768408254889@e2etest.com","role":"USER"}
+2026-01-14 13:30:55 [34mdebug[39m [EmailService] [MOCK] Email would be sent to test+special1768408254889@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:55 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"243ms"}
+2026-01-14 13:30:55 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:55 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"a2464207-289c-42c4-bbff-6f2067febf36","email":"spanish1768408255133@e2etest.com","role":"USER"}
+2026-01-14 13:30:55 [34mdebug[39m [EmailService] [MOCK] Email would be sent to spanish1768408255133@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:55 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"245ms"}
+2026-01-14 13:30:55 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:55 [32minfo[39m [Business] Business Event: user_registered {"event":"user_registered","userId":"bf21b72a-293c-4abb-b36f-e460004558f9","email":"specialpass1768408255381@e2etest.com","role":"USER"}
+2026-01-14 13:30:55 [34mdebug[39m [EmailService] [MOCK] Email would be sent to specialpass1768408255381@e2etest.com: Verifica tu cuenta en Conozca 
+2026-01-14 13:30:55 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":201,"duration":"261ms"}
+2026-01-14 13:30:55 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:55 [32minfo[39m [Business] Business Event: user_login {"event":"user_login","userId":"bf21b72a-293c-4abb-b36f-e460004558f9","email":"specialpass1768408255381@e2etest.com"}
+2026-01-14 13:30:55 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":200,"duration":"241ms"}
+2026-01-14 13:30:55 [34mdebug[39m [HTTP] Incoming request: POST /auth/register 
+2026-01-14 13:30:55 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Bad Request Exception 
+2026-01-14 13:30:55 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/register","statusCode":400,"duration":"1ms"}
+2026-01-14 13:30:55 [34mdebug[39m [HTTP] Incoming request: POST /auth/login 
+2026-01-14 13:30:55 [34mdebug[39m [SentryService] [MOCK] Sentry would capture exception: Bad Request Exception 
+2026-01-14 13:30:55 [32minfo[39m [HTTP] HTTP Request {"method":"POST","url":"/auth/login","statusCode":400,"duration":"1ms"}
+(node:13646) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+FAIL test/auth.e2e-spec.ts (9.584 s)
+  Authentication E2E Tests
+    Flujo Completo de Autenticación
+      ✓ ✅ PASO 1: Debe registrar un nuevo usuario (383 ms)
+      ✕ ❌ PASO 2: No debe permitir registrar el mismo email dos veces (12 ms)
+      ✓ ✅ PASO 3: Debe hacer login con las credenciales correctas (247 ms)
+      ✓ ❌ PASO 4: No debe hacer login con contraseña incorrecta (238 ms)
+      ✕ ✅ PASO 5: Debe refrescar el token exitosamente (18 ms)
+      ✓ ❌ PASO 6: No debe refrescar con token inválido (3 ms)
+      ✓ ✅ PASO 7: Debe acceder a endpoint protegido con token válido (12 ms)
+      ✓ ❌ PASO 8: No debe acceder a endpoint protegido sin token (2 ms)
+    Flujo de Recuperación de Contraseña
+      ✓ ✅ PASO 1: Debe solicitar reset de contraseña (1007 ms)
+      ✓ ✅ PASO 2: Debe retornar mensaje genérico con email no existente (1006 ms)
+      ✕ ✅ PASO 3: Debe obtener reset token de la BD y resetear contraseña (25 ms)
+      ✕ ✅ PASO 4: Debe hacer login con la nueva contraseña (246 ms)
+      ✕ ❌ PASO 5: No debe hacer login con la contraseña antigua (244 ms)
+      ✓ ❌ PASO 6: No debe permitir reusar el reset token (5 ms)
+    Validaciones de DTOs
+      ✓ ❌ debe rechazar email inválido en register (3 ms)
+      ✓ ❌ debe rechazar contraseña muy corta en register (2 ms)
+      ✓ ❌ debe rechazar campos faltantes en register (3 ms)
+      ✓ ❌ debe rechazar campos extra no permitidos (2 ms)
+      ✓ ❌ debe rechazar email vacío en login (2 ms)
+      ✓ ❌ debe rechazar refresh_token vacío (2 ms)
+    Tests de Seguridad
+      ✓ ❌ debe rechazar SQL injection en email (3 ms)
+      ✓ ❌ debe rechazar XSS en name (252 ms)
+      ✓ ❌ debe rechazar token JWT manipulado (2 ms)
+      ✓ ❌ debe rechazar token de otro usuario (254 ms)
+      ✓ ✅ debe generar tokens diferentes para cada login (483 ms)
+      ✓ ❌ debe rechazar tokens expirados (simulado) (3 ms)
+    Tests de Carga y Concurrencia
+      ✓ ✅ debe manejar múltiples registros simultáneos (748 ms)
+      ✓ ✅ debe manejar múltiples logins del mismo usuario (730 ms)
+      ✓ ✅ debe responder rápidamente (<500ms por request) (489 ms)
+    Edge Cases
+      ✓ ✅ debe manejar emails con caracteres especiales (244 ms)
+      ✓ ✅ debe manejar nombres con acentos y ñ (248 ms)
+      ✓ ✅ debe manejar contraseñas con caracteres especiales (504 ms)
+      ✓ ❌ debe manejar body vacío (3 ms)
+      ✓ ❌ debe manejar content-type incorrecto (2 ms)
+
+  ● Authentication E2E Tests › Flujo Completo de Autenticación › ❌ PASO 2: No debe permitir registrar el mismo email dos veces
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "email"
+    Received string:    "Email already registered"
+
+      90 |         })
+      91 |         .expect(409)
+    > 92 |         .expect((res) => {
+         |          ^
+      93 |           expect(res.body).toHaveProperty("message");
+      94 |           expect(res.body.message).toContain("email");
+      95 |         });
+
+      at Object.<anonymous> (auth.e2e-spec.ts:92:10)
+      ----
+      at auth.e2e-spec.ts:94:36
+      at ../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:365:13
+      at Test._assertFunction (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:342:13)
+      at Test.assert (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:195:23)
+      at localAssert (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:138:14)
+      at Server.<anonymous> (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:152:11)
+
+  ● Authentication E2E Tests › Flujo Completo de Autenticación › ✅ PASO 5: Debe refrescar el token exitosamente
+
+    expected 200 "OK", got 401 "Unauthorized"
+
+      130 |           refresh_token: refreshToken,
+      131 |         })
+    > 132 |         .expect(200)
+          |          ^
+      133 |         .expect((res) => {
+      134 |           expect(res.body).toHaveProperty("access_token");
+      135 |           expect(res.body).toHaveProperty("refresh_token");
+
+      at Object.<anonymous> (auth.e2e-spec.ts:132:10)
+      ----
+      at Test._assertStatus (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:309:14)
+      at ../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:365:13
+      at Test._assertFunction (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:342:13)
+      at Test.assert (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:195:23)
+      at localAssert (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:138:14)
+      at Server.<anonymous> (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:152:11)
+
+  ● Authentication E2E Tests › Flujo de Recuperación de Contraseña › ✅ PASO 3: Debe obtener reset token de la BD y resetear contraseña
+
+    expected 200 "OK", got 401 "Unauthorized"
+
+      228 |           password: "NewPassword123!",
+      229 |         })
+    > 230 |         .expect(200)
+          |          ^
+      231 |         .expect((res) => {
+      232 |           expect(res.body).toHaveProperty("message");
+      233 |           expect(res.body.message).toContain("Password updated successfully");
+
+      at Object.<anonymous> (auth.e2e-spec.ts:230:10)
+      ----
+      at Test._assertStatus (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:309:14)
+      at ../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:365:13
+      at Test._assertFunction (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:342:13)
+      at Test.assert (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:195:23)
+      at localAssert (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:138:14)
+      at Server.<anonymous> (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:152:11)
+
+  ● Authentication E2E Tests › Flujo de Recuperación de Contraseña › ✅ PASO 4: Debe hacer login con la nueva contraseña
+
+    expected 200 "OK", got 401 "Unauthorized"
+
+      242 |           password: "NewPassword123!",
+      243 |         })
+    > 244 |         .expect(200);
+          |          ^
+      245 |     });
+      246 |
+      247 |     it("❌ PASO 5: No debe hacer login con la contraseña antigua", () => {
+
+      at Object.<anonymous> (auth.e2e-spec.ts:244:10)
+      ----
+      at Test._assertStatus (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:309:14)
+      at ../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:365:13
+      at Test._assertFunction (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:342:13)
+      at Test.assert (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:195:23)
+      at localAssert (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:138:14)
+      at Server.<anonymous> (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:152:11)
+
+  ● Authentication E2E Tests › Flujo de Recuperación de Contraseña › ❌ PASO 5: No debe hacer login con la contraseña antigua
+
+    expected 401 "Unauthorized", got 200 "OK"
+
+      252 |           password: "OriginalPass123!",
+      253 |         })
+    > 254 |         .expect(401);
+          |          ^
+      255 |     });
+      256 |
+      257 |     it("❌ PASO 6: No debe permitir reusar el reset token", () => {
+
+      at Object.<anonymous> (auth.e2e-spec.ts:254:10)
+      ----
+      at Test._assertStatus (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:309:14)
+      at ../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:365:13
+      at Test._assertFunction (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:342:13)
+      at Test.assert (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:195:23)
+      at localAssert (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:138:14)
+      at Server.<anonymous> (../../../node_modules/.pnpm/supertest@7.1.4/node_modules/supertest/lib/test.js:152:11)
+
+Test Suites: 1 failed, 1 total
+Tests:       5 failed, 29 passed, 34 total
+Snapshots:   0 total
+Time:        9.891 s, estimated 25 s
+Ran all test suites matching test/auth.e2e-spec.ts.
+Jest did not exit one second after the test run has completed.
+
+'This usually means that there are asynchronous operations that weren't stopped in your tests. Consider running Jest with `--detectOpenHandles` to troubleshoot this issue.

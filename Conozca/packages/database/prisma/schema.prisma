@@ -1,0 +1,280 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// --- Enums para Seguridad y Control de Flujo ---
+
+enum Role {
+  ADMIN    // Tú y tus dos socios con acceso total
+  EDITOR   // Privilegios de edición de contenido
+  USER     // Lectores registrados (Newsletter, donaciones futuras, analíticas)
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum BlockType {
+  PARAGRAPH
+  HEADING_1
+  HEADING_2
+  HEADING_3
+  QUOTE
+  CODE
+  UNORDERED_LIST
+  ORDERED_LIST
+  IMAGE
+  DIVIDER
+}
+
+enum TextAlign {
+  LEFT
+  CENTER
+  RIGHT
+  JUSTIFY
+}
+
+enum FontFamily {
+  ARIAL
+  TIMES_NEW_ROMAN
+  COURIER_NEW
+  GEORGIA
+  VERDANA
+  CALIBRI
+}
+
+// --- Modelos de Datos ---
+
+model User {
+  id                String    @id @default(uuid())
+  email             String    @unique
+  password          String
+  name              String
+  role              Role      @default(USER)
+  
+  // Preferencias del Lector
+  isSubscribed      Boolean   @default(true) // Suscripción a Newsletter
+  
+  // Reset de contraseña
+  resetToken        String?   // Token para reset de contraseña
+  resetTokenExpires DateTime? // Expiración del token de reset
+  
+  // Metadatos de auditoría
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relaciones
+  // 1. Artículos que este usuario ha gestionado (Solo si es ADMIN/EDITOR)
+  managedArticles Article[] @relation("EditorToArticle")
+  
+  // 2. Registro de qué artículos ha visitado (Analíticas)
+  history         View[]
+  
+  // 3. Comentarios que este usuario ha escrito
+  comments        Comment[]
+}
+
+model Author {
+  id        String    @id @default(uuid())
+  name      String    // La firma que aparece en la revista
+  bio       String?   @db.Text
+  avatarUrl String?
+  
+  // Un autor puede tener muchos artículos firmados
+  articles  Article[]
+}
+
+model Category {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  
+  articles    Article[]
+}
+
+model Article {
+  id            String     @id @default(uuid())
+  title         String
+  slug          String     @unique // URL amigable: conozca.org/titulo-articulo
+  content       String     @db.Text
+  excerpt       String?    @db.Text // Resumen para la vista previa
+  featuredImage String?    // Imagen principal
+  status        PostStatus @default(DRAFT)
+  
+  // Relación con el Autor (Firma del texto)
+  authorId      String
+  author        Author     @relation(fields: [authorId], references: [id])
+  
+  // Relación con el Editor/Admin (Quién lo subió al sistema)
+  editorId      String
+  editor        User       @relation("EditorToArticle", fields: [editorId], references: [id])
+
+  // Relación con Categoría
+  categoryId    String
+  category      Category   @relation(fields: [categoryId], references: [id])
+
+  // Bloques de contenido (Editor avanzado)
+  blocks        ArticleBlock[]
+
+  // Comentarios en este artículo
+  comments      Comment[]
+
+  // Analíticas: Lista de todas las visualizaciones
+  views         View[]
+
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  publishedAt   DateTime?
+}
+
+model ArticleBlock {
+  id              String     @id @default(uuid())
+  
+  // Relación con el artículo
+  articleId       String
+  article         Article    @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  
+  // Orden dentro del artículo
+  order           Int
+  
+  // Tipo de bloque (párrafo, título, cita, código, imagen, etc)
+  type            BlockType
+  
+  // Contenido del bloque
+  content         String     @db.Text
+  
+  // Estilos de texto
+  fontSize        Int        @default(16)         // 12-72 px
+  fontFamily      FontFamily @default(ARIAL)
+  textAlign       TextAlign  @default(LEFT)
+  
+  // Colores
+  textColor       String?    @default("#000000")  // Hex color
+  backgroundColor String?                         // Hex color para highlight
+  
+  // Estilos booleanos
+  isBold          Boolean    @default(false)
+  isItalic        Boolean    @default(false)
+  isUnderline     Boolean    @default(false)
+  isStrikethrough Boolean    @default(false)
+  
+  // Para listas
+  listItemLevel   Int        @default(0)          // Indentación de sublistas
+  
+  // Para imágenes
+  imageUrl        String?
+  imageAlt        String?
+  imageWidth      Int?
+  imageHeight     Int?
+  
+  // Metadatos flexibles (para extensiones futuras)
+  metadata        Json?
+  
+  // Auditoría
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  
+  @@index([articleId])
+  @@unique([articleId, order])
+}
+
+model View {
+  id        String   @id @default(uuid())
+  
+  // Relación con el Artículo
+  articleId String
+  article   Article  @relation(fields: [articleId], references: [id])
+  
+  // Relación con el Usuario (Opcional, por si es una visita anónima)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  
+  viewedAt  DateTime @default(now())
+  
+  // Datos técnicos para tus analíticas de Admin
+  userAgent String?  // Ejemplo: "Chrome en Android"
+  ip        String?  
+}
+
+// --- Modelo de Comentarios ---
+
+model Comment {
+  id        String   @id @default(uuid())
+  
+  // Relación con el artículo
+  articleId String
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  
+  // Relación con el usuario
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Contenido del comentario
+  content   String   @db.Text
+  
+  // Moderación
+  isApproved Boolean @default(false)
+  isReported Boolean @default(false)
+  
+  // Auditoría
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([articleId])
+  @@index([userId])
+  @@index([isApproved])
+}
+
+// --- Modelos de Seguridad y Sesiones ---
+
+model Session {
+  id           String    @id @default(uuid())
+  userId       String
+  refreshHash  String    // Hash SHA-256 del refresh token
+  createdAt    DateTime  @default(now())
+  expiresAt    DateTime
+  revokedAt    DateTime? // Null si está activo, fecha si fue revocado
+  
+  @@index([userId])
+  @@index([refreshHash])
+}
+
+model EmailVerificationToken {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  tokenHash String   // Hash SHA-256 del token de verificación
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+// --- Modelos de Funcionalidades Avanzadas ---
+
+model Redirect {
+  id          String   @id @default(uuid())
+  fromPath    String   @unique // Ruta antigua (ej: /old-article-slug)
+  toPath      String   // Ruta nueva (ej: /new-article-slug)
+  statusCode  Int      @default(301) // 301 (permanente) o 302 (temporal)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([fromPath])
+}
+
+model ArticleSchedule {
+  id            String   @id @default(uuid())
+  articleId     String   @unique
+  scheduledFor  DateTime // Fecha y hora de publicación programada
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([scheduledFor])
+}

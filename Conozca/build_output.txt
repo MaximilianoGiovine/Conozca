@@ -1,0 +1,58 @@
+
+> saas-factory-app@0.1.0 build
+> next build
+
+▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local, .env
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 5.0s
+  Running TypeScript ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/5) ...
+  Generating static pages using 11 workers (1/5) 
+  Generating static pages using 11 workers (2/5) 
+  Generating static pages using 11 workers (3/5) 
+✓ Generating static pages using 11 workers (5/5) in 154.8ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /_not-found
+├ ƒ /[locale]
+├ ƒ /[locale]/admin-dashboard
+├ ƒ /[locale]/admin/analytics
+├ ƒ /[locale]/admin/pricing
+├ ƒ /[locale]/admin/users
+├ ƒ /[locale]/appointments
+├ ƒ /[locale]/appointments/[id]
+├ ƒ /[locale]/appointments/new
+├ ƒ /[locale]/appointments/new/admin
+├ ƒ /[locale]/blog
+├ ƒ /[locale]/blog/[slug]
+├ ƒ /[locale]/book/[slug]
+├ ƒ /[locale]/calendar
+├ ƒ /[locale]/check-email
+├ ƒ /[locale]/contacto
+├ ƒ /[locale]/dashboard
+├ ƒ /[locale]/equipo
+├ ƒ /[locale]/forgot-password
+├ ƒ /[locale]/lawyers
+├ ƒ /[locale]/lawyers/[id]
+├ ƒ /[locale]/login
+├ ƒ /[locale]/privacidad
+├ ƒ /[locale]/projects
+├ ƒ /[locale]/servicios
+├ ƒ /[locale]/signup
+├ ƒ /[locale]/terminos
+├ ƒ /[locale]/update-password
+├ ƒ /api/booking/public
+├ ƒ /api/contact
+└ ƒ /api/email/appointment
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

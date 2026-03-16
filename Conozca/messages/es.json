@@ -1,0 +1,174 @@
+{
+    "Index": {
+        "title": "Bienvenido a Conozca",
+        "description": "Una plataforma global"
+    },
+    "Hero": {
+        "badge": "Edición No. 12 · Digital Magazine",
+        "headline": "Articulos pensados para profundizar su estudio de la palabra de Dios",
+        "subheadline": "Conozca fue pensada como una revista digital para difusion de temas teológicos en América Latina",
+        "ctaText": "Explorar Artículos",
+        "articlesTitle": "Artículos Conozca",
+        "articlesLead": "Periodismo independiente, cultura y diseño para una lectura pausada.",
+        "call_to_action": "Suscribirse",
+        "noArticles": "Nuevas historias en camino.",
+        "noFeatured": "Próximamente: Ensayos seleccionados.",
+        "noLatest": "Explora nuestro archivo mientras preparamos contenido nuevo."
+    },
+    "Values": {
+        "respect": {
+            "label": "Respeto y dignidad",
+            "title": "Respeto y Dignidad",
+            "description": "Nuestros clientes son como una familia. Tratamos cada caso con la dignidad y el respeto que merece."
+        },
+        "quality": {
+            "label": "Cada caso es unique",
+            "title": "Representación Legal del Más Alto Nivel",
+            "description": "Cada caso recibe dedicación completa. Nos mantenemos a la vanguardia del derecho de familia en Nicaragua."
+        },
+        "team": {
+            "label": "Equipo experimentado",
+            "title": "Abogados Dedicados y Experimentados",
+            "description": "Un equipo experimentado comprometido con alcanzar los mejores resultados para cada cliente."
+        }
+    },
+    "About": {
+        "tagline": "Historias pensadas para mentes enfocadas",
+        "title": "Somos un refugio <highlight>editorial</highlight> en un mundo de distracciones constante.",
+        "cta": "Explorar Ediciones",
+        "yearsText": "Ediciones",
+        "founderBio": "En Conozca, creemos que el diseño y la cultura son los pilares de una vida con sentido. Nuestra plataforma cura lo mejor del pensamiento contemporáneo para ofrecerte una experiencia de lectura sin igual.",
+        "founderTitle": "Director Editorial",
+        "firmDescription": "Historias claras, profundas y creadas para enfocarse. Conozca es la voz de una nueva era editorial."
+    },
+    "Services": {
+        "label": "No tienes que hacerlo solo",
+        "title": "Podemos ayudarle con sus asuntos de divorcio y derecho familiar.",
+        "more_info": "Más información",
+        "items": {
+            "separacion": {
+                "title": "Separación Legal",
+                "shortDescription": "Los acuerdos de separación son una alternativa mutuamente aceptable y duradera para resolver conflictos de pareja."
+            },
+            "divorcio": {
+                "title": "Divorcio",
+                "shortDescription": "Un divorcio es uno de los aspectos más prácticos del proceso. Podemos ayudarle a navegar cada etapa."
+            },
+            "custodia": {
+                "title": "Custodia y Manutención de Menores",
+                "shortDescription": "Los intereses de los niños son siempre la máxima prioridad. Podemos ayudarle a proteger el papel que usted desempeña en sus vidas."
+            },
+            "pension": {
+                "title": "Pensión Alimenticia",
+                "shortDescription": "Lograr la independencia financiera tras un proceso legal. Determinamos el monto justo de pensión."
+            },
+            "mediacion": {
+                "title": "Mediación Familiar",
+                "shortDescription": "Un enfoque personal para resolver conflictos. La mediación ayuda a encontrar soluciones sin ir a juicio."
+            },
+            "violencia": {
+                "title": "Violencia Doméstica",
+                "shortDescription": "Se debe considerar la seguridad ante todo. Estamos aquí para proteger sus derechos y su bienestar."
+            }
+        }
+    },
+    "Tabs": {
+        "label": "Servicios jurídicos familiares básicos",
+        "title": "Un enfoque holístico para brindar servicios jurídicos familiares",
+        "items": {
+            "0": {
+                "title": "Derecho Colaborativo",
+                "content": "¿Pueden usted y su cónyuge considerar su problema de derecho de familia como un \"problema por resolver\" y no como una \"competencia por ganar\"? El derecho colaborativo es un proceso legal que permite a las parejas que han decidido separarse resolver sus diferencias fuera de los tribunales. Nuestro equipo facilita negociaciones respetuosas para alcanzar acuerdos que satisfagan las necesidades de ambas partes y sus hijos."
+            },
+            "1": {
+                "title": "Divorcio Absoluto",
+                "content": "Cuando la separación definitiva es la mejor opción, nuestro equipo la guía a través de cada etapa del proceso de divorcio en Nicaragua. Nos encargamos de la documentación legal, la distribución equitativa de bienes, los acuerdos de custodia y pensión, asegurando que sus derechos estén protegidos en todo momento. Nuestro enfoque es hacer este proceso lo más eficiente y menos doloroso posible."
+            },
+            "2": {
+                "title": "Litigio",
+                "content": "Para los casos que requieren la intervención judicial, contamos con amplia experiencia en litigio de derecho de familia ante los tribunales de Managua y toda Nicaragua. Nuestros abogados presentan casos sólidos y bien fundamentados, luchando firmemente por los derechos de nuestros clientes. Cuando la negociación no es posible, la preparación y experiencia en el tribunal hacen la diferencia."
+            }
+        }
+    },
+    "CTA": {
+        "title": "Llame hoy para hablar sobre su caso de derecho familiar",
+        "subtitle": "Consulta inicial gratuita. Estamos listos para ayudarle.",
+        "button": "Agendar Consulta"
+    },
+    "Testimonials": {
+        "label": "Testimonios",
+        "title": "¡Lo que dicen nuestros clientes!",
+        "subtitle": "La satisfacción de nuestros clientes es nuestra mayor recompensa.",
+        "prev": "Anterior",
+        "next": "Siguiente",
+        "items": {
+            "0": {
+                "quote": "El equipo fue increíblemente profesional y compasivo durante mi divorcio. Me explicaron cada paso del proceso y lucharon por mis derechos y los de mis hijos. No podría estar más agradecido.",
+                "caseType": "Divorcio y Custodia"
+            },
+            "1": {
+                "quote": "Logramos acuerdos de manera pacífica y sin ir a juicio, gracias a su enfoque de derecho colaborativo. Esto redujo enormemente el estrés en nuestra familia y nos permitió avanzar más rápido.",
+                "caseType": "Derecho Colaborativo"
+            },
+            "2": {
+                "quote": "Desde la primera consulta me sentí escuchado y comprendido. Son expertos en derecho de familia y lograron conseguir la pensión alimenticia justa que mis hijos merecían. Totalmente recomendados.",
+                "caseType": "Pensión Alimenticia"
+            },
+            "3": {
+                "quote": "En un momento de mucha vulnerabilidad, encontré el respaldo legal y humano que necesitaba. Me ayudaron a obtener medidas de protección y a asegurar el bienestar de mi familia a largo plazo.",
+                "caseType": "Violencia Doméstica"
+            }
+        }
+    },
+    "Contact": {
+        "title": "Nuestro equipo está aquí para ayudar.",
+        "subtitle": "¿Tiene alguna pregunta o desea programar una cita? Contáctenos.",
+        "officeLocation": "Ubicación de la Oficina",
+        "contactDetails": "Datos de Contacto",
+        "callAt": "Llame al",
+        "orEmail": "o envíe un correo electrónico a",
+        "officeHours": "Horario Comercial",
+        "button": "Enviar Mensaje"
+    },
+    "Navigation": {
+        "Inicio": "Inicio",
+        "Artículos": "Artículos",
+        "Enlaces": "Enlaces",
+        "Acerca de": "Acerca de",
+        "Portal Editorial": "Portal Editorial",
+        "Cerrar menú": "Cerrar menú"
+    },
+    "Footer": {
+        "servingClients": "Atendemos clientes en {city} y toda {country}.",
+        "aboutUs": "Sobre Nosotros",
+        "services": "Servicios",
+        "getInTouch": "Ponte en Contacto",
+        "privacyPolicy": "Política de Privacidad",
+        "termsOfService": "Términos de Servicio",
+        "allRightsReserved": "Todos los derechos reservados."
+    },
+    "TopBar": {
+        "servicesIn": "Servicios de derecho familiar en {city}, {country}",
+        "callNow": "Llama Ahora",
+        "callAt": "Llame al {phone}"
+    },
+    "MagazineHeader": {
+        "articles": "Artículos",
+        "enlaces": "Enlaces",
+        "about": "Acerca de",
+        "subscribe": "Suscribirse",
+        "startReading": "Empezar lectura"
+    },
+    "MagazineFooter": {
+        "tagline": "Revista digital para historias pensadas.",
+        "privacy": "Privacidad",
+        "terms": "Términos",
+        "login": "Ingresar"
+    },
+    "Newsletter": {
+        "loading": "Suscribiendo...",
+        "success": "¡Gracias por suscribirte! Revisa tu correo.",
+        "error": "Hubo un error. Intenta de nuevo.",
+        "invalidEmail": "Email no válido."
+    }
+}

@@ -1,0 +1,158 @@
+{
+    "Index": {
+        "title": "Bem-vindo ao Conozca",
+        "description": "Uma plataforma global"
+    },
+    "Hero": {
+        "badge": "Advogados de Direito de Família em {city}, {country}",
+        "headline": "Nós nos concentramos nas necessidades da sua família",
+        "subheadline": "Representação legal compassiva e eficaz em Manágua, Nicarágua. Protegemos o que é mais importante para você e os seus.",
+        "ctaText": "Agendar Consulta",
+        "call_to_action": "Ligue para {phone}"
+    },
+    "Values": {
+        "respect": {
+            "label": "Respeito e dignidade",
+            "title": "Respeito e Dignidade",
+            "description": "Nossos clientes são como uma família. Tratamos cada caso com a dignidade e o respeito que merece."
+        },
+        "quality": {
+            "label": "Cada caso é único",
+            "title": "Representação Legal de Alto Nível",
+            "description": "Cada caso recebe total dedicação. Mantemo-nos na vanguarda do direito de família na Nicarágua."
+        },
+        "team": {
+            "label": "Equipe experiente",
+            "title": "Advogados Dedicados e Experientes",
+            "description": "Uma equipe experiente e comprometida em alcançar os melhores resultados para cada cliente."
+        }
+    },
+    "About": {
+        "tagline": "{firmName} em Manágua, Nicarágua",
+        "title": "Somos um escritório de <highlight>direito de família</highlight> em {city}, {country}.",
+        "cta": "Conheça a Nossa Equipe",
+        "yearsText": "Anos",
+        "founderBio": "Com mais de 9 anos de experiência resolvendo conflitos familiares, Silvia González é especialista em divórcios complexos, acordos de guarda infantil e litígios de pensão alimentícia. Sua abordagem prática e compassiva garante que os clientes sintam que têm um aliado ao seu lado durante o que costuma ser o momento mais difícil de suas vidas.",
+        "founderTitle": "Advogada Especialista em Direito de Família",
+        "firmDescription": "Compreendemos o estresse e o custo emocional do direito de família em Manágua, Nicarágua. Protegemos o que mais importa para você e os seus."
+    },
+    "Services": {
+        "label": "Você não precisa fazer isso sozinho",
+        "title": "Podemos ajudar com suas questões de divórcio e direito de família.",
+        "more_info": "Mais informações",
+        "items": {
+            "separacion": {
+                "title": "Separação Legal",
+                "shortDescription": "Acordos de separação são uma alternativa mutuamente aceitável e duradoura para resolver conflitos de casal."
+            },
+            "divorcio": {
+                "title": "Divórcio",
+                "shortDescription": "O divórcio é um dos aspectos mais práticos do processo. Podemos ajudá-lo a navegar por cada etapa."
+            },
+            "custodia": {
+                "title": "Guarda de Filhos e Pensão Alimentícia",
+                "shortDescription": "Os interesses das crianças são sempre a prioridade máxima. Podemos ajudá-lo a proteger o papel que você desempenha na vida delas."
+            },
+            "pension": {
+                "title": "Pensão Alimentícia",
+                "shortDescription": "Alcançar a independência financeira após um processo legal. Determinamos o valor justo da pensão."
+            },
+            "mediacion": {
+                "title": "Mediação Familiar",
+                "shortDescription": "Uma abordagem pessoal para resolver conflitos. A mediação ajuda a encontrar soluções sem ir a julgamento."
+            },
+            "violencia": {
+                "title": "Violência Doméstica",
+                "shortDescription": "A segurança deve ser considerada acima de tudo. Estamos aqui para proteger seus direitos e seu bem-estar."
+            }
+        }
+    },
+    "Tabs": {
+        "label": "Serviços jurídicos familiares básicos",
+        "title": "Uma abordagem holística para a prestação de serviços jurídicos familiares",
+        "items": {
+            "0": {
+                "title": "Direito Colaborativo",
+                "content": "Você e seu cônjuge podem considerar seu problema de direito de família como um \"problema a ser resolvido\" e não como uma \"competição a ser vencida\"? O direito colaborativo é um processo legal que permite que casais que decidiram se separar resolvam suas diferenças fora do tribunal. Nossa equipe facilita negociações respeitosas para chegar a acordos que satisfaçam as necessidades de ambas as partes e de seus filhos."
+            },
+            "1": {
+                "title": "Divórcio Absoluto",
+                "content": "Quando a separação definitiva é a melhor opção, nossa equipe a orienta em cada etapa do processo de divórcio na Nicarágua. Lidamos com documentação legal, distribuição equitativa de bens, acordos de custódia e pensão, garantindo que seus direitos sejam protegidos em todos os momentos. Nossa abordagem é tornar esse processo o mais eficiente e indolor possível."
+            },
+            "2": {
+                "title": "Litígio",
+                "content": "Para casos que exigem intervenção judicial, temos vasta experiência em litígios de direito de família perante os tribunais de Manágua e em toda a Nicarágua. Nossos advogados apresentam casos sólidos e bem fundamentados, lutando firmemente pelos direitos de nossos clientes. Quando a negociação não é possível, a preparação e a experiência no tribunal fazem a diferença."
+            }
+        }
+    },
+    "CTA": {
+        "title": "Ligue hoje para discutir o seu caso de direito de família",
+        "subtitle": "Consulta inicial gratuita. Estamos prontos para ajudá-lo.",
+        "button": "Agendar Consulta"
+    },
+    "Testimonials": {
+        "label": "Depoimentos",
+        "title": "O que nossos clientes dizem!",
+        "subtitle": "A satisfação de nossos clientes é nossa maior recompensa.",
+        "prev": "Anterior",
+        "next": "Próximo",
+        "items": {
+            "0": {
+                "quote": "A equipe foi incrivelmente profissional e compreensiva durante o meu divórcio. Eles explicaram cada etapa do processo e lutaram pelos meus direitos e dos meus filhos. Não poderia estar mais grato.",
+                "caseType": "Divórcio e Guarda"
+            },
+            "1": {
+                "quote": "Chegamos a acordos pacificamente e sem ir a julgamento, graças à abordagem de direito colaborativo deles. Isso reduziu enormemente o estresse em nossa família e nos permitiu seguir em frente mais rápido.",
+                "caseType": "Direito Colaborativo"
+            },
+            "2": {
+                "quote": "Desde a primeira consulta, me senti ouvido e compreendido. Eles são especialistas em direito de família e conseguiram obter a pensão alimentícia justa que meus filhos mereciam. Altamente recomendados.",
+                "caseType": "Pensão Alimentícia"
+            },
+            "3": {
+                "quote": "Em um momento de muita vulnerabilidade, encontrei o apoio legal e humano de que precisava. Eles me ajudaram a obter medidas de proteção e a garantir o bem-estar de longo prazo de minha família.",
+                "caseType": "Violência Doméstica"
+            }
+        }
+    },
+    "Contact": {
+        "title": "Nossa equipe está aqui para ajudar.",
+        "subtitle": "Tem alguma dúvida ou deseja agendar uma consulta? Contate-nos.",
+        "officeLocation": "Localização do Escritório",
+        "contactDetails": "Detalhes de Contato",
+        "callAt": "Ligue para",
+        "orEmail": "ou envie um e-mail para",
+        "officeHours": "Horário Comercial",
+        "button": "Enviar Mensagem"
+    },
+    "Navigation": {
+        "Inicio": "Início",
+        "Derecho de Familia": "Direito de Família",
+        "Divorcio": "Divórcio",
+        "Custodia de Menores": "Guarda de Menores",
+        "Pensión Alimenticia": "Pensão Alimentícia",
+        "Mediación Familiar": "Mediação Familiar",
+        "Violencia Doméstica": "Violência Doméstica",
+        "Separación Legal": "Separação Legal",
+        "Equipo Legal": "Equipe Legal",
+        "Nuestro Enfoque": "Nosso Enfoque",
+        "Contacto": "Contato",
+        "Portal Abogado": "Portal do Advogado",
+        "Llama Ahora": "Ligue Agora",
+        "Cerrar menú": "Fechar menu"
+    },
+    "Footer": {
+        "servingClients": "Atendemos clientes em {city} e em toda a {country}.",
+        "aboutUs": "Sobre Nós",
+        "services": "Serviços",
+        "getInTouch": "Entre em Contato",
+        "privacyPolicy": "Política de Privacidade",
+        "termsOfService": "Termos de Serviço",
+        "allRightsReserved": "Todos os direitos reservados."
+    },
+    "TopBar": {
+        "servicesIn": "Serviços de direito de família em {city}, {country}",
+        "callNow": "Ligue Agora",
+        "callAt": "Ligue para {phone}"
+    }
+}

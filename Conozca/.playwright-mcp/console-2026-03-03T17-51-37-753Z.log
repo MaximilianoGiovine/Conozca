@@ -1,0 +1,15 @@
+[   19870ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/es:0
+[   20201ms] Error: ./src/app/[locale]/(main)
+You cannot have two parallel pages that resolve to the same path. Please check /[locale]/(admin)/dashboard and /[locale]/(main).
+
+    at Object.getCompilationErrors (file:///Volumes/ssd/conozca-monorepo/node_modules/next/dist/server/dev/hot-reloader-turbopack.js:997:55)
+    at DevBundlerService.getCompilationError (file:///Volumes/ssd/conozca-monorepo/node_modules/next/dist/server/lib/dev-bundler-service.js:44:55)
+    at DevServer.getCompilationError (file:///Volumes/ssd/conozca-monorepo/node_modules/next/dist/server/dev/next-dev-server.js:706:42)
+    at DevServer.findPageComponents (file:///Volumes/ssd/conozca-monorepo/node_modules/next/dist/server/dev/next-dev-server.js:676:43)
+    at async DevServer.renderErrorToResponseImpl (file:///Volumes/ssd/conozca-monorepo/node_modules/next/dist/server/base-server.js:1733:26)
+[   20242ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/favicon.ico:0
+[   20294ms] [ERROR] ./src/app/[locale]/(main)
+You cannot have two parallel pages that resolve to the same path. Please check /[locale]/(admin)/dashboard and /[locale]/(main). @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_b3fb3b5f._.js:1920
+[   20544ms] [ERROR] ./src/app/[locale]/(main)
+You cannot have two parallel pages that resolve to the same path. Please check /[locale]/(admin)/dashboard and /[locale]/(main). @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_b3fb3b5f._.js:1920
+[   68299ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/favicon.ico:0

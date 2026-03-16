@@ -1,0 +1,113 @@
+.page {
+  min-height: 100svh;
+  padding: 40px 64px 80px;
+  background: radial-gradient(
+      1000px 400px at 20% -10%,
+      rgba(37, 150, 190, 0.12),
+      transparent 65%
+    ),
+    var(--brand-cream);
+}
+
+.header {
+  max-width: 900px;
+  margin: 0 auto 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.backLink {
+  color: var(--brand-red);
+  font-weight: 600;
+}
+
+.profile {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(140deg, #fff, rgba(37, 150, 190, 0.45));
+  border: 1px solid rgba(20, 20, 20, 0.1);
+}
+
+.header h1 {
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(32px, 4vw, 44px);
+}
+
+.header p {
+  color: var(--ink-soft);
+}
+
+.bio {
+  font-size: 16px;
+  color: var(--ink-soft);
+  max-width: 600px;
+}
+
+.section {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionHeader h3 {
+  font-family: var(--font-fraunces), serif;
+  font-size: 26px;
+}
+
+.articleList {
+  display: grid;
+  gap: 16px;
+}
+
+.emptyState {
+  background: #fff;
+  border-radius: 20px;
+  padding: 16px;
+  border: 1px solid rgba(20, 20, 20, 0.08);
+  color: var(--ink-soft);
+}
+
+.articleCard {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid rgba(20, 20, 20, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.textButton {
+  background: none;
+  border: none;
+  color: var(--brand-red);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding: 32px 24px 64px;
+  }
+
+  .profile {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
