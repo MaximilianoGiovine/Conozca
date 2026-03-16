@@ -40,20 +40,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               </Link>
               <Link className={styles.secondaryButton} href="/blog">Ver destacados</Link>
             </div>
-            <div className={styles.heroMeta}>
-              <div>
-                <span className={styles.metaLabel}>Edición</span>
-                <span className={styles.metaValue}>No. 12</span>
-              </div>
-              <div>
-                <span className={styles.metaLabel}>Frecuencia</span>
-                <span className={styles.metaValue}>Semanal</span>
-              </div>
-              <div>
-                <span className={styles.metaLabel}>Editores</span>
-                <span className={styles.metaValue}>Conozca Team</span>
-              </div>
-            </div>
+
           </div>
 
           <div className={styles.heroCard}>
