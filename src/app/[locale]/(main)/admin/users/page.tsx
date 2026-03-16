@@ -24,7 +24,7 @@ export default async function AdminUsersPage() {
     .single()
 
   if (profile?.role !== 'admin') {
-    redirect('/dashboard')
+    redirect('/admin-dashboard')
   }
 
   // Obtener todos los usuarios

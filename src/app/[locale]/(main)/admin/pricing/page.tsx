@@ -23,7 +23,7 @@ export default async function AdminPricingPage() {
     .single()
 
   if (profile?.role !== 'admin') {
-    redirect('/dashboard')
+    redirect('/admin-dashboard')
   }
 
   // Obtener tipos de cita existentes
