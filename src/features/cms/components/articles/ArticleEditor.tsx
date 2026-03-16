@@ -3,8 +3,9 @@ import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { ArticleImporter } from './ArticleImporter'
 import { TranslationPanel } from './TranslationPanel'
-import { Save, Globe, Eye, EyeOff, Loader2, CalendarClock, BookOpen } from 'lucide-react'
+import { Save, Globe, Eye, EyeOff, Loader2, CalendarClock, BookOpen, Download } from 'lucide-react'
 import type { ArticleTranslationDraft, TranslationLanguage } from '../../types/cms'
+import { generateArticlePdf, type PdfArticleData } from '@/features/blog/services/pdfGenerator'
 
 const AcademicEditor = dynamic(
     () => import('./AcademicEditor').then(mod => mod.AcademicEditor),
@@ -74,6 +75,7 @@ export function ArticleEditor({ articleId, initialData }: Props) {
     const [saved, setSaved] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [showPreview, setShowPreview] = useState(false)
+    const [isGeneratingPdf, setIsGeneratingPdf] = useState(false)
 
     const activeTranslation = translations.find(t => t.language_code === activeLang) ?? emptyTranslation(activeLang)
 
@@ -130,6 +132,25 @@ export function ArticleEditor({ articleId, initialData }: Props) {
         }
     }
 
+    async function handleDownloadPdf() {
+        setIsGeneratingPdf(true)
+        try {
+            const pdfData: PdfArticleData = {
+                title: previewArticle?.title || 'Sin título',
+                authorName: authorName || null,
+                publishedAt: isScheduled && scheduledDate ? new Date(scheduledDate).toISOString() : null,
+                slug: slug || 'preview',
+                content: String(previewArticle?.content || '<p>Sin contenido.</p>'),
+                categoryName: CATEGORIES.find(c => c.id === categoryId)?.label || null,
+            }
+            await generateArticlePdf(pdfData)
+        } catch (error) {
+            console.error('Error generating PDF:', error)
+        } finally {
+            setIsGeneratingPdf(false)
+        }
+    }
+
     const previewArticle = translations.find(t => t.language_code === 'es') ?? translations[0]
 
     return (
@@ -137,21 +158,60 @@ export function ArticleEditor({ articleId, initialData }: Props) {
             {/* Preview overlay */}
             {showPreview && (
                 <div className="fixed inset-0 z-50 bg-white overflow-auto">
-                    <div className="max-w-4xl mx-auto py-20 px-6">
-                        <div className="flex justify-end mb-6">
+                    {/* Header con botón de descargar y cerrar */}
+                    <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+                        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
                             <button
                                 onClick={() => setShowPreview(false)}
-                                className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-700"
+                                className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors"
                             >
                                 <EyeOff className="w-4 h-4" /> Cerrar vista previa
                             </button>
+                            <button
+                                onClick={handleDownloadPdf}
+                                disabled={isGeneratingPdf}
+                                className="flex items-center gap-2 px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-lg shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                                aria-label="Descargar artículo en PDF"
+                            >
+                                {isGeneratingPdf ? (
+                                    <>
+                                        <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                                        </svg>
+                                        Generando PDF…
+                                    </>
+                                ) : (
+                                    <>
+                                        <Download className="w-4 h-4" />
+                                        Descargar PDF
+                                    </>
+                                )}
+                            </button>
                         </div>
-                        {authorName && (
-                            <p className="text-sm font-medium text-amber-700 mb-2">Por {authorName}</p>
-                        )}
-                        <h1 className="text-5xl font-extrabold text-gray-900 mb-6" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-                            {previewArticle?.title || 'Sin título'}
-                        </h1>
+                    </div>
+
+                    {/* Contenido del artículo */}
+                    <article className="max-w-4xl mx-auto py-20 px-6">
+                        <header className="mb-12 text-center">
+                            <h1
+                                className="text-5xl font-extrabold tracking-tight text-gray-900 mb-6"
+                                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                            >
+                                {previewArticle?.title || 'Sin título'}
+                            </h1>
+                            <div className="flex items-center justify-center space-x-4 text-gray-700">
+                                {isScheduled && scheduledDate && (
+                                    <span>{new Date(scheduledDate).toLocaleDateString('es')}</span>
+                                )}
+                                {authorName && (
+                                    <>
+                                        <span>•</span>
+                                        <span>Por {authorName}</span>
+                                    </>
+                                )}
+                            </div>
+                        </header>
                         {previewArticle?.excerpt && (
                             <p className="text-lg text-gray-600 italic mb-8 border-l-4 border-amber-500 pl-4">
                                 {previewArticle.excerpt}
@@ -161,7 +221,7 @@ export function ArticleEditor({ articleId, initialData }: Props) {
                             className="prose prose-lg max-w-none text-gray-800"
                             dangerouslySetInnerHTML={{ __html: previewArticle?.content || '<p>Sin contenido.</p>' }}
                         />
-                    </div>
+                    </article>
                 </div>
             )}
 
