@@ -1,10 +1,26 @@
 'use client'
 import { useState } from 'react'
-import { AcademicEditor } from './AcademicEditor'
+import dynamic from 'next/dynamic'
 import { ArticleImporter } from './ArticleImporter'
 import { TranslationPanel } from './TranslationPanel'
 import { Save, Globe, Eye, EyeOff, Loader2, CalendarClock, BookOpen } from 'lucide-react'
 import type { ArticleTranslationDraft, TranslationLanguage } from '../../types/cms'
+
+const AcademicEditor = dynamic(
+    () => import('./AcademicEditor').then(mod => mod.AcademicEditor),
+    {
+        ssr: false,
+        loading: () => (
+            <div className="min-h-[300px] flex items-center justify-center bg-gray-800 rounded-lg border border-gray-700">
+                <div className="flex items-center gap-2 text-gray-400">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span className="text-sm">Cargando editor...</span>
+                </div>
+            </div>
+        ),
+    }
+)
+
 
 const LANGUAGES: { code: TranslationLanguage; label: string; flag: string }[] = [
     { code: 'es', label: 'Español', flag: '🇪🇸' },
