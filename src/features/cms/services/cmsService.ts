@@ -5,29 +5,37 @@ export const cmsService = {
     async getStats(): Promise<CmsStats> {
         const supabase = await createClient()
 
-        const [articles, categories, authors, users, pendingComments, totalComments] = await Promise.all([
-            supabase.from('articles').select('id, published_at'),
-            supabase.from('categories').select('id', { count: 'exact', head: true }),
-            supabase.from('authors').select('id', { count: 'exact', head: true }),
-            supabase.from('users').select('id', { count: 'exact', head: true }),
-            supabase.from('comments').select('id', { count: 'exact', head: true }).eq('is_approved', false),
-            supabase.from('comments').select('id', { count: 'exact', head: true }),
+        const safeCount = async (query: Promise<{ count: number | null; error: unknown }>) => {
+            try { const r = await query; return r.count ?? 0 } catch { return 0 }
+        }
+        const safeData = async (query: Promise<{ data: unknown[] | null; error: unknown }>) => {
+            try { const r = await query; return r.data ?? [] } catch { return [] }
+        }
+
+        const [articleRows, catCount, authorCount, userCount, pendingCount, totalCommentCount] = await Promise.all([
+            safeData(supabase.from('articles').select('id, published_at') as any),
+            safeCount(supabase.from('categories').select('id', { count: 'exact', head: true }) as any),
+            safeCount(supabase.from('authors').select('id', { count: 'exact', head: true }) as any),
+            safeCount(supabase.from('users').select('id', { count: 'exact', head: true }) as any),
+            safeCount(supabase.from('comments').select('id', { count: 'exact', head: true }).eq('is_approved', false) as any),
+            safeCount(supabase.from('comments').select('id', { count: 'exact', head: true }) as any),
         ])
 
-        const allArticles = articles.data ?? []
+        const allArticles = articleRows as { id: string; published_at: string | null }[]
         const published = allArticles.filter(a => a.published_at).length
 
         return {
             totalArticles: allArticles.length,
             publishedArticles: published,
             draftArticles: allArticles.length - published,
-            totalCategories: categories.count ?? 0,
-            totalAuthors: authors.count ?? 0,
-            totalUsers: users.count ?? 0,
-            pendingComments: pendingComments.count ?? 0,
-            totalComments: totalComments.count ?? 0,
+            totalCategories: catCount,
+            totalAuthors: authorCount,
+            totalUsers: userCount,
+            pendingComments: pendingCount,
+            totalComments: totalCommentCount,
         }
     },
+
 
     async getArticles(): Promise<ArticleListItem[]> {
         const supabase = await createClient()
