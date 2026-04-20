@@ -1,14 +1,15 @@
 # Multi-stage Dockerfile para Next.js en VPS (Standalone mode)
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 
-# 1. Dependencias
+# 1. Dependencias (Se agrega python3 make y g++ en caso de haber binarios nativos)
 FROM base AS deps
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat python3 make g++
 WORKDIR /app
 
 # Copiamos archivos de dependencias
 COPY package.json package-lock.json* ./
-RUN npm ci
+# Reemplazamos 'npm ci' por 'npm install' para evitar cruces estrictos si el lockfile es de una versión distinta localmente
+RUN npm install
 
 # 2. Builder
 FROM base AS builder
