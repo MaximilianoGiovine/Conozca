@@ -75,8 +75,7 @@ services:
     container_name: conozca-gateway
     restart: unless-stopped
     ports:
-      # Puerto de entrada principal del VPS. Mapear a 80 y/o 443.
-      - "80:80"
+      - "${GATEWAY_PORT:-8080}:80"
     depends_on:
       - gotrue
       - postgrest
