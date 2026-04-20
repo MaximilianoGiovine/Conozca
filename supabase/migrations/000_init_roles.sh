@@ -21,22 +21,7 @@ DO \$\$ BEGIN
 END \$\$;
 
 -- 2. Crear los roles abstractos que PostgREST y GoTrue usan para context switching (RLS)
-DO \$\$ BEGIN
-  IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'anon') THEN
-    CREATE ROLE anon NOLOGIN;
-  END IF;
-  IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'authenticated') THEN
-    CREATE ROLE authenticated NOLOGIN;
-  END IF;
-  IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'service_role') THEN
-    CREATE ROLE service_role NOLOGIN;
-  END IF;
-END \$\$;
-
--- 3. Otorgar los permisos base en el schema public a los roles
-GRANT USAGE ON SCHEMA public TO anon, authenticated, service_role;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO postgres, anon, authenticated, service_role;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON FUNCTIONS TO postgres, anon, authenticated, service_role;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO postgres, anon, authenticated, service_role;
+-- Los roles de anon, authenticated, etc., serán creados por los scripts nativos de Supabase
+-- que se inician justo después de este script.
 
 EOSQL
