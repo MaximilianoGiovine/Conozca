@@ -89,15 +89,20 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        # Estos valores se hornean dentro del bundle JS en build time
+        # NEXT_PUBLIC_SUPABASE_URL debe ser la URL pública de tu VPS accesible desde el navegador
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiJ9.dummy_signature_change_me}
     container_name: conozca-frontend
     restart: unless-stopped
     depends_on:
       - gateway
     environment:
       NODE_ENV: production
-      # El frontend SSR se comunicará con el Gateway Unificado local
-      NEXT_PUBLIC_SUPABASE_URL: http://gateway:80
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiJ9.dummy_signature_change_me}
+      # Para el SSR (server-side), el frontend se comunica internamente con el gateway Docker
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiJ9.dummy_signature_change_me}
     ports:
       - "3000:3000"
     networks:
