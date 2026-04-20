@@ -152,6 +152,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- IMPORTANTE: El trigger que asocia handle_new_user con auth.users
--- debe crearse MANUALMENTE después de que el contenedor GoTrue inicie,
--- ya que auth.users no existe en el milisegundo exacto en que arranca Postgres.
+-- Trigger to call handle_new_user automatically on auth.users INSERT
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
