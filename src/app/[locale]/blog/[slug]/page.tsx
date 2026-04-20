@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { articleService } from '@/features/blog/services/articleService';
 import { notFound } from 'next/navigation';
 import PageShell from '@/components/magazine/PageShell';

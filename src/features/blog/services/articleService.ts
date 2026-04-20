@@ -1,12 +1,19 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Lazy initialization: se crea el cliente SÓLO cuando se llama a una función,
+// no durante el import del módulo (lo que rompe el build de Next.js sin env vars)
+function getSupabaseClient() {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!supabaseUrl || !supabaseKey) {
+        throw new Error('Missing Supabase environment variables: NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are required.');
+    }
+    return createClient(supabaseUrl, supabaseKey);
+}
 
 export const articleService = {
     async getArticles(locale: string, categoryId?: string | null) {
+        const supabase = getSupabaseClient();
         let query = supabase
             .from('articles')
             .select(`
@@ -38,6 +45,7 @@ export const articleService = {
     },
 
     async getArticleBySlug(slug: string, locale: string) {
+        const supabase = getSupabaseClient();
         const { data, error } = await supabase
             .from('articles')
             .select(`
@@ -63,6 +71,7 @@ export const articleService = {
     },
 
     async getCategories(locale: string) {
+        const supabase = getSupabaseClient();
         const { data, error } = await supabase
             .from('categories')
             .select(`

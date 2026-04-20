@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { articleService } from '@/features/blog/services/articleService';
 import { BlogContent } from '@/features/blog/components/BlogContent';
 import PageShell from '@/components/magazine/PageShell';
