@@ -100,8 +100,9 @@ services:
       - gateway
     environment:
       NODE_ENV: production
-      # Para el SSR (server-side), el frontend se comunica internamente con el gateway Docker
-      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      # Para el SSR (server-side), el frontend DEBE comunicarse internamente con el gateway Docker
+      # para evitar errores de NAT loopback (Application error de servidor)
+      NEXT_PUBLIC_SUPABASE_URL: http://gateway:80
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiJ9.dummy_signature_change_me}
     ports:
       - "3000:3000"
