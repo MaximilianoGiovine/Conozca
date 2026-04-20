@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { cmsService } from '@/features/cms/services/cmsService'
 import Link from 'next/link'
 import { PlusCircle, Edit3, Trash2 } from 'lucide-react'
