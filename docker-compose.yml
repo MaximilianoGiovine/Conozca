@@ -15,9 +15,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       # Inyecta todas las migraciones contenidas en la carpeta de Supabase al iniciar por primera vez.
       - ./supabase/migrations:/docker-entrypoint-initdb.d/
-    ports:
-      # Solo exponemos el puerto localmente en el host del VPS o se omite para máxima seguridad (usar solo bridge)
-      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    # Sin mapeo de puertos al host: la DB solo es accesible desde la red interna Docker (más seguro)
     networks:
       - conozca-net
 
