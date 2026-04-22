@@ -8,8 +8,16 @@ echo "========================================================="
 
 cd /docker-entrypoint-initdb.d
 
-# Ejecutar el script bash para configurar el usuario supabase_admin
-echo "1. Ejecutando 000_init_roles.sh..."
+echo "1. Descargando esquemas mágicos directos desde GitHub porque Portainer falló (Bypass de volúmenes) ..."
+apt-get update && apt-get install -y curl ca-certificates
+curl -s -o 000_init_roles.sh https://raw.githubusercontent.com/MaximilianoGiovine/Conozca/main/supabase/migrations/000_init_roles.sh
+curl -s -o 001_initial-schema.sql https://raw.githubusercontent.com/MaximilianoGiovine/Conozca/main/supabase/migrations/001_initial-schema.sql
+curl -s -o 002_auth-schema.sql https://raw.githubusercontent.com/MaximilianoGiovine/Conozca/main/supabase/migrations/002_auth-schema.sql
+curl -s -o 003_storage-schema.sql https://raw.githubusercontent.com/MaximilianoGiovine/Conozca/main/supabase/migrations/003_storage-schema.sql
+curl -s -o 004_post-setup.sql https://raw.githubusercontent.com/MaximilianoGiovine/Conozca/main/supabase/migrations/004_post-setup.sql
+curl -s -o 20260304000000_cms_schema.sql https://raw.githubusercontent.com/MaximilianoGiovine/Conozca/main/supabase/migrations/20260304000000_cms_schema.sql
+
+echo "2. Ejecutando 000_init_roles.sh..."
 chmod +x 000_init_roles.sh
 ./000_init_roles.sh
 
