@@ -11,7 +11,9 @@ set -e
 # Usar el POSTGRES_PASSWORD definido en las variables de entorno, o el fallback.
 ADMIN_PASS="${POSTGRES_PASSWORD:-conozca_dev_password_change_me_in_vps}"
 
-psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+export PGPASSWORD="${POSTGRES_PASSWORD:-conozca_dev_password_change_me_in_vps}"
+
+psql -h 127.0.0.1 -v ON_ERROR_STOP=1 --username "${POSTGRES_USER:-postgres}" --dbname "${POSTGRES_DB:-postgres}" <<-EOSQL
 
 -- 1. Crear el usuario administrador de Supabase que requiere GoTrue
 DO \$\$ BEGIN

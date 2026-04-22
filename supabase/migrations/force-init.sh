@@ -21,22 +21,26 @@ echo "2. Ejecutando 000_init_roles.sh..."
 chmod +x 000_init_roles.sh
 ./000_init_roles.sh
 
+# Usamos -h 127.0.0.1 para saltarnos el "Peer authentication" limitante de root
+export PGPASSWORD="${POSTGRES_PASSWORD:-conozca_dev_password_change_me_in_vps}"
+HOST_ARG="-h 127.0.0.1"
+
 # Ejecutar los esquemas oficiales en orden forzado
 echo "2. Ejecutando 001_initial-schema.sql..."
-psql -U postgres -d postgres -f 001_initial-schema.sql
+psql $HOST_ARG -U postgres -d postgres -f 001_initial-schema.sql
 
 echo "3. Ejecutando 002_auth-schema.sql..."
-psql -U postgres -d postgres -f 002_auth-schema.sql
+psql $HOST_ARG -U postgres -d postgres -f 002_auth-schema.sql
 
 echo "4. Ejecutando 003_storage-schema.sql..."
-psql -U postgres -d postgres -f 003_storage-schema.sql
+psql $HOST_ARG -U postgres -d postgres -f 003_storage-schema.sql
 
 echo "5. Ejecutando 004_post-setup.sql..."
-psql -U postgres -d postgres -f 004_post-setup.sql
+psql $HOST_ARG -U postgres -d postgres -f 004_post-setup.sql
 
 # Ejecutar las migraciones del CMS
 echo "6. Ejecutando migraciones propias (CMS)..."
-psql -U postgres -d postgres -f 20260304000000_cms_schema.sql
+psql $HOST_ARG -U postgres -d postgres -f 20260304000000_cms_schema.sql
 
 echo "========================================================="
 echo "¡INICIALIZACIÓN FORZADA COMPLETADA! REVISA ERRORES ARRIBA"
