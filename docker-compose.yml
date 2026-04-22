@@ -58,6 +58,8 @@ services:
       GOTRUE_DB_DRIVER: postgres
       GOTRUE_DB_DATABASE_URL: postgres://supabase_admin:${POSTGRES_PASSWORD:-conozca_dev_password_change_me_in_vps}@postgres:5432/postgres
       GOTRUE_SITE_URL: ${SITE_URL:-http://tu-dominio.com}
+      API_EXTERNAL_URL: ${SITE_URL:-http://localhost}
+      GOTRUE_API_EXTERNAL_URL: ${SITE_URL:-http://localhost}
       GOTRUE_URI_ALLOW_LIST: ${CORS_ORIGIN:-http://localhost,http://tu-dominio.com}
       GOTRUE_JWT_SECRET: ${JWT_SECRET:-this-super-secret-jwt-token-must-be-min-32-chars-long}
       GOTRUE_JWT_EXP: 3600
