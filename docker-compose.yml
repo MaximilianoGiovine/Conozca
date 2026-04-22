@@ -129,6 +129,8 @@ services:
       - gateway
     environment:
       NODE_ENV: production
+      # Internal Docker URL for Next.js SSR to bypass server Hairpin NAT problems (Fetch Failed on Server Actions)
+      SUPABASE_INTERNAL_URL: http://gateway:80
       # Para el SSR (server-side) y el cliente
       NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-http://204.168.239.69:8080}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiJ9.dummy_signature_change_me}
