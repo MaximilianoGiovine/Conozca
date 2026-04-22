@@ -6,6 +6,7 @@ import { TranslationPanel } from './TranslationPanel'
 import { Save, Globe, Eye, EyeOff, Loader2, CalendarClock, BookOpen, Download } from 'lucide-react'
 import type { ArticleTranslationDraft, TranslationLanguage } from '../../types/cms'
 import { generateArticlePdf, type PdfArticleData } from '@/features/blog/services/pdfGenerator'
+import { sanitizeRichHtml } from '@/shared/lib/sanitize-rich-html'
 
 const AcademicEditor = dynamic(
     () => import('./AcademicEditor').then(mod => mod.AcademicEditor),
@@ -78,6 +79,8 @@ export function ArticleEditor({ articleId, initialData }: Props) {
     const [isGeneratingPdf, setIsGeneratingPdf] = useState(false)
 
     const activeTranslation = translations.find(t => t.language_code === activeLang) ?? emptyTranslation(activeLang)
+    const previewArticle = translations.find(t => t.language_code === 'es') ?? translations[0]
+    const sanitizedPreviewContent = sanitizeRichHtml(String(previewArticle?.content || '<p>Sin contenido.</p>'))
 
     function updateTranslation(lang: TranslationLanguage, field: keyof ArticleTranslationDraft, value: string) {
         setTranslations(prev =>
@@ -140,7 +143,7 @@ export function ArticleEditor({ articleId, initialData }: Props) {
                 authorName: authorName || null,
                 publishedAt: isScheduled && scheduledDate ? new Date(scheduledDate).toISOString() : null,
                 slug: slug || 'preview',
-                content: String(previewArticle?.content || '<p>Sin contenido.</p>'),
+                content: sanitizedPreviewContent,
                 categoryName: CATEGORIES.find(c => c.id === categoryId)?.label || null,
             }
             await generateArticlePdf(pdfData)
@@ -150,9 +153,6 @@ export function ArticleEditor({ articleId, initialData }: Props) {
             setIsGeneratingPdf(false)
         }
     }
-
-    const previewArticle = translations.find(t => t.language_code === 'es') ?? translations[0]
-
     return (
         <div className="space-y-6">
             {/* Preview overlay */}
@@ -219,7 +219,7 @@ export function ArticleEditor({ articleId, initialData }: Props) {
                         )}
                         <div
                             className="prose prose-lg max-w-none text-gray-800"
-                            dangerouslySetInnerHTML={{ __html: previewArticle?.content || '<p>Sin contenido.</p>' }}
+                            dangerouslySetInnerHTML={{ __html: sanitizedPreviewContent }}
                         />
                     </article>
                 </div>

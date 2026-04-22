@@ -64,12 +64,12 @@ export default function EnlacesPage() {
 
                             {resource.imagePath && (
                                 <div className="relative w-full h-32 mb-4 rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-900/50 flex items-center justify-center">
-                                    {/* Using standard img to easily handle missing files without Next Image hard-breaking if the file isn't uploaded yet */}
-                                    <img 
-                                        src={resource.imagePath} 
+                                    <Image
+                                        src={resource.imagePath}
                                         alt={`Logo de ${resource.title}`}
-                                        className="max-h-full max-w-full object-contain p-2"
-
+                                        fill
+                                        className="object-contain p-2"
+                                        sizes="(max-width: 768px) 100vw, 50vw"
                                     />
                                     <span className="absolute text-xs text-gray-400 -z-10 text-center px-4">
                                         Imagen pendiente: {resource.imagePath}

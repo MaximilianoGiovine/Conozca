@@ -54,7 +54,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           {/* Bottom quote */}
           <div className="border-l-2 border-amber-500/40 pl-4">
             <p className="text-gray-400 text-sm italic">
-              "La unión de cultura, fe y pensamiento crítico."
+              &quot;La unión de cultura, fe y pensamiento crítico.&quot;
             </p>
           </div>
         </div>

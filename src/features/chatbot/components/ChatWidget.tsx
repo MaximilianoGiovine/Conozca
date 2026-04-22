@@ -54,22 +54,27 @@ export function ChatWidget() {
   const [currentStep, setCurrentStep] = useState<'greeting' | 'name' | 'email' | 'phone' | 'case_type' | 'description' | 'urgency' | 'confirm' | 'done'>('greeting')
   const [showDisclaimer, setShowDisclaimer] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const messageIdRef = useRef(1)
 
-  useEffect(() => {
-    if (isOpen && messages.length === 0) {
-      setMessages([INITIAL_MESSAGE])
-    }
-  }, [isOpen, messages.length])
+  const nextMessageId = () => {
+    messageIdRef.current += 1
+    return String(messageIdRef.current)
+  }
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
+  const handleOpen = () => {
+    setIsOpen(true)
+    setMessages((prev) => (prev.length === 0 ? [INITIAL_MESSAGE] : prev))
+  }
+
   const addBotMessage = (content: string, quickReplies?: string[]) => {
     setIsTyping(true)
     setTimeout(() => {
       setMessages(prev => [...prev, {
-        id: Date.now().toString(),
+        id: nextMessageId(),
         type: 'bot',
         content,
         timestamp: new Date(),
@@ -83,7 +88,7 @@ export function ChatWidget() {
     if (!text.trim()) return
 
     const userMessage: Message = {
-      id: Date.now().toString(),
+      id: nextMessageId(),
       type: 'user',
       content: text,
       timestamp: new Date()
@@ -198,9 +203,9 @@ export function ChatWidget() {
 
       case 'done':
         if (text.includes('crear cuenta')) {
-          window.location.href = '/signup'
+          window.location.assign('/signup')
         } else if (text.includes('iniciar sesión')) {
-          window.location.href = '/login'
+          window.location.assign('/login')
         } else {
           addBotMessage('¿Hay algo más en lo que pueda ayudarte?', ['Nueva consulta', 'Crear cuenta', 'Cerrar chat'])
         }
@@ -215,7 +220,7 @@ export function ChatWidget() {
   if (!isOpen) {
     return (
       <button
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
         data-tour="chat-widget"
         className="fixed bottom-6 right-6 w-16 h-16 bg-amber-500 rounded-full shadow-lg flex items-center justify-center hover:bg-amber-600 transition-all hover:scale-105 z-50"
         aria-label="Abrir chat"

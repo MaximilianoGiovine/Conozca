@@ -17,6 +17,26 @@ interface Props {
     placeholder?: string
 }
 
+interface ToolbarBtnProps {
+    onClick: () => void
+    active: boolean
+    children: React.ReactNode
+    title: string
+}
+
+function ToolbarBtn({ onClick, active, children, title }: ToolbarBtnProps) {
+    return (
+        <button
+            type="button"
+            onClick={onClick}
+            title={title}
+            className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
+        >
+            {children}
+        </button>
+    )
+}
+
 export function AcademicEditor({ content, onChange, placeholder }: Props) {
     const editor = useEditor({
         extensions: [
@@ -38,17 +58,6 @@ export function AcademicEditor({ content, onChange, placeholder }: Props) {
     })
 
     if (!editor) return null
-
-    const ToolbarBtn = ({ onClick, active, children, title }: any) => (
-        <button
-            type="button"
-            onClick={onClick}
-            title={title}
-            className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
-        >
-            {children}
-        </button>
-    )
 
     return (
         <div className="border border-gray-700 rounded-xl overflow-hidden bg-gray-850">

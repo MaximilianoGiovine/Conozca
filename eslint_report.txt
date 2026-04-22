@@ -1,0 +1,724 @@
+npm warn Unknown project config "node-linker". This will stop working in the next major version of npm.
+npm warn Unknown project config "public-hoist-pattern". This will stop working in the next major version of npm.
+npm warn Unknown project config "shamefully-hoist". This will stop working in the next major version of npm.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/eslint.config.mjs
+  3:1  warning  Assign array to a variable before exporting as module default  import/no-anonymous-default-export
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/app/[locale]/(auth)/layout.tsx
+  57:15  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  57:62  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/app/[locale]/(main)/admin/analytics/page.tsx
+   97:3  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  100:5  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  105:5  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  109:5  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+  113:5  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/app/[locale]/acerca-de/page.tsx
+  87:39   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  87:52   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  91:115  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  91:128  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/app/[locale]/book/[slug]/PublicBookingPage.tsx
+  413:33  warning  Do not use an `<a>` element to navigate to `/privacy/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+  413:33  warning  Do not use an `<a>` element to navigate to `/privacy/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+  413:33  warning  Do not use an `<a>` element to navigate to `/privacy/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+  414:27  warning  Do not use an `<a>` element to navigate to `/terms/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages    @next/next/no-html-link-for-pages
+  414:27  warning  Do not use an `<a>` element to navigate to `/terms/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages    @next/next/no-html-link-for-pages
+  414:27  warning  Do not use an `<a>` element to navigate to `/terms/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages    @next/next/no-html-link-for-pages
+  567:13  warning  Do not use an `<a>` element to navigate to `/privacy/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+  567:13  warning  Do not use an `<a>` element to navigate to `/privacy/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+  567:13  warning  Do not use an `<a>` element to navigate to `/privacy/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+  568:13  warning  Do not use an `<a>` element to navigate to `/terms/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages    @next/next/no-html-link-for-pages
+  568:13  warning  Do not use an `<a>` element to navigate to `/terms/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages    @next/next/no-html-link-for-pages
+  568:13  warning  Do not use an `<a>` element to navigate to `/terms/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages    @next/next/no-html-link-for-pages
+  569:13  warning  Do not use an `<a>` element to navigate to `/contact/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+  569:13  warning  Do not use an `<a>` element to navigate to `/contact/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+  569:13  warning  Do not use an `<a>` element to navigate to `/contact/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/app/[locale]/enlaces/page.tsx
+  68:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/components/appointments/appointment-card.tsx
+  58:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/components/appointments/lawyer-profile-card.tsx
+  40:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/components/onboarding/AppTourWizard.tsx
+  76:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/components/onboarding/AppTourWizard.tsx:76:5
+  74 |
+  75 |   useEffect(() => {
+> 76 |     setMounted(true)
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  77 |   }, [])
+  78 |
+  79 |   useEffect(() => {                                                                                                                                         react-hooks/set-state-in-effect
+  85:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/components/onboarding/AppTourWizard.tsx:85:7
+  83 |     if (element) {
+  84 |       const rect = element.getBoundingClientRect()
+> 85 |       setTargetRect(rect)
+     |       ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  86 |
+  87 |       // Scroll element into view
+  88 |       element.scrollIntoView({ behavior: 'smooth', block: 'center' })  react-hooks/set-state-in-effect
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/components/onboarding/TourProvider.tsx
+  31:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/components/onboarding/TourProvider.tsx:31:5
+  29 |     // Check localStorage after mount
+  30 |     const seen = localStorage.getItem(TOUR_STORAGE_KEY)
+> 31 |     setHasSeenTour(seen === 'true')
+     |     ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  32 |     setIsReady(true)
+  33 |
+  34 |     // Si no ha visto el tour, mostrarlo automáticamente después de un delay  react-hooks/set-state-in-effect
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/chatbot/components/ChatWidget.tsx
+   86:11  error  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/chatbot/components/ChatWidget.tsx:86:11
+  84 |
+  85 |     const userMessage: Message = {
+> 86 |       id: Date.now().toString(),
+     |           ^^^^^^^^^^ Cannot call impure function
+  87 |       type: 'user',
+  88 |       content: text,
+  89 |       timestamp: new Date()  react-hooks/purity
+  201:11  error  Error: This value cannot be modified
+
+Modifying a variable defined outside a component or hook is not allowed. Consider using an effect.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/chatbot/components/ChatWidget.tsx:201:11
+  199 |       case 'done':
+  200 |         if (text.includes('crear cuenta')) {
+> 201 |           window.location.href = '/signup'
+      |           ^^^^^^^^^^^^^^^ value cannot be modified
+  202 |         } else if (text.includes('iniciar sesión')) {
+  203 |           window.location.href = '/login'
+  204 |         } else {                                                                                          react-hooks/immutability
+  203:11  error  Error: This value cannot be modified
+
+Modifying a variable defined outside a component or hook is not allowed. Consider using an effect.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/chatbot/components/ChatWidget.tsx:203:11
+  201 |           window.location.href = '/signup'
+  202 |         } else if (text.includes('iniciar sesión')) {
+> 203 |           window.location.href = '/login'
+      |           ^^^^^^^^^^^^^^^ value cannot be modified
+  204 |         } else {
+  205 |           addBotMessage('¿Hay algo más en lo que pueda ayudarte?', ['Nueva consulta', 'Crear cuenta', 'Cerrar chat'])
+  206 |         }                          react-hooks/immutability
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx
+   57:18  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:57:18
+  55 |             {/* Toolbar */}
+  56 |             <div className="flex flex-wrap items-center gap-0.5 p-2 bg-gray-800 border-b border-gray-700">
+> 57 |                 <ToolbarBtn onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive('bold')} title="Bold">
+     |                  ^^^^^^^^^^ This component is created during render
+  58 |                     <Bold className="w-4 h-4" />
+  59 |                 </ToolbarBtn>
+  60 |                 <ToolbarBtn onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive('italic')} title="Italic">
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:42:24
+  40 |     if (!editor) return null
+  41 |
+> 42 |     const ToolbarBtn = ({ onClick, active, children, title }: any) => (
+     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         <button
+     | ^^^^^^^^^^^^^^^
+> 44 |             type="button"
+     | ^^^^^^^^^^^^^^^
+> 45 |             onClick={onClick}
+     | ^^^^^^^^^^^^^^^
+> 46 |             title={title}
+     | ^^^^^^^^^^^^^^^
+> 47 |             className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
+     | ^^^^^^^^^^^^^^^
+> 48 |         >
+     | ^^^^^^^^^^^^^^^
+> 49 |             {children}
+     | ^^^^^^^^^^^^^^^
+> 50 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 51 |     )
+     | ^^^^^^ The component is created during render here
+  52 |
+  53 |     return (
+  54 |         <div className="border border-gray-700 rounded-xl overflow-hidden bg-gray-850">                                  react-hooks/static-components
+   60:18  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:60:18
+  58 |                     <Bold className="w-4 h-4" />
+  59 |                 </ToolbarBtn>
+> 60 |                 <ToolbarBtn onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive('italic')} title="Italic">
+     |                  ^^^^^^^^^^ This component is created during render
+  61 |                     <Italic className="w-4 h-4" />
+  62 |                 </ToolbarBtn>
+  63 |                 <div className="w-px h-5 bg-gray-700 mx-1" />
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:42:24
+  40 |     if (!editor) return null
+  41 |
+> 42 |     const ToolbarBtn = ({ onClick, active, children, title }: any) => (
+     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         <button
+     | ^^^^^^^^^^^^^^^
+> 44 |             type="button"
+     | ^^^^^^^^^^^^^^^
+> 45 |             onClick={onClick}
+     | ^^^^^^^^^^^^^^^
+> 46 |             title={title}
+     | ^^^^^^^^^^^^^^^
+> 47 |             className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
+     | ^^^^^^^^^^^^^^^
+> 48 |         >
+     | ^^^^^^^^^^^^^^^
+> 49 |             {children}
+     | ^^^^^^^^^^^^^^^
+> 50 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 51 |     )
+     | ^^^^^^ The component is created during render here
+  52 |
+  53 |     return (
+  54 |         <div className="border border-gray-700 rounded-xl overflow-hidden bg-gray-850">                                                                                                                                                               react-hooks/static-components
+   64:18  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:64:18
+  62 |                 </ToolbarBtn>
+  63 |                 <div className="w-px h-5 bg-gray-700 mx-1" />
+> 64 |                 <ToolbarBtn onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} active={editor.isActive('heading', { level: 1 })} title="Título H1">
+     |                  ^^^^^^^^^^ This component is created during render
+  65 |                     <Heading1 className="w-4 h-4" />
+  66 |                 </ToolbarBtn>
+  67 |                 <ToolbarBtn onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive('heading', { level: 2 })} title="Subtítulo H2">
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:42:24
+  40 |     if (!editor) return null
+  41 |
+> 42 |     const ToolbarBtn = ({ onClick, active, children, title }: any) => (
+     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         <button
+     | ^^^^^^^^^^^^^^^
+> 44 |             type="button"
+     | ^^^^^^^^^^^^^^^
+> 45 |             onClick={onClick}
+     | ^^^^^^^^^^^^^^^
+> 46 |             title={title}
+     | ^^^^^^^^^^^^^^^
+> 47 |             className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
+     | ^^^^^^^^^^^^^^^
+> 48 |         >
+     | ^^^^^^^^^^^^^^^
+> 49 |             {children}
+     | ^^^^^^^^^^^^^^^
+> 50 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 51 |     )
+     | ^^^^^^ The component is created during render here
+  52 |
+  53 |     return (
+  54 |         <div className="border border-gray-700 rounded-xl overflow-hidden bg-gray-850">  react-hooks/static-components
+   67:18  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:67:18
+  65 |                     <Heading1 className="w-4 h-4" />
+  66 |                 </ToolbarBtn>
+> 67 |                 <ToolbarBtn onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive('heading', { level: 2 })} title="Subtítulo H2">
+     |                  ^^^^^^^^^^ This component is created during render
+  68 |                     <Heading2 className="w-4 h-4" />
+  69 |                 </ToolbarBtn>
+  70 |                 <ToolbarBtn onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive('heading', { level: 3 })} title="Subtítulo H3">
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:42:24
+  40 |     if (!editor) return null
+  41 |
+> 42 |     const ToolbarBtn = ({ onClick, active, children, title }: any) => (
+     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         <button
+     | ^^^^^^^^^^^^^^^
+> 44 |             type="button"
+     | ^^^^^^^^^^^^^^^
+> 45 |             onClick={onClick}
+     | ^^^^^^^^^^^^^^^
+> 46 |             title={title}
+     | ^^^^^^^^^^^^^^^
+> 47 |             className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
+     | ^^^^^^^^^^^^^^^
+> 48 |         >
+     | ^^^^^^^^^^^^^^^
+> 49 |             {children}
+     | ^^^^^^^^^^^^^^^
+> 50 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 51 |     )
+     | ^^^^^^ The component is created during render here
+  52 |
+  53 |     return (
+  54 |         <div className="border border-gray-700 rounded-xl overflow-hidden bg-gray-850">        react-hooks/static-components
+   70:18  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:70:18
+  68 |                     <Heading2 className="w-4 h-4" />
+  69 |                 </ToolbarBtn>
+> 70 |                 <ToolbarBtn onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive('heading', { level: 3 })} title="Subtítulo H3">
+     |                  ^^^^^^^^^^ This component is created during render
+  71 |                     <Heading3 className="w-4 h-4" />
+  72 |                 </ToolbarBtn>
+  73 |                 <div className="w-px h-5 bg-gray-700 mx-1" />
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:42:24
+  40 |     if (!editor) return null
+  41 |
+> 42 |     const ToolbarBtn = ({ onClick, active, children, title }: any) => (
+     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         <button
+     | ^^^^^^^^^^^^^^^
+> 44 |             type="button"
+     | ^^^^^^^^^^^^^^^
+> 45 |             onClick={onClick}
+     | ^^^^^^^^^^^^^^^
+> 46 |             title={title}
+     | ^^^^^^^^^^^^^^^
+> 47 |             className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
+     | ^^^^^^^^^^^^^^^
+> 48 |         >
+     | ^^^^^^^^^^^^^^^
+> 49 |             {children}
+     | ^^^^^^^^^^^^^^^
+> 50 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 51 |     )
+     | ^^^^^^ The component is created during render here
+  52 |
+  53 |     return (
+  54 |         <div className="border border-gray-700 rounded-xl overflow-hidden bg-gray-850">                                                                                                                       react-hooks/static-components
+   74:18  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:74:18
+  72 |                 </ToolbarBtn>
+  73 |                 <div className="w-px h-5 bg-gray-700 mx-1" />
+> 74 |                 <ToolbarBtn onClick={() => editor.chain().focus().setTextAlign('left').run()} active={editor.isActive({ textAlign: 'left' })} title="Alinear izquierda">
+     |                  ^^^^^^^^^^ This component is created during render
+  75 |                     <AlignLeft className="w-4 h-4" />
+  76 |                 </ToolbarBtn>
+  77 |                 <ToolbarBtn onClick={() => editor.chain().focus().setTextAlign('center').run()} active={editor.isActive({ textAlign: 'center' })} title="Centrar">
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:42:24
+  40 |     if (!editor) return null
+  41 |
+> 42 |     const ToolbarBtn = ({ onClick, active, children, title }: any) => (
+     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         <button
+     | ^^^^^^^^^^^^^^^
+> 44 |             type="button"
+     | ^^^^^^^^^^^^^^^
+> 45 |             onClick={onClick}
+     | ^^^^^^^^^^^^^^^
+> 46 |             title={title}
+     | ^^^^^^^^^^^^^^^
+> 47 |             className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
+     | ^^^^^^^^^^^^^^^
+> 48 |         >
+     | ^^^^^^^^^^^^^^^
+> 49 |             {children}
+     | ^^^^^^^^^^^^^^^
+> 50 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 51 |     )
+     | ^^^^^^ The component is created during render here
+  52 |
+  53 |     return (
+  54 |         <div className="border border-gray-700 rounded-xl overflow-hidden bg-gray-850">            react-hooks/static-components
+   77:18  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:77:18
+  75 |                     <AlignLeft className="w-4 h-4" />
+  76 |                 </ToolbarBtn>
+> 77 |                 <ToolbarBtn onClick={() => editor.chain().focus().setTextAlign('center').run()} active={editor.isActive({ textAlign: 'center' })} title="Centrar">
+     |                  ^^^^^^^^^^ This component is created during render
+  78 |                     <AlignCenter className="w-4 h-4" />
+  79 |                 </ToolbarBtn>
+  80 |                 <ToolbarBtn onClick={() => editor.chain().focus().setTextAlign('right').run()} active={editor.isActive({ textAlign: 'right' })} title="Alinear derecha">
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:42:24
+  40 |     if (!editor) return null
+  41 |
+> 42 |     const ToolbarBtn = ({ onClick, active, children, title }: any) => (
+     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         <button
+     | ^^^^^^^^^^^^^^^
+> 44 |             type="button"
+     | ^^^^^^^^^^^^^^^
+> 45 |             onClick={onClick}
+     | ^^^^^^^^^^^^^^^
+> 46 |             title={title}
+     | ^^^^^^^^^^^^^^^
+> 47 |             className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
+     | ^^^^^^^^^^^^^^^
+> 48 |         >
+     | ^^^^^^^^^^^^^^^
+> 49 |             {children}
+     | ^^^^^^^^^^^^^^^
+> 50 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 51 |     )
+     | ^^^^^^ The component is created during render here
+  52 |
+  53 |     return (
+  54 |         <div className="border border-gray-700 rounded-xl overflow-hidden bg-gray-850">                  react-hooks/static-components
+   80:18  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:80:18
+  78 |                     <AlignCenter className="w-4 h-4" />
+  79 |                 </ToolbarBtn>
+> 80 |                 <ToolbarBtn onClick={() => editor.chain().focus().setTextAlign('right').run()} active={editor.isActive({ textAlign: 'right' })} title="Alinear derecha">
+     |                  ^^^^^^^^^^ This component is created during render
+  81 |                     <AlignRight className="w-4 h-4" />
+  82 |                 </ToolbarBtn>
+  83 |                 <ToolbarBtn onClick={() => editor.chain().focus().setTextAlign('justify').run()} active={editor.isActive({ textAlign: 'justify' })} title="Justificar">
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:42:24
+  40 |     if (!editor) return null
+  41 |
+> 42 |     const ToolbarBtn = ({ onClick, active, children, title }: any) => (
+     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         <button
+     | ^^^^^^^^^^^^^^^
+> 44 |             type="button"
+     | ^^^^^^^^^^^^^^^
+> 45 |             onClick={onClick}
+     | ^^^^^^^^^^^^^^^
+> 46 |             title={title}
+     | ^^^^^^^^^^^^^^^
+> 47 |             className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
+     | ^^^^^^^^^^^^^^^
+> 48 |         >
+     | ^^^^^^^^^^^^^^^
+> 49 |             {children}
+     | ^^^^^^^^^^^^^^^
+> 50 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 51 |     )
+     | ^^^^^^ The component is created during render here
+  52 |
+  53 |     return (
+  54 |         <div className="border border-gray-700 rounded-xl overflow-hidden bg-gray-850">            react-hooks/static-components
+   83:18  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:83:18
+  81 |                     <AlignRight className="w-4 h-4" />
+  82 |                 </ToolbarBtn>
+> 83 |                 <ToolbarBtn onClick={() => editor.chain().focus().setTextAlign('justify').run()} active={editor.isActive({ textAlign: 'justify' })} title="Justificar">
+     |                  ^^^^^^^^^^ This component is created during render
+  84 |                     <AlignJustify className="w-4 h-4" />
+  85 |                 </ToolbarBtn>
+  86 |                 <div className="w-px h-5 bg-gray-700 mx-1" />
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:42:24
+  40 |     if (!editor) return null
+  41 |
+> 42 |     const ToolbarBtn = ({ onClick, active, children, title }: any) => (
+     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         <button
+     | ^^^^^^^^^^^^^^^
+> 44 |             type="button"
+     | ^^^^^^^^^^^^^^^
+> 45 |             onClick={onClick}
+     | ^^^^^^^^^^^^^^^
+> 46 |             title={title}
+     | ^^^^^^^^^^^^^^^
+> 47 |             className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
+     | ^^^^^^^^^^^^^^^
+> 48 |         >
+     | ^^^^^^^^^^^^^^^
+> 49 |             {children}
+     | ^^^^^^^^^^^^^^^
+> 50 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 51 |     )
+     | ^^^^^^ The component is created during render here
+  52 |
+  53 |     return (
+  54 |         <div className="border border-gray-700 rounded-xl overflow-hidden bg-gray-850">                                                                                                                      react-hooks/static-components
+   87:18  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:87:18
+  85 |                 </ToolbarBtn>
+  86 |                 <div className="w-px h-5 bg-gray-700 mx-1" />
+> 87 |                 <ToolbarBtn onClick={() => editor.chain().focus().toggleBulletList().run()} active={editor.isActive('bulletList')} title="Lista">
+     |                  ^^^^^^^^^^ This component is created during render
+  88 |                     <List className="w-4 h-4" />
+  89 |                 </ToolbarBtn>
+  90 |                 <ToolbarBtn onClick={() => editor.chain().focus().toggleOrderedList().run()} active={editor.isActive('orderedList')} title="Lista numerada">
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:42:24
+  40 |     if (!editor) return null
+  41 |
+> 42 |     const ToolbarBtn = ({ onClick, active, children, title }: any) => (
+     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         <button
+     | ^^^^^^^^^^^^^^^
+> 44 |             type="button"
+     | ^^^^^^^^^^^^^^^
+> 45 |             onClick={onClick}
+     | ^^^^^^^^^^^^^^^
+> 46 |             title={title}
+     | ^^^^^^^^^^^^^^^
+> 47 |             className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
+     | ^^^^^^^^^^^^^^^
+> 48 |         >
+     | ^^^^^^^^^^^^^^^
+> 49 |             {children}
+     | ^^^^^^^^^^^^^^^
+> 50 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 51 |     )
+     | ^^^^^^ The component is created during render here
+  52 |
+  53 |     return (
+  54 |         <div className="border border-gray-700 rounded-xl overflow-hidden bg-gray-850">                                              react-hooks/static-components
+   90:18  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:90:18
+  88 |                     <List className="w-4 h-4" />
+  89 |                 </ToolbarBtn>
+> 90 |                 <ToolbarBtn onClick={() => editor.chain().focus().toggleOrderedList().run()} active={editor.isActive('orderedList')} title="Lista numerada">
+     |                  ^^^^^^^^^^ This component is created during render
+  91 |                     <ListOrdered className="w-4 h-4" />
+  92 |                 </ToolbarBtn>
+  93 |                 <ToolbarBtn onClick={() => editor.chain().focus().toggleBlockquote().run()} active={editor.isActive('blockquote')} title="Cita">
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:42:24
+  40 |     if (!editor) return null
+  41 |
+> 42 |     const ToolbarBtn = ({ onClick, active, children, title }: any) => (
+     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         <button
+     | ^^^^^^^^^^^^^^^
+> 44 |             type="button"
+     | ^^^^^^^^^^^^^^^
+> 45 |             onClick={onClick}
+     | ^^^^^^^^^^^^^^^
+> 46 |             title={title}
+     | ^^^^^^^^^^^^^^^
+> 47 |             className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
+     | ^^^^^^^^^^^^^^^
+> 48 |         >
+     | ^^^^^^^^^^^^^^^
+> 49 |             {children}
+     | ^^^^^^^^^^^^^^^
+> 50 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 51 |     )
+     | ^^^^^^ The component is created during render here
+  52 |
+  53 |     return (
+  54 |         <div className="border border-gray-700 rounded-xl overflow-hidden bg-gray-850">                                                     react-hooks/static-components
+   93:18  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:93:18
+  91 |                     <ListOrdered className="w-4 h-4" />
+  92 |                 </ToolbarBtn>
+> 93 |                 <ToolbarBtn onClick={() => editor.chain().focus().toggleBlockquote().run()} active={editor.isActive('blockquote')} title="Cita">
+     |                  ^^^^^^^^^^ This component is created during render
+  94 |                     <Quote className="w-4 h-4" />
+  95 |                 </ToolbarBtn>
+  96 |                 <div className="w-px h-5 bg-gray-700 mx-1" />
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:42:24
+  40 |     if (!editor) return null
+  41 |
+> 42 |     const ToolbarBtn = ({ onClick, active, children, title }: any) => (
+     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         <button
+     | ^^^^^^^^^^^^^^^
+> 44 |             type="button"
+     | ^^^^^^^^^^^^^^^
+> 45 |             onClick={onClick}
+     | ^^^^^^^^^^^^^^^
+> 46 |             title={title}
+     | ^^^^^^^^^^^^^^^
+> 47 |             className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
+     | ^^^^^^^^^^^^^^^
+> 48 |         >
+     | ^^^^^^^^^^^^^^^
+> 49 |             {children}
+     | ^^^^^^^^^^^^^^^
+> 50 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 51 |     )
+     | ^^^^^^ The component is created during render here
+  52 |
+  53 |     return (
+  54 |         <div className="border border-gray-700 rounded-xl overflow-hidden bg-gray-850">                                                                                                                                                   react-hooks/static-components
+   97:18  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:97:18
+   95 |                 </ToolbarBtn>
+   96 |                 <div className="w-px h-5 bg-gray-700 mx-1" />
+>  97 |                 <ToolbarBtn onClick={() => editor.chain().focus().undo().run()} active={false} title="Deshacer">
+      |                  ^^^^^^^^^^ This component is created during render
+   98 |                     <Undo className="w-4 h-4" />
+   99 |                 </ToolbarBtn>
+  100 |                 <ToolbarBtn onClick={() => editor.chain().focus().redo().run()} active={false} title="Rehacer">
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:42:24
+  40 |     if (!editor) return null
+  41 |
+> 42 |     const ToolbarBtn = ({ onClick, active, children, title }: any) => (
+     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         <button
+     | ^^^^^^^^^^^^^^^
+> 44 |             type="button"
+     | ^^^^^^^^^^^^^^^
+> 45 |             onClick={onClick}
+     | ^^^^^^^^^^^^^^^
+> 46 |             title={title}
+     | ^^^^^^^^^^^^^^^
+> 47 |             className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
+     | ^^^^^^^^^^^^^^^
+> 48 |         >
+     | ^^^^^^^^^^^^^^^
+> 49 |             {children}
+     | ^^^^^^^^^^^^^^^
+> 50 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 51 |     )
+     | ^^^^^^ The component is created during render here
+  52 |
+  53 |     return (
+  54 |         <div className="border border-gray-700 rounded-xl overflow-hidden bg-gray-850">                                                                                                                     react-hooks/static-components
+  100:18  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:100:18
+   98 |                     <Undo className="w-4 h-4" />
+   99 |                 </ToolbarBtn>
+> 100 |                 <ToolbarBtn onClick={() => editor.chain().focus().redo().run()} active={false} title="Rehacer">
+      |                  ^^^^^^^^^^ This component is created during render
+  101 |                     <Redo className="w-4 h-4" />
+  102 |                 </ToolbarBtn>
+  103 |             </div>
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/articles/AcademicEditor.tsx:42:24
+  40 |     if (!editor) return null
+  41 |
+> 42 |     const ToolbarBtn = ({ onClick, active, children, title }: any) => (
+     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |         <button
+     | ^^^^^^^^^^^^^^^
+> 44 |             type="button"
+     | ^^^^^^^^^^^^^^^
+> 45 |             onClick={onClick}
+     | ^^^^^^^^^^^^^^^
+> 46 |             title={title}
+     | ^^^^^^^^^^^^^^^
+> 47 |             className={`p-1.5 rounded hover:bg-gray-700 transition-colors ${active ? 'bg-gray-700 text-amber-400' : 'text-gray-400'}`}
+     | ^^^^^^^^^^^^^^^
+> 48 |         >
+     | ^^^^^^^^^^^^^^^
+> 49 |             {children}
+     | ^^^^^^^^^^^^^^^
+> 50 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 51 |     )
+     | ^^^^^^ The component is created during render here
+  52 |
+  53 |     return (
+  54 |         <div className="border border-gray-700 rounded-xl overflow-hidden bg-gray-850">                                                                                                                                                                                                                               react-hooks/static-components
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/authors/AuthorManagement.tsx
+  13:80  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  13:87  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  25:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/comments/CommentModeration.tsx
+  69:116  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  69:131  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/cms/components/users/UserManagement.tsx
+  70:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/onboarding/components/OnboardingProvider.tsx
+  23:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/src/features/onboarding/components/OnboardingProvider.tsx:23:7
+  21 |
+  22 |     if (!completed) {
+> 23 |       setShowOnboarding(true)
+     |       ^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  24 |     }
+  25 |     setIsChecked(true)
+  26 |   }, [userId])  react-hooks/set-state-in-effect
+
+/Users/maximiliano/Documents/Dev/Projects/Conozca latest/summarize.js
+  17:48  error  Parsing error: Missing semicolon. (17:48)
+
+✖ 58 problems (32 errors, 26 warnings)
+  0 errors and 5 warnings potentially fixable with the `--fix` option.
+

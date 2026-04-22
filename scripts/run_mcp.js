@@ -1,7 +1,12 @@
 // Script to update the superadmin password using Supabase Admin API
 const { spawn } = require('child_process');
 
-const mcpToken = 'sbp_6fd5d6ae16f1a2ea0115d488b1b931ed3c4acd24';
+const mcpToken = process.env.SUPABASE_ACCESS_TOKEN;
+
+if (!mcpToken) {
+    console.error('Missing SUPABASE_ACCESS_TOKEN environment variable.');
+    process.exit(1);
+}
 
 const child = spawn('npx', ['-y', '@supabase/mcp-server-supabase@latest', '--project-ref=bnbsjuzglsnunttuexls'], {
     env: { ...process.env, SUPABASE_ACCESS_TOKEN: mcpToken }

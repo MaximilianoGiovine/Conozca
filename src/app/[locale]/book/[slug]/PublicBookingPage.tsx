@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import Link from 'next/link'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -410,8 +411,8 @@ export function PublicBookingPage({ lawyer, appointmentTypes }: PublicBookingPag
                       className="mt-1 w-4 h-4 rounded border-border text-accent-500 focus:ring-accent-500"
                     />
                     <span className="text-sm text-foreground-secondary">
-                      Acepto la <a href="/privacy" className="text-accent-600 underline">Politica de Privacidad</a> y
-                      los <a href="/terms" className="text-accent-600 underline">Terminos de Servicio</a>
+                      Acepto la <Link href="/privacy" className="text-accent-600 underline">Politica de Privacidad</Link> y
+                      los <Link href="/terms" className="text-accent-600 underline">Terminos de Servicio</Link>
                     </span>
                   </label>
                 </div>
@@ -564,9 +565,9 @@ export function PublicBookingPage({ lawyer, appointmentTypes }: PublicBookingPag
             Plataforma de agendamiento legal profesional
           </p>
           <div className="flex justify-center gap-6 mt-4 text-sm text-white/60">
-            <a href="/privacy" className="hover:text-white">Privacidad</a>
-            <a href="/terms" className="hover:text-white">Terminos</a>
-            <a href="/contact" className="hover:text-white">Contacto</a>
+            <Link href="/privacy" className="hover:text-white">Privacidad</Link>
+            <Link href="/terms" className="hover:text-white">Terminos</Link>
+            <Link href="/contact" className="hover:text-white">Contacto</Link>
           </div>
         </div>
       </footer>

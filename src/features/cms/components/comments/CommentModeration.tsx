@@ -66,7 +66,7 @@ export function CommentModeration({ initialComments }: Props) {
                                                 </span>
                                             )}
                                             <span className="text-xs text-gray-500 truncate">
-                                                {comment.user?.full_name ?? comment.user?.email ?? 'Usuario'} · en "{articleTitle}"
+                                                {comment.user?.full_name ?? comment.user?.email ?? 'Usuario'} · en &quot;{articleTitle}&quot;
                                             </span>
                                         </div>
                                         <p className="text-gray-300 text-sm leading-relaxed">{comment.content}</p>
