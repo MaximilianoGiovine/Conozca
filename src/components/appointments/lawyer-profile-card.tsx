@@ -1,6 +1,7 @@
 import { Card } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
+import Image from 'next/image'
 
 export interface Lawyer {
   id: string
@@ -37,7 +38,7 @@ export function LawyerProfileCard({ lawyer, onBook, onViewProfile }: LawyerProfi
         <div className="shrink-0">
           <div className="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center">
             {lawyer.avatar ? (
-              <img src={lawyer.avatar} alt={lawyer.name} className="w-full h-full rounded-2xl object-cover" />
+              <Image src={lawyer.avatar} alt={lawyer.name} width={64} height={64} className="w-full h-full rounded-2xl object-cover" unoptimized />
             ) : (
               <span className="text-xl font-semibold text-primary-600">
                 {lawyer.name.split(' ').map(n => n[0]).join('')}

@@ -1,6 +1,7 @@
 'use client'
 import type { AuthorListItem } from '../../types/cms'
 import { User, Twitter, Linkedin, Globe } from 'lucide-react'
+import Image from 'next/image'
 
 interface Props { authors: AuthorListItem[] }
 
@@ -10,7 +11,7 @@ export function AuthorManagement({ authors }: Props) {
             <div className="text-center py-12 text-gray-600">
                 <User className="w-10 h-10 mx-auto mb-3 opacity-40" />
                 <p>No hay autores registrados aún.</p>
-                <p className="text-xs text-gray-700 mt-1">Los usuarios con rol "author" o superior aparecerán aquí.</p>
+                <p className="text-xs text-gray-700 mt-1">Los usuarios con rol &quot;author&quot; o superior aparecerán aquí.</p>
             </div>
         )
     }
@@ -22,7 +23,7 @@ export function AuthorManagement({ authors }: Props) {
                     <div className="flex items-center gap-4 mb-3">
                         <div className="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center overflow-hidden flex-shrink-0">
                             {author.user?.avatar_url ? (
-                                <img src={author.user.avatar_url} alt={author.user.full_name ?? ''} className="w-full h-full object-cover" />
+                                <Image src={author.user.avatar_url} alt={author.user.full_name ?? ''} width={48} height={48} className="w-full h-full object-cover" unoptimized />
                             ) : (
                                 <User className="w-6 h-6 text-gray-400" />
                             )}

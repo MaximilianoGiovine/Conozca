@@ -4,6 +4,7 @@ import { articleService } from '@/features/blog/services/articleService';
 import { notFound } from 'next/navigation';
 import PageShell from '@/components/magazine/PageShell';
 import { DownloadPdfButton } from '@/features/blog/components/DownloadPdfButton';
+import { sanitizeRichHtml } from '@/shared/lib/sanitize-rich-html';
 
 export default async function ArticlePage({ params }: { params: Promise<{ locale: string, slug: string }> }) {
     const { locale, slug } = await params;
@@ -13,12 +14,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ locale
         notFound();
     }
 
+    const sanitizedContent = sanitizeRichHtml(String(article.translation.content));
+
     const pdfData = {
         title: article.translation.title,
         authorName: article.author_name || null,
         publishedAt: article.published_at || null,
         slug: article.slug,
-        content: String(article.translation.content),
+        content: sanitizedContent,
         categoryName: article.category?.translation?.name || null,
     };
 
@@ -64,7 +67,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ locale
                 </header>
                 <div
                     className="prose prose-lg max-w-none text-gray-800"
-                    dangerouslySetInnerHTML={{ __html: String(article.translation.content) }}
+                    dangerouslySetInnerHTML={{ __html: sanitizedContent }}
                 />
             </article>
         </PageShell>

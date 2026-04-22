@@ -94,23 +94,18 @@ export default async function AdminAnalyticsPage() {
   const conversionRate = totalAppointments > 0 ? (completedAppointments / totalAppointments) * 100 : 0
 
   // Métricas por abogado
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const lawyerMetrics = (lawyers || []).map((lawyer: any) => {
     const lawyerAppts = lawyer.appointments || []
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const monthAppts = lawyerAppts.filter((a: any) => {
       const date = new Date(a.scheduled_at)
       return date >= startOfMonth && date <= endOfMonth
     })
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const completedAppts = monthAppts.filter((a: any) =>
       a.status === 'completed' || a.status === 'paid'
     )
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const revenue = completedAppts.reduce((sum: number, a: any) =>
       sum + (a.appointment_type?.price || 0), 0
     )
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const hoursWorked = completedAppts.reduce((sum: number, a: any) =>
       sum + ((a.duration_minutes || 60) / 60), 0
     )

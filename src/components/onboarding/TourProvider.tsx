@@ -22,23 +22,19 @@ const TOUR_STORAGE_KEY = 'conozca_tour_completed'
 
 export function TourProvider({ children }: { children: ReactNode }) {
   const [showTour, setShowTour] = useState(false)
-  const [hasSeenTour, setHasSeenTour] = useState(true) // Default true to prevent flash
-  const [isReady, setIsReady] = useState(false)
+  const [hasSeenTour, setHasSeenTour] = useState(() => {
+    if (typeof window === 'undefined') return true
+    return localStorage.getItem(TOUR_STORAGE_KEY) === 'true'
+  })
 
   useEffect(() => {
-    // Check localStorage after mount
-    const seen = localStorage.getItem(TOUR_STORAGE_KEY)
-    setHasSeenTour(seen === 'true')
-    setIsReady(true)
-
-    // Si no ha visto el tour, mostrarlo automáticamente después de un delay
-    if (seen !== 'true') {
+    if (!hasSeenTour) {
       const timer = setTimeout(() => {
         setShowTour(true)
       }, 1000)
       return () => clearTimeout(timer)
     }
-  }, [])
+  }, [hasSeenTour])
 
   const startTour = () => {
     setShowTour(true)
@@ -59,7 +55,7 @@ export function TourProvider({ children }: { children: ReactNode }) {
   return (
     <TourContext.Provider value={{ startTour, hasSeenTour }}>
       {children}
-      {isReady && showTour && (
+      {showTour && (
         <AppTourWizard onComplete={handleComplete} onSkip={handleSkip} />
       )}
     </TourContext.Provider>

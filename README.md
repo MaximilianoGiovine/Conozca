@@ -228,6 +228,27 @@ export const supabase = createClient(
 # Ejemplo: supabase/migrations/001_create_users.sql
 ```
 
+### 4. Provisionar superadmin con Auth
+
+Configura estas variables en `.env.local`:
+
+- `DATABASE_URL`
+- `SUPERADMIN_EMAIL`
+- `SUPERADMIN_PASSWORD`
+- `SUPERADMIN_FULL_NAME`
+
+Luego ejecuta:
+
+```bash
+npm run superadmin:provision
+```
+
+Si quieres validar primero sin escribir nada, usa `SUPERADMIN_DRY_RUN=true`.
+
+Si levantas el stack con Docker Compose, el superadmin se crea solo mediante el servicio `superadmin-bootstrap` y trabaja directo contra tu Postgres autohospedado.
+El servicio espera a que `postgres` pase su healthcheck antes de ejecutar la provisión.
+`gotrue` y `postgrest` también esperan ese healthcheck para reducir condiciones de carrera al arrancar.
+
 ## 🧪 Testing Strategy
 
 ### Unit Tests

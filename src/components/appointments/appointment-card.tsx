@@ -2,6 +2,7 @@ import { Card } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export interface Appointment {
   id: string
@@ -55,10 +56,13 @@ export function AppointmentCard({ appointment, onConfirm, onCancel, onReschedule
       <Card variant="gold-accent" className="hover:shadow-card-hover transition-shadow cursor-pointer">
         <div className="flex items-start gap-4">
           {appointment.avatarUrl ? (
-            <img
+            <Image
               src={appointment.avatarUrl}
               alt={appointment.lawyerName}
+              width={48}
+              height={48}
               className="w-12 h-12 rounded-full object-cover"
+              unoptimized
             />
           ) : (
             <div className="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center text-white font-medium">

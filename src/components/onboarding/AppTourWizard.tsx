@@ -69,27 +69,20 @@ interface AppTourWizardProps {
 
 export function AppTourWizard({ onComplete, onSkip }: AppTourWizardProps) {
   const [currentStep, setCurrentStep] = useState(0)
-  const [targetRect, setTargetRect] = useState<DOMRect | null>(null)
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   useEffect(() => {
     const step = tourSteps[currentStep]
     const element = document.querySelector(step.target)
 
     if (element) {
-      const rect = element.getBoundingClientRect()
-      setTargetRect(rect)
-
       // Scroll element into view
       element.scrollIntoView({ behavior: 'smooth', block: 'center' })
     } else {
       // Si no encuentra el elemento, pasar al siguiente
       if (currentStep < tourSteps.length - 1) {
-        setCurrentStep(prev => prev + 1)
+        setTimeout(() => {
+          setCurrentStep(prev => prev + 1)
+        }, 0)
       }
     }
   }, [currentStep])
@@ -109,6 +102,9 @@ export function AppTourWizard({ onComplete, onSkip }: AppTourWizardProps) {
   }
 
   const step = tourSteps[currentStep]
+  const targetRect = typeof document !== 'undefined'
+    ? document.querySelector(step.target)?.getBoundingClientRect() ?? null
+    : null
 
   const getTooltipPosition = () => {
     if (!targetRect) return { top: '50%', left: '50%' }
@@ -147,7 +143,7 @@ export function AppTourWizard({ onComplete, onSkip }: AppTourWizardProps) {
     }
   }
 
-  if (!mounted) return null
+  if (typeof document === 'undefined') return null
 
   return createPortal(
     <div className="fixed inset-0 z-[9999]">

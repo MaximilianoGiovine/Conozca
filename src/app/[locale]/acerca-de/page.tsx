@@ -84,11 +84,11 @@ export default function AboutPage() {
                                 Historia
                             </div>
                             <h2 className="font-heading text-3xl lg:text-4xl font-bold text-white mb-6">
-                                Desde "El Instituto" en 1961 hasta el medio digital moderno
+                                Desde &quot;El Instituto&quot; en 1961 hasta el medio digital moderno
                             </h2>
                             <div className="space-y-6 text-gray-400 font-body text-lg leading-relaxed">
                                 <p>
-                                    Nuestros comienzos se remontan a 1961, cuando se publicaba el boletín <strong>"El Instituto"</strong> para directores de institutos bíblicos. En enero de 1971, bajo la dirección editorial de Samuel Balius, adoptamos el nombre de <strong>CONOZCA</strong>, iniciando un formato trimestral en 1977.
+                                    Nuestros comienzos se remontan a 1961, cuando se publicaba el boletín <strong>&quot;El Instituto&quot;</strong> para directores de institutos bíblicos. En enero de 1971, bajo la dirección editorial de Samuel Balius, adoptamos el nombre de <strong>CONOZCA</strong>, iniciando un formato trimestral en 1977.
                                 </p>
                                 <p>
                                     El legado se fortaleció gracias a líderes como Lyle Thompson y especialmente Floyd Woodworth, quien invirtió 20 años dirigiendo la revista. A lo largo de los años fue cedido a líderes visionarios, como Edgardo Muñoz (quien digitalizó la revista por primera vez en 2002), y posteriormente Jaime Mazurek.

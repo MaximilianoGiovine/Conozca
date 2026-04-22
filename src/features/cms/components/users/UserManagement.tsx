@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import type { UserListItem } from '../../types/cms'
 import { Shield, User, ChevronDown } from 'lucide-react'
+import Image from 'next/image'
 
 interface Props { initialUsers: UserListItem[] }
 
@@ -67,7 +68,7 @@ export function UserManagement({ initialUsers }: Props) {
                     {/* Avatar */}
                     <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center flex-shrink-0 overflow-hidden">
                         {user.avatar_url ? (
-                            <img src={user.avatar_url} alt={user.full_name ?? ''} className="w-full h-full object-cover" />
+                            <Image src={user.avatar_url} alt={user.full_name ?? ''} width={40} height={40} className="w-full h-full object-cover" unoptimized />
                         ) : (
                             <User className="w-5 h-5 text-gray-400" />
                         )}

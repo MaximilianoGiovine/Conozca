@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   # ========================================== #
   # 1. MOTOR DE BASE DE DATOS                  #
@@ -18,6 +16,12 @@ services:
     # Sin mapeo de puertos al host: la DB solo es accesible desde la red interna Docker (más seguro)
     networks:
       - conozca-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
 
   # ========================================== #
   # 2. MICROSERVICIO: API DE BASE DE DATOS     #
@@ -27,7 +31,8 @@ services:
     container_name: conozca-postgrest
     restart: unless-stopped
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       # El microservicio se conecta de forma segura dentro de la red
       PGRST_DB_URI: postgres://postgres:${POSTGRES_PASSWORD:-conozca_dev_password_change_me_in_vps}@postgres:5432/postgres
@@ -45,7 +50,8 @@ services:
     container_name: conozca-gotrue
     restart: unless-stopped
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       GOTRUE_API_HOST: 0.0.0.0
       GOTRUE_API_PORT: 9999
@@ -66,7 +72,28 @@ services:
       - conozca-net
 
   # ========================================== #
-  # 4. MICROSERVICIO: API GATEWAY (PROXY)      #
+  # 4. BOOTSTRAP: SUPERADMIN AUTOMATICO        #
+  # ========================================== #
+  superadmin-bootstrap:
+    build:
+      context: .
+      dockerfile: Dockerfile.bootstrap
+    container_name: conozca-superadmin-bootstrap
+    restart: on-failure
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-conozca_dev_password_change_me_in_vps}@postgres:5432/postgres
+      SUPERADMIN_EMAIL: ${SUPERADMIN_EMAIL:-superadmin@conozca.com}
+      SUPERADMIN_PASSWORD: ${SUPERADMIN_PASSWORD:-ChangeMe_StrongPassword_123!}
+      SUPERADMIN_FULL_NAME: ${SUPERADMIN_FULL_NAME:-Makisaurio}
+      SUPERADMIN_DRY_RUN: ${SUPERADMIN_DRY_RUN:-false}
+    networks:
+      - conozca-net
+
+  # ========================================== #
+  # 5. MICROSERVICIO: API GATEWAY (PROXY)      #
   # ========================================== #
   gateway:
     build:
@@ -83,7 +110,7 @@ services:
       - conozca-net
 
   # ========================================== #
-  # 5. FRONTEND: NEXT.JS APP                   #
+  # 6. FRONTEND: NEXT.JS APP                   #
   # ========================================== #
   frontend:
     build:
