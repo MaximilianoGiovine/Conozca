@@ -121,7 +121,7 @@ services:
       args:
         # Estos valores se hornean dentro del bundle JS en build time
         # NEXT_PUBLIC_SUPABASE_URL debe ser la URL pública de tu VPS accesible desde el navegador
-        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-http://204.168.239.69:8080}
         NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiJ9.dummy_signature_change_me}
     container_name: conozca-frontend
     restart: unless-stopped
@@ -129,9 +129,8 @@ services:
       - gateway
     environment:
       NODE_ENV: production
-      # Para el SSR (server-side), el frontend DEBE comunicarse internamente con el gateway Docker
-      # para evitar errores de NAT loopback (Application error de servidor)
-      NEXT_PUBLIC_SUPABASE_URL: http://gateway:80
+      # Para el SSR (server-side) y el cliente
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-http://204.168.239.69:8080}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiJ9.dummy_signature_change_me}
     ports:
       - "3000:3000"
