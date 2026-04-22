@@ -56,7 +56,7 @@ services:
       GOTRUE_API_HOST: 0.0.0.0
       GOTRUE_API_PORT: 9999
       GOTRUE_DB_DRIVER: postgres
-      GOTRUE_DB_DATABASE_URL: postgres://supabase_admin:${POSTGRES_PASSWORD:-conozca_dev_password_change_me_in_vps}@postgres:5432/postgres
+      GOTRUE_DB_DATABASE_URL: postgres://supabase_admin:${POSTGRES_PASSWORD:-conozca_dev_password_change_me_in_vps}@postgres:5432/postgres?search_path=auth
       GOTRUE_SITE_URL: ${SITE_URL:-http://tu-dominio.com}
       API_EXTERNAL_URL: ${SITE_URL:-http://localhost}
       GOTRUE_API_EXTERNAL_URL: ${SITE_URL:-http://localhost}
