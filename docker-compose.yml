@@ -35,11 +35,12 @@ services:
         condition: service_healthy
     environment:
       # El microservicio se conecta de forma segura dentro de la red
-      PGRST_DB_URI: postgres://postgres:${POSTGRES_PASSWORD:-conozca_dev_password_change_me_in_vps}@postgres:5432/postgres
+      PGRST_DB_URI: postgres://authenticator:${POSTGRES_PASSWORD:-conozca_dev_password_change_me_in_vps}@postgres:5432/postgres
       PGRST_DB_SCHEMA: public
       PGRST_DB_ANON_ROLE: anon
       PGRST_JWT_SECRET: ${JWT_SECRET:-11ap1NkwjxJxmks3GrYcK4bvn8Pf3F0FpjC3YEhw8+Q=}
-      PGRST_JWT_ROLE_CLAIM_KEY: .role
+      # PostgREST switches to 'authenticated' role based on valid JWT even if role claim is empty
+      PGRST_DB_USE_LEGACY_GUCS: "false"
     networks:
       - conozca-net
 
