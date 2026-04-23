@@ -38,7 +38,8 @@ services:
       PGRST_DB_URI: postgres://postgres:${POSTGRES_PASSWORD:-conozca_dev_password_change_me_in_vps}@postgres:5432/postgres
       PGRST_DB_SCHEMA: public
       PGRST_DB_ANON_ROLE: anon
-      PGRST_JWT_SECRET: ${JWT_SECRET:-this-super-secret-jwt-token-must-be-min-32-chars-long}
+      PGRST_JWT_SECRET: ${JWT_SECRET:-11ap1NkwjxJxmks3GrYcK4bvn8Pf3F0FpjC3YEhw8+Q=}
+      PGRST_JWT_ROLE_CLAIM_KEY: .role
     networks:
       - conozca-net
 
@@ -61,8 +62,9 @@ services:
       API_EXTERNAL_URL: ${SITE_URL:-http://localhost}
       GOTRUE_API_EXTERNAL_URL: ${SITE_URL:-http://localhost}
       GOTRUE_URI_ALLOW_LIST: "*"
-      GOTRUE_JWT_SECRET: ${JWT_SECRET:-this-super-secret-jwt-token-must-be-min-32-chars-long}
+      GOTRUE_JWT_SECRET: ${JWT_SECRET:-11ap1NkwjxJxmks3GrYcK4bvn8Pf3F0FpjC3YEhw8+Q=}
       GOTRUE_JWT_EXP: 3600
+      GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
       
       # Desactivar SMTP por defecto para local, o configurarlos en .env del VPS
       GOTRUE_SMTP_HOST: ${SMTP_HOST:-}
