@@ -52,9 +52,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <h2 className={styles.cardTitle}>
               {mainFeatured?.translation?.title || t('noArticles')}
             </h2>
-            <p className={styles.cardSummary}>
-              {mainFeatured?.translation?.excerpt || "Periodismo independiente, cultura y diseño para una lectura pausada."}
-            </p>
+            {mainFeatured?.translation?.excerpt && (
+              <p className={styles.cardSummary}>
+                {mainFeatured.translation.excerpt}
+              </p>
+            )}
             <div className={styles.cardFooter}>
               <div className={styles.authorStack}>
                 <span className={styles.authorAvatar} />
@@ -86,9 +88,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 <article key={item.id} className={styles.featureCard}>
                   <p className={styles.featureTag}>Insight</p>
                   <h4>{item.translation?.title}</h4>
-                  <p>
-                    {item.translation?.excerpt || "Análisis calmado y preciso con detalles para mentes enfocadas."}
-                  </p>
+                  {item.translation?.excerpt && (
+                    <p className="text-sm text-gray-500 line-clamp-3">{item.translation.excerpt}</p>
+                  )}
                   <div className={styles.cardFooter}>
                     <div className="text-xs text-gray-500 font-medium my-auto">
                         {item.author_name ? `Por ${item.author_name}` : ''}
