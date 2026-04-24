@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
 import PageShell from '@/components/magazine/PageShell'
@@ -10,16 +12,18 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const t = await getTranslations({ locale, namespace: 'Hero' })
 
   // Fetch real articles from Supabase
-  let articles = []
+  let articles: any[] = []
   try {
     articles = await articleService.getArticles(locale)
   } catch (error) {
     console.error('Error fetching articles:', error)
   }
 
-  const featuredArticles = articles.filter(a => a.is_featured).slice(0, 3)
-  const latestArticles = articles.filter(a => !a.is_featured).slice(0, 4)
-  const mainFeatured = featuredArticles[0]
+  // Pick a random featured article — changes on every page load
+  const shuffled = [...articles].sort(() => Math.random() - 0.5)
+  const mainFeatured = shuffled[0] ?? null
+  const featuredArticles = shuffled.slice(1, 4)      // next 3 random
+  const latestArticles = articles.slice(0, 4)         // most recent 4 by date
 
   return (
     <PageShell className={styles.page}>
