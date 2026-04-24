@@ -3,7 +3,9 @@ import { createClient } from '@supabase/supabase-js';
 // Lazy initialization: se crea el cliente SÓLO cuando se llama a una función,
 // no durante el import del módulo (lo que rompe el build de Next.js sin env vars)
 function getSupabaseClient() {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    // On the server (SSR/RSC), use the internal Docker URL to avoid hairpin NAT issues.
+    // On the client browser, fall back to the public URL.
+    const supabaseUrl = process.env.SUPABASE_INTERNAL_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
     if (!supabaseUrl || !supabaseKey) {
         throw new Error('Missing Supabase environment variables: NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are required.');
