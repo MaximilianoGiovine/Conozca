@@ -9,11 +9,10 @@ export interface RevistaPDF {
     url: string
 }
 
-// PDFs servidos por nginx en el gateway (puerto 8080), no por Next.js (puerto 3000)
-// Se usa la URL pública del gateway para garantizar acceso correcto sin importar
-// desde qué puerto se acceda al frontend
-const GATEWAY_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'http://204.168.239.69:8080'
-const BASE_URL = `${GATEWAY_URL}/revistas/pdfs`
+// PDFs servidos a través del proxy interno de Next.js (/api/revistas/[filename])
+// El proxy hace fetch interno a nginx (conozca-gateway:80) y retorna el PDF como mismo origen,
+// evitando las restricciones del visor de PDF de Chrome en iframes cross-origin
+const BASE_URL = '/api/revistas'
 
 // Ediciones limpias y deduplicadas
 const RAW: { filename: string; year: number; label: string }[] = [
