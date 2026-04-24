@@ -98,6 +98,7 @@ export default function SiteHeader() {
                 {/* Desktop nav */}
                 <nav className={styles.nav}>
                     <Link href="/blog">{t('articles')}</Link>
+                    <Link href="/revistas">Revistas</Link>
                     <Link href="/enlaces">{t('enlaces')}</Link>
                     <Link href="/acerca-de">{t('about')}</Link>
                 </nav>
@@ -174,6 +175,7 @@ export default function SiteHeader() {
                 {menuOpen && (
                     <nav className={styles.mobileNav} onClick={() => setMenuOpen(false)}>
                         <Link href="/blog">{t('articles')}</Link>
+                        <Link href="/revistas">Revistas</Link>
                         <Link href="/enlaces">{t('enlaces')}</Link>
                         <Link href="/acerca-de">{t('about')}</Link>
                         <Link href="/blog" className={styles.mobileNavCta}>{t('startReading')}</Link>
