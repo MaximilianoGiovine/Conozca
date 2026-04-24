@@ -74,7 +74,8 @@ CREATE POLICY "Only admins can modify category translations" ON public.category_
 CREATE TABLE IF NOT EXISTS public.articles (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     slug TEXT NOT NULL UNIQUE,
-    author_id UUID NOT NULL REFERENCES public.authors(id),
+    author_id UUID REFERENCES public.authors(id),       -- Optional FK to authors table
+    author_name TEXT,                                    -- Free-text author name (no account required)
     category_id UUID REFERENCES public.categories(id) ON DELETE SET NULL,
     published_at TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
