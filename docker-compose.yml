@@ -111,6 +111,9 @@ services:
     depends_on:
       - gotrue
       - postgrest
+    volumes:
+      # PDFs de la revista servidos como archivos estáticos por Nginx
+      - /opt/conozca/revistas:/opt/revistas:ro
     networks:
       - conozca-net
 
