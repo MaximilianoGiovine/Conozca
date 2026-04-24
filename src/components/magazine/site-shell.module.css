@@ -34,6 +34,27 @@
   align-items: center;
 }
 
+/* Hamburger button — hidden on desktop */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--ink);
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.hamburger:hover {
+  background: rgba(0,0,0,0.06);
+}
+
+/* Mobile nav drawer */
+.mobileNav {
+  display: none;
+}
+
 .content {
   position: relative;
   z-index: 1;
@@ -65,6 +86,7 @@
   cursor: pointer;
   box-shadow: 0 12px 28px rgba(37, 150, 190, 0.3);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
 }
 
 .primaryButton:hover {
@@ -90,6 +112,7 @@
   cursor: pointer;
 }
 
+/* ── Tablet ─────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .header {
     padding: 20px 32px 0;
@@ -100,18 +123,72 @@
   }
 }
 
+/* ── Mobile ─────────────────────────────────────────── */
 @media (max-width: 720px) {
   .header {
-    flex-direction: column;
-    align-items: flex-start;
+    padding: 16px 20px 0;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  /* Show hamburger, hide desktop nav & actions */
+  .hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+  }
+
+  .nav {
+    display: none;
   }
 
   .headerActions {
+    display: none;
+  }
+
+  /* Mobile nav open state */
+  .mobileNav {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    flex-wrap: wrap;
+    gap: 0;
+    padding: 12px 0 16px;
+    border-top: 1px solid rgba(20,20,20,0.08);
+    animation: slideDown 0.2s ease-out;
+  }
+
+  .mobileNav a {
+    padding: 14px 4px;
+    font-size: 18px;
+    color: var(--ink);
+    border-bottom: 1px solid rgba(20,20,20,0.06);
+    font-weight: 500;
+  }
+
+  .mobileNav a:last-child {
+    border-bottom: none;
+  }
+
+  .mobileNavCta {
+    margin-top: 16px;
+    display: block;
+    background: var(--brand-red);
+    color: #fff !important;
+    padding: 14px 20px !important;
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+    text-align: center;
+    border-bottom: none !important;
   }
 
   .footer {
     flex-direction: column;
+    padding: 32px 20px 48px;
   }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

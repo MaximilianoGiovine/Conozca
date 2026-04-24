@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { Search, X } from 'lucide-react'
+import { Search, X, Menu } from 'lucide-react'
 import styles from './site-shell.module.css'
 import { createClient } from '@supabase/supabase-js'
 
@@ -25,6 +25,7 @@ export default function SiteHeader() {
     const [results, setResults] = useState<SearchResult[]>([])
     const [searching, setSearching] = useState(false)
     const [focused, setFocused] = useState(false)
+    const [menuOpen, setMenuOpen] = useState(false)
     const inputRef = useRef<HTMLInputElement>(null)
     const overlayRef = useRef<HTMLDivElement>(null)
     const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -90,16 +91,19 @@ export default function SiteHeader() {
                         alt="Conozca Logo"
                         width={240}
                         height={80}
-                        className="object-contain h-16 w-auto"
+                        className="object-contain h-14 w-auto"
                     />
                 </Link>
+
+                {/* Desktop nav */}
                 <nav className={styles.nav}>
                     <Link href="/blog">{t('articles')}</Link>
                     <Link href="/enlaces">{t('enlaces')}</Link>
                     <Link href="/acerca-de">{t('about')}</Link>
                 </nav>
+
                 <div className={styles.headerActions}>
-                    {/* Interactive search */}
+                    {/* Interactive search — hidden on mobile via CSS */}
                     <div className="relative hidden sm:block">
                         <div className="relative">
                             <input
@@ -156,6 +160,25 @@ export default function SiteHeader() {
                         {t('startReading')}
                     </Link>
                 </div>
+
+                {/* Hamburger — visible only on mobile via CSS */}
+                <button
+                    className={styles.hamburger}
+                    onClick={() => setMenuOpen(o => !o)}
+                    aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+                >
+                    {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                </button>
+
+                {/* Mobile nav drawer */}
+                {menuOpen && (
+                    <nav className={styles.mobileNav} onClick={() => setMenuOpen(false)}>
+                        <Link href="/blog">{t('articles')}</Link>
+                        <Link href="/enlaces">{t('enlaces')}</Link>
+                        <Link href="/acerca-de">{t('about')}</Link>
+                        <Link href="/blog" className={styles.mobileNavCta}>{t('startReading')}</Link>
+                    </nav>
+                )}
             </header>
         </>
     )
