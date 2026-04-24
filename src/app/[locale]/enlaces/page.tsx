@@ -41,7 +41,7 @@ export default function EnlacesPage() {
         <PageShell>
             <div className="container mx-auto py-20 px-4 md:px-8 max-w-5xl">
                 <div className="mb-16 text-center">
-                    <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-6">
+                    <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-6">
                         Enlaces de Interés
                     </h1>
                 </div>

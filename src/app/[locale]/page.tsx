@@ -134,9 +134,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
         <section id="about" className={styles.newsletter}>
           <div>
-            <h3>Suscríbete a la edición dominical</h3>
+            <h3>Suscríbete a nuestro Newsletter</h3>
             <p>
-              Un correo por semana. Historias, entrevistas y notas desde la mesa editorial.
+              Suscríbete para recibir novedades de Conozca directamente en tu correo.
             </p>
           </div>
           <div className={styles.newsletterForm}>
