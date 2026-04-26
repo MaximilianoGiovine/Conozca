@@ -66,7 +66,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ locale
                     )}
                 </header>
                 <div
-                    className="prose prose-lg max-w-none text-gray-800"
+                    className="prose prose-lg max-w-none text-gray-800 [&_p]:text-justify [&_p]:indent-8"
                     dangerouslySetInnerHTML={{ __html: sanitizedContent }}
                 />
             </article>
