@@ -7,7 +7,13 @@ export async function POST(req: NextRequest) {
     const { data: { user } } = await supabaseNormal.auth.getUser()
     if (!user) return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
 
-    const supabaseAdmin = createServiceClient()
+    let supabaseAdmin
+    try {
+        supabaseAdmin = createServiceClient()
+    } catch {
+        return NextResponse.json({ error: 'Service role key no configurada' }, { status: 500 })
+    }
+
     const { data: roleData } = await supabaseAdmin
         .from('user_roles')
         .select('role')
@@ -26,19 +32,35 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-        // Crear usuario en auth
-        const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
-            email,
-            password,
-            email_confirm: true, // confirmar email automáticamente
-            user_metadata: { full_name },
+        // Llamar directamente a la REST API de GoTrue (más compatible con self-hosted)
+        const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+        const supabaseUrl = process.env.SUPABASE_INTERNAL_URL || process.env.NEXT_PUBLIC_SUPABASE_URL!
+
+        const gotrueRes = await fetch(`${supabaseUrl}/auth/v1/admin/users`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${serviceRoleKey}`,
+                'apikey': serviceRoleKey,
+            },
+            body: JSON.stringify({
+                email,
+                password,
+                email_confirm: true,
+                user_metadata: { full_name: full_name || undefined },
+            }),
         })
 
-        if (createError) throw createError
+        const gotrueData = await gotrueRes.json()
 
-        const userId = newUser.user.id
+        if (!gotrueRes.ok) {
+            const msg = gotrueData?.msg || gotrueData?.message || gotrueData?.error_description || JSON.stringify(gotrueData)
+            return NextResponse.json({ error: msg }, { status: gotrueRes.status })
+        }
 
-        // Insertar en tabla pública users (si existe trigger, ya se habrá creado; upsert por si acaso)
+        const userId = gotrueData.id
+
+        // Insertar en tabla pública users (upsert por si el trigger ya lo creó)
         await supabaseAdmin.from('users').upsert({
             id: userId,
             email,
