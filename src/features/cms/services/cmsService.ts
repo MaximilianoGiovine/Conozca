@@ -93,8 +93,13 @@ export const cmsService = {
     },
 
     async getUsers(): Promise<UserListItem[]> {
-        // Service client bypasses RLS — needed to list all users as admin
-        const supabase = createServiceClient()
+        // Intentar con service client (bypassa RLS), si no está configurado usar cliente normal
+        let supabase
+        try {
+            supabase = createServiceClient()
+        } catch {
+            supabase = await createClient()
+        }
         const { data, error } = await supabase
             .from('users')
             .select(`id, email, full_name, avatar_url, created_at, user_roles(role, is_approved)`)
