@@ -1,4 +1,4 @@
-import { createClient, createServiceClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import type { CmsStats, ArticleListItem, CommentListItem, AuthorListItem, UserListItem } from '../types/cms'
 
 export const cmsService = {
@@ -93,13 +93,7 @@ export const cmsService = {
     },
 
     async getUsers(): Promise<UserListItem[]> {
-        // Intentar con service client (bypassa RLS), si no está configurado usar cliente normal
-        let supabase
-        try {
-            supabase = createServiceClient()
-        } catch {
-            supabase = await createClient()
-        }
+        const supabase = await createClient()
         const { data, error } = await supabase
             .from('users')
             .select(`id, email, full_name, avatar_url, created_at, user_roles(role, is_approved)`)
