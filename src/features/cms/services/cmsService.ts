@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createServiceClient } from '@/lib/supabase/server'
 import type { CmsStats, ArticleListItem, CommentListItem, AuthorListItem, UserListItem } from '../types/cms'
 
 export const cmsService = {
@@ -48,6 +48,7 @@ export const cmsService = {
         translations:article_translations(language_code, title, excerpt)
       `)
             .order('created_at', { ascending: false })
+            .limit(20)
 
         if (error) throw error
         return (data as unknown as ArticleListItem[]) ?? []
@@ -92,7 +93,8 @@ export const cmsService = {
     },
 
     async getUsers(): Promise<UserListItem[]> {
-        const supabase = await createClient()
+        // Service client bypasses RLS — needed to list all users as admin
+        const supabase = createServiceClient()
         const { data, error } = await supabase
             .from('users')
             .select(`id, email, full_name, avatar_url, created_at, user_roles(role, is_approved)`)
