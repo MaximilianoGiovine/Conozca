@@ -24,24 +24,20 @@ const SANITIZE_OPTIONS: sanitizeHtml.IOptions = {
     'code',
     'pre',
     'span',
-    'div',
   ],
   allowedAttributes: {
     a: ['href', 'name', 'target', 'rel'],
     img: ['src', 'alt', 'title', 'width', 'height'],
-    '*': ['class', 'style'],
   },
-  allowedStyles: {
-    '*': {
-      'text-align': [/^left$/, /^right$/, /^center$/, /^justify$/],
-    },
+  transformTags: {
+    div: 'p',
   },
   allowedSchemes: ['http', 'https', 'mailto', 'tel'],
   allowedSchemesByTag: {
     img: ['http', 'https', 'data'],
   },
   disallowedTagsMode: 'discard',
-  parseStyleAttributes: true,
+  parseStyleAttributes: false,
 };
 
 export function sanitizeRichHtml(unsafeHtml: string): string {
