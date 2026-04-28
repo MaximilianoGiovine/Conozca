@@ -89,9 +89,9 @@ export default function SiteHeader() {
                     <Image
                         src="/images/logo.png"
                         alt="Conozca Logo"
-                        width={240}
-                        height={80}
-                        className="object-contain h-14 w-auto"
+                        width={320}
+                        height={106}
+                        className="object-contain h-20 w-auto"
                     />
                 </Link>
 
