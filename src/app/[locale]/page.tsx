@@ -31,7 +31,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <main className={styles.main}>
         <section className={styles.hero}>
           <div className={styles.heroCopy}>
-            <p className={styles.heroKicker}>{t('badge')}</p>
+            {t('badge') && <p className={styles.heroKicker}>{t('badge')}</p>}
             <h1 className={styles.heroTitle}>
               {t('headline')}
             </h1>
@@ -86,7 +86,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             {featuredArticles.length > 0 ? (
               featuredArticles.map((item) => (
                 <article key={item.id} className={styles.featureCard}>
-                  <p className={styles.featureTag}>Insight</p>
+                  <p className={styles.featureTag}>Destacado</p>
                   <h4>{item.translation?.title}</h4>
                   {item.translation?.excerpt && (
                     <p className="text-sm text-gray-500 line-clamp-3">{item.translation.excerpt}</p>
