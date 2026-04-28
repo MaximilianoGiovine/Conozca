@@ -66,7 +66,18 @@ export default async function ArticlePage({ params }: { params: Promise<{ locale
                     )}
                 </header>
                 <div
-                    className="prose prose-lg max-w-none text-gray-800 [&_p]:text-justify [&_p]:indent-8"
+                    className={[
+                        'prose max-w-none',
+                        // APA typography
+                        '[&_p]:leading-[2] [&_p]:indent-8 [&_p]:text-left [&_p]:text-base',
+                        '[&_h1]:text-center [&_h1]:font-bold [&_h1]:text-base',
+                        '[&_h2]:text-left [&_h2]:font-bold [&_h2]:text-base',
+                        '[&_h3]:text-left [&_h3]:font-bold [&_h3]:italic [&_h3]:text-base',
+                        '[&_blockquote]:pl-12 [&_blockquote]:pr-12 [&_blockquote]:not-italic [&_blockquote]:border-none [&_blockquote]:leading-[2]',
+                        '[&_li]:leading-[2]',
+                        'text-gray-800',
+                    ].join(' ')}
+                    style={{ fontFamily: 'Georgia, "Times New Roman", Times, serif', fontSize: '12pt' }}
                     dangerouslySetInnerHTML={{ __html: sanitizedContent }}
                 />
             </article>
