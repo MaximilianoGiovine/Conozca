@@ -28,7 +28,7 @@ export default function RevistasContent() {
         <>
             {/* PDF Viewer Modal */}
             {activeViewer && (
-                <div className="fixed inset-0 z-50 flex flex-col bg-gray-950/95 backdrop-blur-sm">
+                <div className="fixed inset-0 z-[9999] flex flex-col bg-gray-950/95 backdrop-blur-sm">
                     <div className="flex items-center justify-between px-6 py-4 bg-gray-900 border-b border-gray-700 flex-shrink-0">
                         <div className="flex items-center gap-3">
                             <FileText className="w-5 h-5 text-amber-400" />
