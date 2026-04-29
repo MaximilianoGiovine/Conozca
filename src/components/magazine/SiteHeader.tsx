@@ -75,17 +75,20 @@ export default function SiteHeader() {
 
     return (
         <>
-            {/* Glassmorphism backdrop */}
+            {/* Glassmorphism backdrop — z-[15] cubre el contenido pero NO el header (z-[50] en CSS module) */}
             {isOpen && (
                 <div
                     ref={overlayRef}
-                    className="fixed inset-0 z-30 backdrop-blur-sm bg-white/40"
+                    className="fixed inset-0 z-[15] backdrop-blur-sm bg-black/20"
                     onClick={handleClear}
                 />
             )}
 
-            <header className={`${styles.header} relative z-40`}>
-                <Link className={styles.logo} href="/">
+            <header className={`${styles.header} relative z-[50]`}>
+                <Link
+                    className={`${styles.logo} transition-opacity duration-200 ${focused ? 'opacity-20 pointer-events-none' : 'opacity-100'}`}
+                    href="/"
+                >
                     <Image
                         src="/images/logo.png"
                         alt="Conozca Logo"
@@ -96,7 +99,7 @@ export default function SiteHeader() {
                 </Link>
 
                 {/* Desktop nav */}
-                <nav className={styles.nav}>
+                <nav className={`${styles.nav} transition-opacity duration-200 ${focused ? 'opacity-20 pointer-events-none' : 'opacity-100'}`}>
                     <Link href="/blog">{t('articles')}</Link>
                     <Link href="/revistas">Revistas</Link>
                     <Link href="/enlaces">{t('enlaces')}</Link>
@@ -105,7 +108,7 @@ export default function SiteHeader() {
 
                 <div className={styles.headerActions}>
                     {/* Interactive search — hidden on mobile via CSS */}
-                    <div className="relative hidden sm:block">
+                    <div className={`relative hidden sm:block transition-all duration-200 ${focused ? 'z-[60]' : ''}`} style={focused ? { isolation: 'isolate' } : {}}>
                         <div className="relative">
                             <input
                                 ref={inputRef}
@@ -115,7 +118,11 @@ export default function SiteHeader() {
                                 onFocus={() => setFocused(true)}
                                 onBlur={() => setTimeout(() => setFocused(false), 150)}
                                 placeholder="Buscar artículos..."
-                                className="pl-12 pr-10 py-3 bg-gray-100 border-transparent rounded-full text-base outline-none focus:ring-2 focus:ring-amber-500/50 focus:bg-white transition-all w-80 text-gray-800"
+                                className={`pl-12 pr-10 py-3 rounded-full text-base outline-none transition-all text-gray-800 ${
+                                    focused
+                                        ? 'w-96 bg-white shadow-2xl shadow-amber-500/25 ring-2 ring-amber-400/60 border-transparent'
+                                        : 'w-80 bg-gray-100 border-transparent'
+                                }`}
                             />
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                             {query && (
@@ -157,7 +164,10 @@ export default function SiteHeader() {
                         )}
                     </div>
 
-                    <Link className={styles.primaryButton} href="/blog">
+                    <Link
+                        className={`${styles.primaryButton} transition-opacity duration-200 ${focused ? 'opacity-20 pointer-events-none' : 'opacity-100'}`}
+                        href="/blog"
+                    >
                         {t('startReading')}
                     </Link>
                 </div>
