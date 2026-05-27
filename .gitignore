@@ -65,3 +65,4 @@ Thumbs.db
 supabase/.branches
 supabase/.temp
 .aider*
+migration-data/

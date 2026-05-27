@@ -44,7 +44,7 @@ export async function updateSession(request: NextRequest) {
   }
 
   if (isAuthRoute && user) {
-    return NextResponse.redirect(new URL('/dashboard', request.url))
+    return NextResponse.redirect(new URL('/admin-dashboard', request.url))
   }
 
   return supabaseResponse

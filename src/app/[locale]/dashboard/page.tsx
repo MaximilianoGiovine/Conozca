@@ -12,20 +12,6 @@ export default async function DashboardPage() {
     redirect('/login')
   }
 
-  // Verificar rol del usuario
-  const { data: roleData } = await supabase
-    .from('user_roles')
-    .select('role')
-    .eq('user_id', user.id)
-    .single()
-
-  const role = roleData?.role
-
-  // Redirigir al dashboard apropiado según el rol
-  if (role === 'admin' || role === 'superadmin' || role === 'editor') {
-    redirect('/admin-dashboard')
-  }
-
-  // Dashboard para usuarios normales
-  redirect('/')
+  // Alias de compatibilidad: toda sesión válida usa el panel administrativo
+  redirect('/admin-dashboard')
 }
