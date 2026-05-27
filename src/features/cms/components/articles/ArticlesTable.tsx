@@ -1,7 +1,8 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { ChevronLeft, ChevronRight, Edit3, Search } from 'lucide-react'
 import type { ArticleListItem } from '../../types/cms'
 
@@ -9,6 +10,8 @@ interface ArticlesTableProps {
     articles: ArticleListItem[]
     currentPage: number
     totalPages: number
+    searchQuery: string
+    totalCount: number
 }
 
 function getArticleTitle(article: ArticleListItem) {
@@ -24,24 +27,36 @@ function getArticleAuthor(article: ArticleListItem) {
         ?? '—'
 }
 
-export function ArticlesTable({ articles, currentPage, totalPages }: ArticlesTableProps) {
-    const [search, setSearch] = useState('')
+export function ArticlesTable({ articles, currentPage, totalPages, searchQuery, totalCount }: ArticlesTableProps) {
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
+    const [search, setSearch] = useState(searchQuery)
 
-    const filteredArticles = useMemo(() => {
-        const normalizedSearch = search.trim().toLowerCase()
+    useEffect(() => {
+        setSearch(searchQuery)
+    }, [searchQuery])
 
-        if (!normalizedSearch) return articles
+    useEffect(() => {
+        const handle = window.setTimeout(() => {
+            const normalizedSearch = search.trim()
+            const currentUrlSearch = searchParams.get('q') ?? ''
 
-        return articles.filter(article => {
-            const title = getArticleTitle(article).toLowerCase()
-            const slug = article.slug.toLowerCase()
-            const author = getArticleAuthor(article).toLowerCase()
-            const category = article.category?.slug?.toLowerCase() ?? ''
-            const languages = article.translations?.map(t => t.language_code).join(' ') ?? ''
+            if (normalizedSearch === currentUrlSearch) return
 
-            return [title, slug, author, category, languages].some(value => value.includes(normalizedSearch))
-        })
-    }, [articles, search])
+            const params = new URLSearchParams(searchParams.toString())
+            if (normalizedSearch) params.set('q', normalizedSearch)
+            else params.delete('q')
+            params.delete('page')
+
+            const nextUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname
+            router.replace(nextUrl)
+        }, 250)
+
+        return () => window.clearTimeout(handle)
+    }, [pathname, router, search, searchParams])
+
+    const filteredArticles = articles
 
     const pageRange = useMemo(() => {
         const delta = 2
@@ -53,7 +68,12 @@ export function ArticlesTable({ articles, currentPage, totalPages }: ArticlesTab
         return range
     }, [currentPage, totalPages])
 
-    const buildPageHref = (page: number) => `/admin-dashboard/articles?page=${page}`
+    const buildPageHref = (page: number) => {
+        const params = new URLSearchParams()
+        if (searchQuery.trim()) params.set('q', searchQuery.trim())
+        params.set('page', String(page))
+        return `/admin-dashboard/articles?${params.toString()}`
+    }
 
     return (
         <div className="space-y-4">
@@ -70,7 +90,7 @@ export function ArticlesTable({ articles, currentPage, totalPages }: ArticlesTab
                 </div>
 
                 <p className="text-sm text-gray-500">
-                    {filteredArticles.length} de {articles.length} artículo{articles.length !== 1 ? 's' : ''}
+                    {articles.length} de {totalCount} artículo{totalCount !== 1 ? 's' : ''}
                 </p>
             </div>
 

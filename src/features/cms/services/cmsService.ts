@@ -37,9 +37,9 @@ export const cmsService = {
     },
 
 
-    async getArticles(): Promise<ArticleListItem[]> {
+    async getArticles(limit?: number): Promise<ArticleListItem[]> {
         const supabase = await createClient()
-        const { data, error } = await supabase
+        let query = supabase
             .from('articles')
             .select(`
         id, slug, published_at, created_at, updated_at,
@@ -48,7 +48,12 @@ export const cmsService = {
         translations:article_translations(language_code, title, excerpt)
       `)
             .order('created_at', { ascending: false })
-            .limit(20)
+
+        if (limit !== undefined) {
+            query = query.limit(limit)
+        }
+
+        const { data, error } = await query
 
         if (error) throw error
         return (data as unknown as ArticleListItem[]) ?? []

@@ -10,26 +10,44 @@ export const metadata = { title: 'Artículos · CMS Conozca' }
 const PAGE_SIZE = 20
 
 type ArticlesPageProps = {
-    searchParams: Promise<{ page?: string } | undefined> | { page?: string } | undefined
+    searchParams: Promise<{ page?: string; q?: string } | undefined> | { page?: string; q?: string } | undefined
 }
 
 export default async function ArticlesPage({ searchParams }: ArticlesPageProps) {
     const resolvedSearchParams = await Promise.resolve(searchParams)
     const currentPage = Math.max(1, Number.parseInt(resolvedSearchParams?.page ?? '1', 10) || 1)
-    const firstPass = await cmsService.getArticlesPaginated(currentPage, PAGE_SIZE)
-    const totalCount = firstPass.totalCount
+    const searchQuery = resolvedSearchParams?.q?.trim() ?? ''
+    const articles = await cmsService.getArticles()
+    const normalizedSearch = searchQuery.toLowerCase()
+
+    const filteredArticles = normalizedSearch
+        ? articles.filter(article => {
+            const title = article.translations?.find(t => t.language_code === 'es')?.title
+                ?? article.translations?.[0]?.title
+                ?? article.slug
+            const author = article.author_name ?? article.author?.user?.full_name ?? article.author?.slug ?? '—'
+            const slug = article.slug
+            const category = article.category?.slug ?? ''
+            const languages = article.translations?.map(t => t.language_code).join(' ') ?? ''
+
+            return [title, author, slug, category, languages]
+                .some(value => value.toLowerCase().includes(normalizedSearch))
+        })
+        : articles
+
+    const totalCount = filteredArticles.length
     const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE))
     const safePage = Math.min(currentPage, totalPages)
-    const { articles } = safePage === currentPage
-        ? firstPass
-        : await cmsService.getArticlesPaginated(safePage, PAGE_SIZE)
+    const pageArticles = filteredArticles.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE)
 
     return (
         <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-6">
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-bold text-white">Artículos</h1>
-                    <p className="text-gray-500 text-sm mt-1">{totalCount} artículos en el CMS · página {safePage} de {totalPages}</p>
+                    <p className="text-gray-500 text-sm mt-1">
+                        {articles.length} artículos en el CMS · {searchQuery ? `${totalCount} resultados` : 'vista completa'} · página {safePage} de {totalPages}
+                    </p>
                 </div>
                 <Link
                     href="/admin-dashboard/articles/new"
@@ -40,7 +58,13 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
                 </Link>
             </div>
 
-            <ArticlesTable articles={articles} currentPage={safePage} totalPages={totalPages} />
+            <ArticlesTable
+                articles={pageArticles}
+                currentPage={safePage}
+                totalPages={totalPages}
+                searchQuery={searchQuery}
+                totalCount={totalCount}
+            />
         </div>
     )
 }

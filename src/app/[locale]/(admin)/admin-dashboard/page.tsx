@@ -8,10 +8,10 @@ export const metadata = { title: 'CMS Dashboard · Conozca' }
 export default async function AdminDashboardPage() {
     const [stats, recentArticles] = await Promise.all([
         cmsService.getStats(),
-        cmsService.getArticles(),
+        cmsService.getArticles(5),
     ])
 
-    const recent = recentArticles.slice(0, 5)
+    const recent = recentArticles
 
     return (
         <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-8">
