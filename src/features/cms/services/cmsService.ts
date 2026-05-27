@@ -54,6 +54,31 @@ export const cmsService = {
         return (data as unknown as ArticleListItem[]) ?? []
     },
 
+    async getArticlesPaginated(page: number, pageSize: number): Promise<{ articles: ArticleListItem[]; totalCount: number }> {
+        const supabase = await createClient()
+        const safePage = Number.isFinite(page) && page > 0 ? Math.floor(page) : 1
+        const safePageSize = Number.isFinite(pageSize) && pageSize > 0 ? Math.floor(pageSize) : 20
+        const from = (safePage - 1) * safePageSize
+        const to = from + safePageSize - 1
+
+        const { data, error, count } = await supabase
+            .from('articles')
+            .select(`
+        id, slug, published_at, created_at, updated_at,
+        author:authors(id, slug, user:users(full_name, email)),
+        category:categories(slug),
+        translations:article_translations(language_code, title, excerpt)
+      `, { count: 'exact' })
+            .order('created_at', { ascending: false })
+            .range(from, to)
+
+        if (error) throw error
+        return {
+            articles: (data as unknown as ArticleListItem[]) ?? [],
+            totalCount: count ?? 0,
+        }
+    },
+
     async getComments(): Promise<CommentListItem[]> {
         const supabase = await createClient()
         const { data, error } = await supabase

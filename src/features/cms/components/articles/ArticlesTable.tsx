@@ -2,11 +2,13 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
-import { Edit3, Search } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Edit3, Search } from 'lucide-react'
 import type { ArticleListItem } from '../../types/cms'
 
 interface ArticlesTableProps {
     articles: ArticleListItem[]
+    currentPage: number
+    totalPages: number
 }
 
 function getArticleTitle(article: ArticleListItem) {
@@ -22,7 +24,7 @@ function getArticleAuthor(article: ArticleListItem) {
         ?? '—'
 }
 
-export function ArticlesTable({ articles }: ArticlesTableProps) {
+export function ArticlesTable({ articles, currentPage, totalPages }: ArticlesTableProps) {
     const [search, setSearch] = useState('')
 
     const filteredArticles = useMemo(() => {
@@ -40,6 +42,18 @@ export function ArticlesTable({ articles }: ArticlesTableProps) {
             return [title, slug, author, category, languages].some(value => value.includes(normalizedSearch))
         })
     }, [articles, search])
+
+    const pageRange = useMemo(() => {
+        const delta = 2
+        const range: number[] = []
+        const left = Math.max(1, currentPage - delta)
+        const right = Math.min(totalPages, currentPage + delta)
+
+        for (let page = left; page <= right; page += 1) range.push(page)
+        return range
+    }, [currentPage, totalPages])
+
+    const buildPageHref = (page: number) => `/admin-dashboard/articles?page=${page}`
 
     return (
         <div className="space-y-4">
@@ -130,6 +144,71 @@ export function ArticlesTable({ articles }: ArticlesTableProps) {
                     </tbody>
                 </table>
             </div>
+
+            {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2 pt-2 flex-wrap">
+                    <Link
+                        href={buildPageHref(Math.max(1, currentPage - 1))}
+                        aria-disabled={currentPage === 1}
+                        className={`p-2 rounded-full border transition-all ${currentPage === 1
+                            ? 'pointer-events-none border-gray-800 text-gray-700 opacity-40'
+                            : 'border-gray-700 text-gray-400 hover:border-amber-500 hover:text-amber-400'
+                            }`}
+                        aria-label="Página anterior"
+                    >
+                        <ChevronLeft className="w-5 h-5" />
+                    </Link>
+
+                    {pageRange[0] > 1 && (
+                        <>
+                            <Link
+                                href={buildPageHref(1)}
+                                className="w-10 h-10 inline-flex items-center justify-center rounded-full border border-gray-700 text-sm font-semibold text-gray-400 hover:border-amber-500 hover:text-amber-400 transition-all"
+                            >
+                                1
+                            </Link>
+                            {pageRange[0] > 2 && <span className="px-1 text-gray-500">…</span>}
+                        </>
+                    )}
+
+                    {pageRange.map(page => (
+                        <Link
+                            key={page}
+                            href={buildPageHref(page)}
+                            className={`w-10 h-10 inline-flex items-center justify-center rounded-full border text-sm font-semibold transition-all ${page === currentPage
+                                ? 'bg-amber-600 border-amber-600 text-white shadow'
+                                : 'border-gray-700 text-gray-400 hover:border-amber-500 hover:text-amber-400'
+                                }`}
+                        >
+                            {page}
+                        </Link>
+                    ))}
+
+                    {pageRange[pageRange.length - 1] < totalPages && (
+                        <>
+                            {pageRange[pageRange.length - 1] < totalPages - 1 && <span className="px-1 text-gray-500">…</span>}
+                            <Link
+                                href={buildPageHref(totalPages)}
+                                className="w-10 h-10 inline-flex items-center justify-center rounded-full border border-gray-700 text-sm font-semibold text-gray-400 hover:border-amber-500 hover:text-amber-400 transition-all"
+                            >
+                                {totalPages}
+                            </Link>
+                        </>
+                    )}
+
+                    <Link
+                        href={buildPageHref(Math.min(totalPages, currentPage + 1))}
+                        aria-disabled={currentPage === totalPages}
+                        className={`p-2 rounded-full border transition-all ${currentPage === totalPages
+                            ? 'pointer-events-none border-gray-800 text-gray-700 opacity-40'
+                            : 'border-gray-700 text-gray-400 hover:border-amber-500 hover:text-amber-400'
+                            }`}
+                        aria-label="Página siguiente"
+                    >
+                        <ChevronRight className="w-5 h-5" />
+                    </Link>
+                </div>
+            )}
         </div>
     )
 }
