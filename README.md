@@ -74,3 +74,36 @@ Las credenciales de Supabase y la configuración de acceso se cargan desde el en
 
 - El proyecto usa Docker Compose y archivos de despliegue cuando se necesita levantar la infraestructura completa.
 - `e2e/` contiene la cobertura funcional principal y conviene ejecutarla cuando se cambian flujos críticos.
+
+## Portafolio con GitHub Pages (root)
+
+Este repositorio incluye una landing page simple para portafolio en `/home/runner/work/Conozca/Conozca/index.html`.
+
+### Editar tarjetas de proyectos
+
+1. Abre `/home/runner/work/Conozca/Conozca/index.html`.
+2. Busca la sección `Proyectos destacados`.
+3. Edita cada `<article class="card">` para cambiar:
+   - Título (`<h3>`)
+   - Descripción (`<p>`)
+   - Enlace de repositorio (`Repositorio`)
+   - Enlace de demo (`Demo`)
+
+### Habilitar GitHub Pages
+
+1. Ve a **Settings → Pages** del repositorio.
+2. En **Build and deployment** selecciona:
+   - **Source**: `Deploy from a branch`
+   - **Branch**: `main`
+   - **Folder**: `/ (root)`
+3. Guarda los cambios.
+
+### URL final esperada
+
+Para un project site, la URL final queda con este formato:
+
+`https://<username>.github.io/<repo>/`
+
+Para este repositorio:
+
+`https://maximilianogiovine.github.io/Conozca/`
