@@ -5,12 +5,7 @@ import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
 import { Search, X, Menu } from 'lucide-react'
 import styles from './site-shell.module.css'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { createClient } from '@/lib/supabase/client'
 
 interface SearchResult {
     id: string
@@ -37,13 +32,20 @@ export default function SiteHeader() {
         debounceRef.current = setTimeout(async () => {
             setSearching(true)
             try {
+                const supabase = createClient()
                 const languages = locale === 'es' ? ['es'] : [locale, 'es']
-                const { data, error } = await supabase
+                // Búsqueda conceptual: el título debe contener todas las palabras
+                // clave ingresadas, en cualquier orden, en vez de la frase exacta.
+                const keywords = query.trim().split(/\s+/).filter(Boolean)
+                let titleQuery = supabase
                     .from('article_translations')
                     .select('title, excerpt, language_code, article:articles(id, slug, published_at)')
-                    .ilike('title', `%${query}%`)
                     .in('language_code', languages)
                     .limit(12)
+                for (const keyword of keywords) {
+                    titleQuery = titleQuery.ilike('title', `%${keyword}%`)
+                }
+                const { data, error } = await titleQuery
                 if (error) throw error
                 const now = new Date().toISOString()
                 const published = (data ?? []).filter((d: any) => d.article?.published_at && d.article.published_at <= now)
