@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Search, X, Menu } from 'lucide-react'
 import styles from './site-shell.module.css'
 import { createClient } from '@supabase/supabase-js'
@@ -21,6 +21,7 @@ interface SearchResult {
 
 export default function SiteHeader() {
     const t = useTranslations('MagazineHeader')
+    const locale = useLocale()
     const [query, setQuery] = useState('')
     const [results, setResults] = useState<SearchResult[]>([])
     const [searching, setSearching] = useState(false)
@@ -36,21 +37,39 @@ export default function SiteHeader() {
         debounceRef.current = setTimeout(async () => {
             setSearching(true)
             try {
-                const { data } = await supabase
+                const languages = locale === 'es' ? ['es'] : [locale, 'es']
+                const { data, error } = await supabase
                     .from('article_translations')
-                    .select('title, excerpt, article:article_id(id, slug, published_at)')
+                    .select('title, excerpt, language_code, article:articles(id, slug, published_at)')
                     .ilike('title', `%${query}%`)
-                    .eq('language_code', 'es')
-                    .limit(6)
+                    .in('language_code', languages)
+                    .limit(12)
+                if (error) throw error
                 const now = new Date().toISOString()
-                setResults((data ?? [])
-                    .filter((d: any) => d.article?.published_at && d.article.published_at <= now)
+                const published = (data ?? []).filter((d: any) => d.article?.published_at && d.article.published_at <= now)
+
+                // Prefer the active locale's translation; fall back to Spanish only if missing
+                const localeMatches = published.filter((d: any) => d.language_code === locale)
+                const fallbackMatches = published.filter((d: any) => d.language_code === 'es')
+                const seen = new Set<string>()
+                const merged: any[] = []
+                for (const d of [...localeMatches, ...fallbackMatches] as any[]) {
+                    if (seen.has(d.article.id)) continue
+                    seen.add(d.article.id)
+                    merged.push(d)
+                }
+
+                setResults(merged
+                    .slice(0, 6)
                     .map((d: any) => ({ id: d.article.id, slug: d.article.slug, title: d.title, excerpt: d.excerpt }))
                 )
-            } catch { setResults([]) }
+            } catch (err) {
+                console.error('Error buscando artículos:', err)
+                setResults([])
+            }
             finally { setSearching(false) }
         }, 300)
-    }, [query])
+    }, [query, locale])
 
     // Auto-focus overlay input when it opens
     useEffect(() => {
