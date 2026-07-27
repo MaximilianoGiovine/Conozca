@@ -4,11 +4,16 @@
         "description": "Uma plataforma global"
     },
     "Hero": {
-        "badge": "Advogados de Direito de Família em {city}, {country}",
-        "headline": "Nós nos concentramos nas necessidades da sua família",
-        "subheadline": "Representação legal compassiva e eficaz em Manágua, Nicarágua. Protegemos o que é mais importante para você e os seus.",
-        "ctaText": "Agendar Consulta",
-        "call_to_action": "Ligue para {phone}"
+        "badge": "",
+        "headline": "Artigos pensados para aprofundar seu estudo da palavra de Deus",
+        "subheadline": "Conozca foi criada como uma revista digital para a difusão de temas teológicos na América Latina",
+        "ctaText": "Explorar Artigos",
+        "articlesTitle": "Artigos Conozca",
+        "articlesLead": "Jornalismo independente, cultura e design para uma leitura tranquila.",
+        "call_to_action": "Inscrever-se",
+        "noArticles": "Novas histórias a caminho.",
+        "noFeatured": "Em breve: ensaios selecionados.",
+        "noLatest": "Explore nosso arquivo enquanto preparamos novo conteúdo."
     },
     "Values": {
         "respect": {
@@ -127,18 +132,10 @@
     },
     "Navigation": {
         "Inicio": "Início",
-        "Derecho de Familia": "Direito de Família",
-        "Divorcio": "Divórcio",
-        "Custodia de Menores": "Guarda de Menores",
-        "Pensión Alimenticia": "Pensão Alimentícia",
-        "Mediación Familiar": "Mediação Familiar",
-        "Violencia Doméstica": "Violência Doméstica",
-        "Separación Legal": "Separação Legal",
-        "Equipo Legal": "Equipe Legal",
-        "Nuestro Enfoque": "Nosso Enfoque",
-        "Contacto": "Contato",
-        "Portal Abogado": "Portal do Advogado",
-        "Llama Ahora": "Ligue Agora",
+        "Artículos": "Artigos",
+        "Enlaces": "Links",
+        "Acerca de": "Sobre",
+        "Portal Editorial": "Portal Editorial",
         "Cerrar menú": "Fechar menu"
     },
     "Footer": {

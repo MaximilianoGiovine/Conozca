@@ -4,11 +4,16 @@
         "description": "Une plateforme mondiale"
     },
     "Hero": {
-        "badge": "Avocats en droit de la famille à {city}, {country}",
-        "headline": "Nous nous concentrons sur les besoins de votre famille",
-        "subheadline": "Représentation juridique compatissante et efficace à Managua, Nicaragua. Nous protégeons ce qui compte le plus pour vous.",
-        "ctaText": "Planifier une consultation",
-        "call_to_action": "Appelez le {phone}"
+        "badge": "",
+        "headline": "Des essais pensés pour approfondir votre étude de la parole de Dieu",
+        "subheadline": "Conozca est un magazine numérique consacré à la réflexion théologique à travers l'Amérique latine",
+        "ctaText": "Explorer les Articles",
+        "articlesTitle": "Articles Conozca",
+        "articlesLead": "Journalisme indépendant, culture et design pour une lecture posée.",
+        "call_to_action": "S'abonner",
+        "noArticles": "De nouvelles histoires arrivent bientôt.",
+        "noFeatured": "Bientôt disponible : essais sélectionnés.",
+        "noLatest": "Explorez nos archives pendant que nous préparons du nouveau contenu."
     },
     "Values": {
         "respect": {
@@ -128,18 +133,10 @@
     },
     "Navigation": {
         "Inicio": "Accueil",
-        "Derecho de Familia": "Droit de la Famille",
-        "Divorcio": "Divorce",
-        "Custodia de Menores": "Garde d'Enfants",
-        "Pensión Alimenticia": "Pension Alimentaire",
-        "Mediación Familiar": "Médiation Familiale",
-        "Violencia Doméstica": "Violence Domestique",
-        "Separación Legal": "Séparation Légale",
-        "Equipo Legal": "Équipe Juridique",
-        "Nuestro Enfoque": "Notre Approche",
-        "Contacto": "Contact",
-        "Portal Abogado": "Portail Avocat",
-        "Llama Ahora": "Appeler Maintenant",
+        "Artículos": "Articles",
+        "Enlaces": "Liens",
+        "Acerca de": "À propos",
+        "Portal Editorial": "Portail Éditorial",
         "Cerrar menú": "Fermer le menu"
     },
     "Footer": {

@@ -4,11 +4,16 @@
         "description": "A global platform"
     },
     "Hero": {
-        "badge": "Family Law Attorneys in {city}, {country}",
-        "headline": "We focus on your family's needs",
-        "subheadline": "Compassionate and effective legal representation in Managua, Nicaragua. We protect what matters most to you and yours.",
-        "ctaText": "Schedule a Consultation",
-        "call_to_action": "Call {phone}"
+        "badge": "",
+        "headline": "Essays crafted to deepen your walk with God's word",
+        "subheadline": "Conozca is a digital magazine devoted to theological reflection across Latin America",
+        "ctaText": "Explore Articles",
+        "articlesTitle": "Conozca Articles",
+        "articlesLead": "Independent journalism, culture, and design for unhurried reading.",
+        "call_to_action": "Subscribe",
+        "noArticles": "New stories on the way.",
+        "noFeatured": "Coming soon: selected essays.",
+        "noLatest": "Explore our archive while we prepare new content."
     },
     "Values": {
         "respect": {
@@ -127,18 +132,10 @@
     },
     "Navigation": {
         "Inicio": "Home",
-        "Derecho de Familia": "Family Law",
-        "Divorcio": "Divorce",
-        "Custodia de Menores": "Child Custody",
-        "Pensión Alimenticia": "Alimony",
-        "Mediación Familiar": "Family Mediation",
-        "Violencia Doméstica": "Domestic Violence",
-        "Separación Legal": "Legal Separation",
-        "Equipo Legal": "Legal Team",
-        "Nuestro Enfoque": "Our Approach",
-        "Contacto": "Contact",
-        "Portal Abogado": "Lawyer Portal",
-        "Llama Ahora": "Call Now",
+        "Artículos": "Articles",
+        "Enlaces": "Links",
+        "Acerca de": "About",
+        "Portal Editorial": "Editorial Portal",
         "Cerrar menú": "Close menu"
     },
     "Footer": {

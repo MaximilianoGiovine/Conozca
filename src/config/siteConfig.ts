@@ -122,7 +122,7 @@ export interface SiteConfig {
 }
 
 // ============================================================
-// CONFIGURACIÓN: Irene González - Bufete en Managua, Nicaragua
+// CONFIGURACIÓN: Conozca - Revista digital (SEC América Latina)
 // ============================================================
 
 export const siteConfig: SiteConfig = {
@@ -135,23 +135,20 @@ export const siteConfig: SiteConfig = {
   yearsExperience: 9,
   yearFounded: 2017,
 
+  // TODO: completar con los datos reales de contacto de Conozca.
   contact: {
-    phone: '+50522781234',
-    phoneDisplay: '+505 2278-1234',
-    email: 'contacto@gonzalezabogados.com.ni',
-    address: 'Rotonda El Güegüense, 2 cuadras al sur, Edificio Plaza Sur, Oficina 305',
-    city: 'Managua',
-    country: 'Nicaragua',
-    googleMapsEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3902.5!2d-86.27!3d12.13!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDA3JzQ4LjAiTiA4NsKwMTYnMTIuMCJX!5e0!3m2!1ses!2sni!4v1700000000000',
-    whatsappNumber: '+50588881234',
-    officeHours: 'Lunes a Viernes, 8:00 a.m. a 5:00 p.m.',
+    phone: '',
+    phoneDisplay: '',
+    email: '',
+    address: '',
+    city: '',
+    country: '',
+    googleMapsEmbedUrl: '',
+    officeHours: '',
   },
 
-  social: {
-    facebook: 'https://facebook.com/gonzalezabogadosni',
-    instagram: 'https://instagram.com/gonzalezabogadosni',
-    linkedin: 'https://linkedin.com/company/gonzalezabogadosni',
-  },
+  // TODO: completar con las redes sociales reales de Conozca.
+  social: {},
 
   navigation: {
     items: [
