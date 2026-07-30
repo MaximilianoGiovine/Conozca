@@ -151,5 +151,11 @@
         "servicesIn": "Serviços de direito de família em {city}, {country}",
         "callNow": "Ligue Agora",
         "callAt": "Ligue para {phone}"
+    },
+    "Newsletter": {
+        "loading": "Inscrevendo...",
+        "success": "Obrigado por se inscrever!",
+        "error": "Ocorreu um erro. Tente novamente.",
+        "invalidEmail": "Email inválido."
     }
 }

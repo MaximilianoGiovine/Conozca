@@ -151,5 +151,11 @@
         "servicesIn": "Family law services in {city}, {country}",
         "callNow": "Call Now",
         "callAt": "Call {phone}"
+    },
+    "Newsletter": {
+        "loading": "Subscribing...",
+        "success": "Thanks for subscribing!",
+        "error": "Something went wrong. Please try again.",
+        "invalidEmail": "Invalid email."
     }
 }

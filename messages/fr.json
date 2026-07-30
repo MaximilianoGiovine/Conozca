@@ -152,5 +152,11 @@
         "servicesIn": "Services de droit de la famille à {city}, {country}",
         "callNow": "Appeler Maintenant",
         "callAt": "Appelez le {phone}"
+    },
+    "Newsletter": {
+        "loading": "Abonnement en cours...",
+        "success": "Merci de vous être abonné !",
+        "error": "Une erreur s'est produite. Veuillez réessayer.",
+        "invalidEmail": "Email invalide."
     }
 }

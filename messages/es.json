@@ -167,7 +167,7 @@
     },
     "Newsletter": {
         "loading": "Suscribiendo...",
-        "success": "¡Gracias por suscribirte! Revisa tu correo.",
+        "success": "¡Gracias por suscribirte!",
         "error": "Hubo un error. Intenta de nuevo.",
         "invalidEmail": "Email no válido."
     }

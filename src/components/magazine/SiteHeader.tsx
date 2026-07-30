@@ -34,9 +34,10 @@ export default function SiteHeader() {
             try {
                 const supabase = createClient()
                 const languages = locale === 'es' ? ['es'] : [locale, 'es']
-                // Búsqueda conceptual: el título debe contener todas las palabras
-                // clave ingresadas, en cualquier orden, en vez de la frase exacta.
+                // Búsqueda conceptual: el título (o el autor) debe contener todas las
+                // palabras clave ingresadas, en cualquier orden, en vez de la frase exacta.
                 const keywords = query.trim().split(/\s+/).filter(Boolean)
+
                 let titleQuery = supabase
                     .from('article_translations')
                     .select('title, excerpt, language_code, article:articles(id, slug, published_at)')
@@ -45,8 +46,32 @@ export default function SiteHeader() {
                 for (const keyword of keywords) {
                     titleQuery = titleQuery.ilike('title', `%${keyword}%`)
                 }
-                const { data, error } = await titleQuery
-                if (error) throw error
+
+                // Búsqueda por autor: coincide sobre articles.author_name y trae
+                // las traducciones para poder mostrar título/excerpt del resultado.
+                let authorQuery = supabase
+                    .from('articles')
+                    .select('id, slug, published_at, author_name, article_translations!inner(title, excerpt, language_code)')
+                    .in('article_translations.language_code', languages)
+                    .limit(12)
+                for (const keyword of keywords) {
+                    authorQuery = authorQuery.ilike('author_name', `%${keyword}%`)
+                }
+
+                const [titleResult, authorResult] = await Promise.all([titleQuery, authorQuery])
+                if (titleResult.error) throw titleResult.error
+                if (authorResult.error) throw authorResult.error
+
+                const authorMatches = (authorResult.data ?? []).flatMap((a: any) =>
+                    (a.article_translations ?? []).map((tr: any) => ({
+                        title: tr.title,
+                        excerpt: tr.excerpt,
+                        language_code: tr.language_code,
+                        article: { id: a.id, slug: a.slug, published_at: a.published_at }
+                    }))
+                )
+                const data = [...(titleResult.data ?? []), ...authorMatches]
+
                 const now = new Date().toISOString()
                 const published = (data ?? []).filter((d: any) => d.article?.published_at && d.article.published_at <= now)
 
