@@ -33,7 +33,7 @@ export function NewsletterForm() {
                     required
                     placeholder="tu@email.com"
                     disabled={status === 'loading' || status === 'success'}
-                    className="flex-grow px-4 py-3 rounded-lg bg-gray-900 border border-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 disabled:opacity-50"
+                    className="flex-grow px-4 py-3 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 disabled:opacity-50"
                 />
                 <button
                     type="submit"
