@@ -74,6 +74,66 @@ function formatDate(d: string) {
   return new Date(d).toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
+// ─── Soporte de griego (koiné) ─────────────────────────────────────
+// La fuente "times" embebida en jsPDF es una de las 14 fuentes estándar de PDF
+// (codificación WinAnsi/Latin-1) y no tiene glifos griegos: cualquier palabra en
+// griego (incluido el griego politónico usado en textos koiné/bíblicos, con
+// acentos y espíritus) se pierde o sale en blanco al exportar. "Cardo" es una
+// fuente pensada para clasicistas con cobertura completa de griego politónico
+// (bloques Unicode 0370–03FF y 1F00–1FFF), así que la usamos como reemplazo
+// puntual en cualquier bloque de texto que contenga caracteres griegos.
+const GREEK_RE = /[Ͱ-Ͽἀ-῿]/;
+function containsGreek(text: string): boolean {
+  return GREEK_RE.test(text);
+}
+
+const GREEK_FONT = 'Cardo';
+// Cardo no tiene variante bold-italic en Google Fonts; la más cercana es bold.
+const GREEK_STYLE_MAP: Record<string, 'normal' | 'bold' | 'italic'> = {
+  normal: 'normal',
+  bold: 'bold',
+  italic: 'italic',
+  bolditalic: 'bold',
+};
+
+let greekFontPromise: Promise<boolean> | null = null;
+
+async function fetchFontAsBase64(url: string): Promise<string> {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`No se pudo cargar la fuente ${url}`);
+  const buffer = await res.arrayBuffer();
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
+}
+
+/** Registra la fuente Cardo en el documento (una sola vez por sesión). Devuelve false si falla, para poder seguir generando el PDF sin romper la exportación. */
+async function ensureGreekFont(doc: jsPDF): Promise<boolean> {
+  if (!greekFontPromise) {
+    greekFontPromise = (async () => {
+      try {
+        const [regular, bold, italic] = await Promise.all([
+          fetchFontAsBase64('/fonts/Cardo-Regular.ttf'),
+          fetchFontAsBase64('/fonts/Cardo-Bold.ttf'),
+          fetchFontAsBase64('/fonts/Cardo-Italic.ttf'),
+        ]);
+        doc.addFileToVFS('Cardo-Regular.ttf', regular);
+        doc.addFont('Cardo-Regular.ttf', GREEK_FONT, 'normal');
+        doc.addFileToVFS('Cardo-Bold.ttf', bold);
+        doc.addFont('Cardo-Bold.ttf', GREEK_FONT, 'bold');
+        doc.addFileToVFS('Cardo-Italic.ttf', italic);
+        doc.addFont('Cardo-Italic.ttf', GREEK_FONT, 'italic');
+        return true;
+      } catch (err) {
+        console.error('No se pudo cargar la fuente para griego (Cardo):', err);
+        return false;
+      }
+    })();
+  }
+  return greekFontPromise;
+}
+
 // ─── Watermark ────────────────────────────────────────────────────
 function addWatermark(doc: jsPDF) {
   const total = doc.getNumberOfPages();
@@ -93,15 +153,17 @@ function addWatermark(doc: jsPDF) {
 }
 
 // ─── Page Numbers ─────────────────────────────────────────────────
-function addPageNumbers(doc: jsPDF, shortTitle: string) {
+function addPageNumbers(doc: jsPDF, shortTitle: string, greekFontReady: boolean) {
   const total = doc.getNumberOfPages();
+  const runningHead = shortTitle.toUpperCase();
+  const useGreekFont = greekFontReady && containsGreek(runningHead);
   for (let i = 1; i <= total; i++) {
     doc.setPage(i);
-    doc.setFont('times', 'normal');
+    doc.setFont(useGreekFont ? GREEK_FONT : 'times', 'normal');
     doc.setFontSize(12);
     doc.setTextColor(80, 80, 80);
     // Running head (left) + page number (right)
-    doc.text(shortTitle.toUpperCase(), ML, 15);
+    doc.text(runningHead, ML, 15);
     doc.text(String(i), PAGE_W - MR, 15, { align: 'right' });
   }
 }
@@ -111,9 +173,25 @@ export async function generateArticlePdf(data: PdfArticleData): Promise<void> {
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
   let y = MT;
 
+  // Si el artículo tiene alguna palabra en griego, precargamos Cardo antes de
+  // escribir nada: jsPDF necesita la fuente ya registrada en el momento de
+  // llamar a setFont/splitTextToSize, no se puede agregar "sobre la marcha".
+  const articleHasGreek = containsGreek(data.title)
+    || containsGreek(data.content)
+    || containsGreek(data.authorName ?? '');
+  const greekFontReady = articleHasGreek ? await ensureGreekFont(doc) : false;
+
   // ── Core write helpers ──
   const checkBreak = (space: number) => {
     if (y + space > PAGE_H - MB) { doc.addPage(); y = MT; }
+  };
+
+  /** Elige "times" o, si el texto trae griego y la fuente cargó bien, "Cardo". */
+  const resolveFont = (text: string, style: 'normal' | 'bold' | 'italic' | 'bolditalic') => {
+    if (greekFontReady && containsGreek(text)) {
+      return { family: GREEK_FONT, style: GREEK_STYLE_MAP[style] };
+    }
+    return { family: 'times', style };
   };
 
   /** Write left-aligned wrapped text, return final y */
@@ -126,7 +204,8 @@ export async function generateArticlePdf(data: PdfArticleData): Promise<void> {
     xOffset = 0,
     maxW = CW,
   ) => {
-    doc.setFont('times', style);
+    const font = resolveFont(text, style);
+    doc.setFont(font.family, font.style);
     doc.setFontSize(size);
     doc.setTextColor(...color);
     const lines = doc.splitTextToSize(text, maxW) as string[];
@@ -145,7 +224,8 @@ export async function generateArticlePdf(data: PdfArticleData): Promise<void> {
     color: [number, number, number] = [30, 30, 30],
     lh = LH_TIGHT,
   ) => {
-    doc.setFont('times', style);
+    const font = resolveFont(text, style);
+    doc.setFont(font.family, font.style);
     doc.setFontSize(size);
     doc.setTextColor(...color);
     const lines = doc.splitTextToSize(text, CW) as string[];
@@ -158,7 +238,8 @@ export async function generateArticlePdf(data: PdfArticleData): Promise<void> {
 
   /** APA body paragraph — first-line indent 0.5in, double-spaced */
   const writeParagraph = (text: string) => {
-    doc.setFont('times', 'normal');
+    const font = resolveFont(text, 'normal');
+    doc.setFont(font.family, font.style);
     doc.setFontSize(FONT_BODY);
     doc.setTextColor(30, 30, 30);
     const lines = doc.splitTextToSize(text, CW) as string[];
@@ -312,7 +393,7 @@ export async function generateArticlePdf(data: PdfArticleData): Promise<void> {
   // ══════════════════════════════════════════════════════════════
   addWatermark(doc);
   const shortTitle = data.title.length > 50 ? data.title.slice(0, 50) : data.title;
-  addPageNumbers(doc, shortTitle);
+  addPageNumbers(doc, shortTitle, greekFontReady);
 
   const safeSlug = data.slug.replace(/[^a-z0-9-]/gi, '_');
   doc.save(`conozca-${safeSlug}.pdf`);

@@ -1,12 +1,26 @@
+import type { Metadata } from 'next';
 import PageShell from '@/components/magazine/PageShell';
 import { ExternalLinkIcon } from 'lucide-react';
 import Image from 'next/image';
+import { absoluteUrl, buildLanguageAlternates } from '@/shared/lib/seo';
 
 interface ResourceLink {
     title: string;
     description: string;
     href: string;
     imagePath?: string;
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    return {
+        title: 'Enlaces',
+        description: 'Enlaces de interés y organizaciones aliadas de Revista Conozca y el Servicio de Educación Cristiana (SEC).',
+        alternates: {
+            canonical: absoluteUrl(locale, '/enlaces'),
+            languages: buildLanguageAlternates('/enlaces'),
+        },
+    };
 }
 
 export default function EnlacesPage() {

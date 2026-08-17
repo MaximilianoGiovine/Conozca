@@ -1,6 +1,20 @@
+import type { Metadata } from 'next'
 import PageShell from '@/components/magazine/PageShell'
 import { siteConfig } from '@/config/siteConfig'
 import Image from 'next/image'
+import { absoluteUrl, buildLanguageAlternates } from '@/shared/lib/seo'
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params
+    return {
+        title: 'Acerca de',
+        description: 'Conocé la historia y la misión de Revista Conozca, órgano oficial del Servicio de Educación Cristiana (SEC) en América Latina.',
+        alternates: {
+            canonical: absoluteUrl(locale, '/acerca-de'),
+            languages: buildLanguageAlternates('/acerca-de'),
+        },
+    }
+}
 
 export default function AboutPage() {
     return (

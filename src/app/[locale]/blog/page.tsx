@@ -1,8 +1,22 @@
 export const dynamic = 'force-dynamic';
 
+import type { Metadata } from 'next';
 import { articleService } from '@/features/blog/services/articleService';
 import { BlogContent } from '@/features/blog/components/BlogContent';
 import PageShell from '@/components/magazine/PageShell';
+import { absoluteUrl, buildLanguageAlternates } from '@/shared/lib/seo';
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    return {
+        title: 'Artículos',
+        description: 'Explorá todos los artículos de Revista Conozca: cultura, negocios y diseño con una mirada editorial clara y pensada.',
+        alternates: {
+            canonical: absoluteUrl(locale, '/blog'),
+            languages: buildLanguageAlternates('/blog'),
+        },
+    };
+}
 
 export default async function BlogIndexPage({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
