@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { ensureArticleTranslation } from './articleTranslationService';
 
 // Lazy initialization: se crea el cliente SÓLO cuando se llama a una función,
 // no durante el import del módulo (lo que rompe el build de Next.js sin env vars)
@@ -70,6 +71,32 @@ export const articleService = {
             ...data,
             translation
         };
+    },
+
+    /**
+     * Like getArticleBySlug, but if the article has no version in `locale` it is
+     * machine-translated on the fly (and cached) so every reader can view and
+     * download it in their preferred language.
+     */
+    async getArticleForReader(slug: string, locale: string) {
+        const article = await this.getArticleBySlug(slug, locale);
+        if (!article) return null;
+
+        if (article.translation?.language_code === locale) {
+            return article;
+        }
+
+        try {
+            const generated = await ensureArticleTranslation(article.id, locale);
+            if (generated) {
+                return { ...article, translation: generated };
+            }
+        } catch (e) {
+            console.error('[articleService.getArticleForReader] translation failed:', e);
+        }
+
+        // Fall back to whatever getArticleBySlug picked (locale match or Spanish).
+        return article;
     },
 
     async getCategories(locale: string) {

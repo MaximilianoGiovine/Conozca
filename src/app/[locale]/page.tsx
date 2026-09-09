@@ -10,6 +10,7 @@ import styles from './page.module.css'
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'Hero' })
+  const th = await getTranslations({ locale, namespace: 'Home' })
 
   // Fetch real articles from Supabase
   let articles: any[] = []
@@ -42,13 +43,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <Link className={styles.primaryButton} href="/blog">
                 {t('ctaText')}
               </Link>
-              <Link className={styles.secondaryButton} href="/blog">Ver destacados</Link>
+              <Link className={styles.secondaryButton} href="/blog">{th('seeFeatured')}</Link>
             </div>
 
           </div>
 
           <div className={styles.heroCard}>
-            <div className={styles.cardLabel}>Destacado</div>
+            <div className={styles.cardLabel}>{th('featuredLabel')}</div>
             <h2 className={styles.cardTitle}>
               {mainFeatured?.translation?.title || t('noArticles')}
             </h2>
@@ -66,11 +67,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               </div>
               {mainFeatured ? (
                 <Link className={styles.textButton} href={`/blog/${mainFeatured.slug}`}>
-                  Leer historia
+                  {th('readStory')}
                 </Link>
               ) : (
                 <Link className={styles.textButton} href="/blog">
-                  Ir al blog
+                  {th('goToBlog')}
                 </Link>
               )}
             </div>
@@ -79,24 +80,24 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
         <section id="featured" className={styles.section}>
           <div className={styles.sectionHeader}>
-            <h3>Ensayos destacados</h3>
-            <Link href="/blog" className={styles.ghostButton}>Ver todos</Link>
+            <h3>{th('featuredEssays')}</h3>
+            <Link href="/blog" className={styles.ghostButton}>{th('seeAll')}</Link>
           </div>
           <div className={styles.featureGrid}>
             {featuredArticles.length > 0 ? (
               featuredArticles.map((item) => (
                 <article key={item.id} className={styles.featureCard}>
-                  <p className={styles.featureTag}>Destacado</p>
+                  <p className={styles.featureTag}>{th('essayTag')}</p>
                   <h4>{item.translation?.title}</h4>
                   {item.translation?.excerpt && (
                     <p className="text-sm text-gray-500 line-clamp-3">{item.translation.excerpt}</p>
                   )}
                   <div className={styles.cardFooter}>
                     <div className="text-xs text-gray-500 font-medium my-auto">
-                        {item.author_name ? `Por ${item.author_name}` : ''}
+                        {item.author_name ? th('by', { name: item.author_name }) : ''}
                     </div>
                     <Link className={styles.textButton} href={`/blog/${item.slug}`}>
-                      Abrir
+                      {th('open')}
                     </Link>
                   </div>
                 </article>
@@ -111,18 +112,18 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
         <section id="latest" className={styles.sectionAlt}>
           <div className={styles.sectionHeader}>
-            <h3>Últimas actualizaciones</h3>
-            <Link href="/blog" className={styles.ghostButton}>Explorar archivo</Link>
+            <h3>{th('latestUpdates')}</h3>
+            <Link href="/blog" className={styles.ghostButton}>{th('browseArchive')}</Link>
           </div>
           <div className={styles.latestGrid}>
             {latestArticles.length > 0 ? (
               latestArticles.map((item) => (
                 <article key={item.id} className={styles.latestCard}>
-                  <span className={styles.latestTag}>Editorial</span>
+                  <span className={styles.latestTag}>{th('editorialTag')}</span>
                   <h4>{item.translation?.title}</h4>
-                  {item.author_name && <p className="text-xs text-gray-500 mb-2">Por {item.author_name}</p>}
+                  {item.author_name && <p className="text-xs text-gray-500 mb-2">{th('by', { name: item.author_name })}</p>}
                   <Link className={styles.textButton} href={`/blog/${item.slug}`}>
-                    Leer
+                    {th('read')}
                   </Link>
                 </article>
               ))
@@ -136,9 +137,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
         <section id="about" className={styles.newsletter}>
           <div>
-            <h3>Suscríbete a nuestro Newsletter</h3>
+            <h3>{th('newsletterTitle')}</h3>
             <p>
-              Suscríbete para recibir novedades de Conozca directamente en tu correo.
+              {th('newsletterText')}
             </p>
           </div>
           <div className={styles.newsletterForm}>

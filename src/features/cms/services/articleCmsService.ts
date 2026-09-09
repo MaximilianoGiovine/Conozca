@@ -21,13 +21,15 @@ export const articleCmsService = {
 
         if (articleError) throw articleError
 
-        // 2. Insert translations
+        // 2. Insert translations (authored in the CMS → canonical, not machine output)
         const translations = draft.translations.map(t => ({
             article_id: article.id,
             language_code: t.language_code,
             title: t.title,
             content: t.content,
             excerpt: t.excerpt,
+            is_machine_translated: false,
+            source_language_code: null,
         }))
 
         const { error: transError } = await supabase
@@ -55,7 +57,8 @@ export const articleCmsService = {
 
         if (articleError) throw articleError
 
-        // Upsert translations
+        // Upsert translations. A save from the CMS always yields a canonical
+        // version — clear any machine-translation flag left by the reader.
         for (const t of draft.translations) {
             const { error } = await supabase
                 .from('article_translations')
@@ -65,6 +68,8 @@ export const articleCmsService = {
                     title: t.title,
                     content: t.content,
                     excerpt: t.excerpt,
+                    is_machine_translated: false,
+                    source_language_code: null,
                 }, { onConflict: 'article_id,language_code' })
             if (error) throw error
         }

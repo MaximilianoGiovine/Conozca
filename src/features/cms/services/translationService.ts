@@ -11,6 +11,10 @@ const DEEPL_TARGET_MAP: Record<TranslationLanguage, string> = {
 const DEEPL_API_URL = 'https://api-free.deepl.com/v2/translate'
 const DEEPL_API_KEY = process.env.DEEPL_API_KEY ?? ''
 
+export function isTranslationConfigured(): boolean {
+    return DEEPL_API_KEY.length > 0
+}
+
 export async function translateText(
     text: string,
     targetLanguage: TranslationLanguage,
@@ -42,6 +46,24 @@ export async function translateText(
 
     const data = await response.json()
     return data.translations?.[0]?.text ?? text
+}
+
+/**
+ * Translates a single article (title + HTML content + excerpt) into ONE target
+ * language. Used for on-demand translation when a reader opens an article that
+ * has no version in their locale yet.
+ */
+export async function translateArticleTo(
+    target: TranslationLanguage,
+    fields: { title: string; content: string; excerpt: string },
+    sourceLang?: string,
+): Promise<{ title: string; content: string; excerpt: string }> {
+    const [title, content, excerpt] = await Promise.all([
+        translateText(fields.title, target, sourceLang),
+        translateText(fields.content, target, sourceLang),
+        fields.excerpt ? translateText(fields.excerpt, target, sourceLang) : Promise.resolve(''),
+    ])
+    return { title, content, excerpt }
 }
 
 /**

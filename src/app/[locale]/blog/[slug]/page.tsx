@@ -1,12 +1,13 @@
 export const dynamic = 'force-dynamic';
 
 import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 import { articleService } from '@/features/blog/services/articleService';
 import { notFound } from 'next/navigation';
 import PageShell from '@/components/magazine/PageShell';
 import { DownloadPdfButton } from '@/features/blog/components/DownloadPdfButton';
+import { ArticleLanguageBar } from '@/features/blog/components/ArticleLanguageBar';
 import { sanitizeRichHtml } from '@/shared/lib/sanitize-rich-html';
-import { routing } from '@/i18n/routing';
 import { absoluteUrl, buildLanguageAlternates, getOgLocale, SITE_URL } from '@/shared/lib/seo';
 import { siteConfig } from '@/config/siteConfig';
 
@@ -16,7 +17,7 @@ function stripHtml(html: string): string {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string, slug: string }> }): Promise<Metadata> {
     const { locale, slug } = await params;
-    const article = await articleService.getArticleBySlug(slug, locale);
+    const article = await articleService.getArticleForReader(slug, locale);
 
     if (!article || !article.translation) {
         return {};
@@ -24,16 +25,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
     const description = article.translation.excerpt?.trim() || stripHtml(article.translation.content).slice(0, 160);
     const path = `/blog/${article.slug}`;
-    const availableLocales = (article.translations ?? [])
-        .map((t: { language_code: string }) => t.language_code)
-        .filter((code: string): code is typeof routing.locales[number] => (routing.locales as readonly string[]).includes(code));
+    // Every locale is reachable — missing versions are machine-translated on demand.
 
     return {
         title: article.translation.title,
         description,
         alternates: {
             canonical: absoluteUrl(locale, path),
-            languages: buildLanguageAlternates(path, availableLocales.length > 0 ? availableLocales : undefined),
+            languages: buildLanguageAlternates(path),
         },
         openGraph: {
             title: article.translation.title,
@@ -56,11 +55,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function ArticlePage({ params }: { params: Promise<{ locale: string, slug: string }> }) {
     const { locale, slug } = await params;
-    const article = await articleService.getArticleBySlug(slug, locale);
+    const [article, t] = await Promise.all([
+        articleService.getArticleForReader(slug, locale),
+        getTranslations({ locale, namespace: 'Article' }),
+    ]);
 
     if (!article || !article.translation) {
         notFound();
     }
+
+    const isMachineTranslated = Boolean(article.translation.is_machine_translated);
+    const translationSource = article.translation.source_language_code ?? null;
 
     const sanitizedContent = sanitizeRichHtml(String(article.translation.content));
 
@@ -84,7 +89,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ locale
         '@type': 'BreadcrumbList',
         itemListElement: [
             { '@type': 'ListItem', position: 1, name: siteConfig.firmName, item: SITE_URL },
-            { '@type': 'ListItem', position: 2, name: 'Blog', item: absoluteUrl(locale, '/blog') },
+            { '@type': 'ListItem', position: 2, name: t('breadcrumbBlog'), item: absoluteUrl(locale, '/blog') },
             { '@type': 'ListItem', position: 3, name: article.translation.title, item: articleUrl },
         ],
     };
@@ -120,8 +125,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ locale
                 </div>
             </div>
 
+            <ArticleLanguageBar
+                machineTranslated={isMachineTranslated}
+                sourceLanguage={translationSource}
+            />
+
             {/* Contenido del artículo */}
-            <article className="max-w-4xl mx-auto py-20 px-6">
+            <article className="max-w-4xl mx-auto pt-10 pb-20 px-6">
                 <header className="mb-12 text-center">
                     <h1
                         className="text-5xl font-extrabold text-gray-900 mb-6"
@@ -136,7 +146,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ locale
                         {article.author_name && (
                             <>
                                 <span>•</span>
-                                <span>Por {article.author_name}</span>
+                                <span>{t('by', { name: article.author_name })}</span>
                             </>
                         )}
                     </div>

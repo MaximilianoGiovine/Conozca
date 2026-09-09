@@ -139,7 +139,7 @@ export default function SiteHeader() {
                                 type="text"
                                 value={query}
                                 onChange={e => setQuery(e.target.value)}
-                                placeholder="Buscar artículos..."
+                                placeholder={t('searchPlaceholder')}
                                 className="w-full pl-14 pr-14 py-4 text-lg text-gray-900 bg-transparent rounded-2xl outline-none"
                             />
                             <button
@@ -154,7 +154,7 @@ export default function SiteHeader() {
                         {showResults && (
                             <div className="mt-2 bg-white rounded-2xl shadow-2xl overflow-hidden">
                                 {searching ? (
-                                    <div className="px-5 py-4 text-sm text-gray-500 text-center">Buscando...</div>
+                                    <div className="px-5 py-4 text-sm text-gray-500 text-center">{t('searching')}</div>
                                 ) : results.length > 0 ? (
                                     <ul>
                                         {results.map(r => (
@@ -171,7 +171,7 @@ export default function SiteHeader() {
                                         ))}
                                     </ul>
                                 ) : (
-                                    <div className="px-5 py-4 text-sm text-gray-500 text-center">No se encontraron resultados.</div>
+                                    <div className="px-5 py-4 text-sm text-gray-500 text-center">{t('noResults')}</div>
                                 )}
                             </div>
                         )}
@@ -186,7 +186,7 @@ export default function SiteHeader() {
 
                 <nav className={styles.nav}>
                     <Link href="/blog">{t('articles')}</Link>
-                    <Link href="/revistas">Revistas</Link>
+                    <Link href="/revistas">{t('revistas')}</Link>
                     <Link href="/enlaces">{t('enlaces')}</Link>
                     <Link href="/acerca-de">{t('about')}</Link>
                 </nav>
@@ -198,7 +198,7 @@ export default function SiteHeader() {
                         className="relative hidden sm:flex items-center gap-3 pl-4 pr-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-full text-base text-gray-500 transition-colors w-72 cursor-text"
                     >
                         <Search className="w-5 h-5 text-gray-400 flex-shrink-0" />
-                        <span className="text-sm">Buscar artículos...</span>
+                        <span className="text-sm">{t('searchPlaceholder')}</span>
                     </button>
 
                     <Link className={styles.primaryButton} href="/blog">{t('startReading')}</Link>
@@ -211,7 +211,7 @@ export default function SiteHeader() {
                 {menuOpen && (
                     <nav className={styles.mobileNav} onClick={() => setMenuOpen(false)}>
                         <Link href="/blog">{t('articles')}</Link>
-                        <Link href="/revistas">Revistas</Link>
+                        <Link href="/revistas">{t('revistas')}</Link>
                         <Link href="/enlaces">{t('enlaces')}</Link>
                         <Link href="/acerca-de">{t('about')}</Link>
                         <Link href="/blog" className={styles.mobileNavCta}>{t('startReading')}</Link>

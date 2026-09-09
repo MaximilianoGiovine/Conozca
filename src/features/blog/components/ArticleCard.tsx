@@ -1,7 +1,10 @@
+import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { Article } from '../types/article';
 
 export function ArticleCard({ article }: { article: Article }) {
+    const t = useTranslations('Blog');
+    const locale = useLocale();
     if (!article.translation) return null;
 
     return (
@@ -15,8 +18,8 @@ export function ArticleCard({ article }: { article: Article }) {
                 </p>
             )}
             <div className="text-sm text-gray-400 font-medium">
-                {article.published_at ? new Date(article.published_at).toLocaleDateString() : 'Borrador'}
-                {article.author_name && ` • Por ${article.author_name}`}
+                {article.published_at ? new Date(article.published_at).toLocaleDateString(locale) : t('draft')}
+                {article.author_name && ` • ${t('by', { name: article.author_name })}`}
             </div>
         </div>
     );

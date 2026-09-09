@@ -53,6 +53,9 @@ export interface ArticleTranslation {
     title: string;
     content: string;
     excerpt?: string;
+    is_machine_translated?: boolean;
+    source_language_code?: string | null;
+    translated_at?: string | null;
 }
 
 export interface Comment {

@@ -1,17 +1,18 @@
 'use client'
 import { useState, useMemo, useRef, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { ChevronLeft, ChevronRight, ChevronDown, SlidersHorizontal, X } from 'lucide-react'
 import { ArticleCard } from './ArticleCard'
 
 const PAGE_SIZE = 12
 
-// Semantic categories for the category filter
+// Semantic categories for the category filter (labels resolved via i18n)
 const SEMANTIC_CATEGORIES = [
-    { id: '11111111-1111-1111-1111-111111111111', label: 'Literatura Bíblica' },
-    { id: '22222222-2222-2222-2222-222222222222', label: 'Teología' },
-    { id: '33333333-3333-3333-3333-333333333333', label: 'Ministerio' },
-    { id: '44444444-4444-4444-4444-444444444444', label: 'Misceláneo' },
-]
+    { id: '11111111-1111-1111-1111-111111111111', labelKey: 'cat_biblical' },
+    { id: '22222222-2222-2222-2222-222222222222', labelKey: 'cat_theology' },
+    { id: '33333333-3333-3333-3333-333333333333', labelKey: 'cat_ministry' },
+    { id: '44444444-4444-4444-4444-444444444444', labelKey: 'cat_misc' },
+] as const
 
 type ViewMode = 'grid' | 'year'
 
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export function BlogContent({ articles }: Props) {
+    const t = useTranslations('Blog')
     const [viewMode, setViewMode] = useState<ViewMode>('grid')
     const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null)
     const [currentPage, setCurrentPage] = useState(1)
@@ -121,9 +123,10 @@ export function BlogContent({ articles }: Props) {
     }, [safePage, totalPages])
 
     // Active filter label
+    const activeCategoryKey = SEMANTIC_CATEGORIES.find(c => c.id === activeCategoryId)?.labelKey
     const activeFilterLabel = activeCategoryId
-        ? SEMANTIC_CATEGORIES.find(c => c.id === activeCategoryId)?.label ?? null
-        : viewMode === 'year' ? 'Por año' : null
+        ? (activeCategoryKey ? t(activeCategoryKey) : null)
+        : viewMode === 'year' ? t('yearView') : null
 
     return (
         <div>
@@ -134,7 +137,7 @@ export function BlogContent({ articles }: Props) {
                     {activeFilterLabel && (
                         <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-50 border border-amber-200 text-amber-700 rounded-full text-sm font-semibold">
                             {activeFilterLabel}
-                            <button onClick={handleResetFilter} aria-label="Quitar filtro">
+                            <button onClick={handleResetFilter} aria-label={t('removeFilter')}>
                                 <X className="w-3.5 h-3.5" />
                             </button>
                         </span>
@@ -152,7 +155,7 @@ export function BlogContent({ articles }: Props) {
                         }`}
                     >
                         <SlidersHorizontal className="w-4 h-4" />
-                        Filtrar por
+                        {t('filterBy')}
                         <ChevronDown className={`w-4 h-4 transition-transform ${filterOpen ? 'rotate-180' : ''}`} />
                     </button>
 
@@ -161,7 +164,7 @@ export function BlogContent({ articles }: Props) {
                         <div className="absolute right-0 top-full mt-2 w-72 bg-white border border-gray-100 rounded-2xl shadow-2xl z-50 overflow-hidden">
                             {/* Category section */}
                             <div className="p-4 border-b border-gray-100">
-                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Categoría</p>
+                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">{t('categoryLabel')}</p>
                                 <div className="flex flex-col gap-1">
                                     {SEMANTIC_CATEGORIES.map(cat => (
                                         <button
@@ -173,7 +176,7 @@ export function BlogContent({ articles }: Props) {
                                                     : 'text-gray-700 hover:bg-amber-50 hover:text-amber-700'
                                             }`}
                                         >
-                                            {cat.label}
+                                            {t(cat.labelKey)}
                                         </button>
                                     ))}
                                 </div>
@@ -181,7 +184,7 @@ export function BlogContent({ articles }: Props) {
 
                             {/* Year section */}
                             <div className="p-4">
-                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Por año</p>
+                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">{t('byYearLabel')}</p>
                                 <button
                                     onClick={handleYearMode}
                                     className={`w-full text-left px-3 py-2 rounded-xl text-sm font-medium transition-all ${
@@ -190,7 +193,7 @@ export function BlogContent({ articles }: Props) {
                                             : 'text-gray-700 hover:bg-amber-50 hover:text-amber-700'
                                     }`}
                                 >
-                                    Ver archivo por año
+                                    {t('viewArchiveByYear')}
                                 </button>
                             </div>
                         </div>
@@ -212,7 +215,7 @@ export function BlogContent({ articles }: Props) {
                                     <div className="flex items-center gap-4">
                                         <span className="font-bold text-gray-900 text-lg">{year}</span>
                                         <span className="text-sm text-gray-400">
-                                            {yearArticles.length} artículo{yearArticles.length !== 1 ? 's' : ''}
+                                            {t('yearArticleCount', { count: yearArticles.length })}
                                         </span>
                                     </div>
                                     <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
@@ -231,7 +234,7 @@ export function BlogContent({ articles }: Props) {
                                                         {article.translation?.title ?? article.slug}
                                                     </p>
                                                     {article.author_name && (
-                                                        <p className="text-xs text-gray-400 mt-0.5">Por {article.author_name}</p>
+                                                        <p className="text-xs text-gray-400 mt-0.5">{t('by', { name: article.author_name })}</p>
                                                     )}
                                                 </div>
                                                 <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-amber-500 flex-shrink-0 mt-0.5 transition-colors" />
@@ -250,12 +253,12 @@ export function BlogContent({ articles }: Props) {
                 <>
                     {/* Results count */}
                     <p className="text-sm text-gray-400 mb-6">
-                        {filtered.length} artículo{filtered.length !== 1 ? 's' : ''} — página {safePage} de {totalPages}
+                        {t('results', { count: filtered.length })} — {t('pageIndicator', { page: safePage, total: totalPages })}
                     </p>
 
                     {pageItems.length === 0 ? (
                         <div className="text-center text-gray-500 py-12">
-                            No hay artículos en esta categoría.
+                            {t('noArticlesInCategory')}
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

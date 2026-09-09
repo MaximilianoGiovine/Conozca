@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { generateArticlePdf, type PdfArticleData } from '../services/pdfGenerator';
 
 interface DownloadPdfButtonProps {
@@ -8,6 +9,7 @@ interface DownloadPdfButtonProps {
 }
 
 export function DownloadPdfButton({ article }: DownloadPdfButtonProps) {
+  const t = useTranslations('Article');
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handleDownload = async () => {
@@ -34,7 +36,7 @@ export function DownloadPdfButton({ article }: DownloadPdfButtonProps) {
         disabled:opacity-60 disabled:cursor-not-allowed
         focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2
       "
-      aria-label="Descargar artículo en PDF"
+      aria-label={t('downloadAria')}
     >
       {isGenerating ? (
         <>
@@ -58,7 +60,7 @@ export function DownloadPdfButton({ article }: DownloadPdfButtonProps) {
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
             />
           </svg>
-          Generando PDF…
+          {t('generatingPdf')}
         </>
       ) : (
         <>
@@ -76,7 +78,7 @@ export function DownloadPdfButton({ article }: DownloadPdfButtonProps) {
             <polyline points="7 10 12 15 17 10" />
             <line x1="12" y1="15" x2="12" y2="3" />
           </svg>
-          Descargar PDF
+          {t('downloadPdf')}
         </>
       )}
     </button>
