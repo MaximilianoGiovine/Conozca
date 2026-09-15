@@ -181,7 +181,7 @@ export default function SiteHeader() {
 
             <header className={`${styles.header} relative z-[50]`}>
                 <Link className={styles.logo} href="/">
-                    <Image src="/images/logo.png" alt="Conozca Logo" width={320} height={106} className="object-contain h-20 w-auto" />
+                    <Image src="/images/logo.png" alt="Conozca Logo" width={320} height={106} className="object-contain h-28 md:h-32 w-auto" />
                 </Link>
 
                 <nav className={styles.nav}>
