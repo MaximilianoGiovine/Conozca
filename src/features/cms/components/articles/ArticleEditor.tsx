@@ -1,9 +1,10 @@
 'use client'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { ArticleImporter } from './ArticleImporter'
 import { TranslationPanel } from './TranslationPanel'
-import { Save, Globe, Eye, EyeOff, Loader2, CalendarClock, BookOpen, Download } from 'lucide-react'
+import { Save, Globe, Eye, EyeOff, Loader2, CalendarClock, BookOpen, Download, Trash2 } from 'lucide-react'
 import type { ArticleTranslationDraft, TranslationLanguage } from '../../types/cms'
 import { generateArticlePdf, type PdfArticleData } from '@/features/blog/services/pdfGenerator'
 import { sanitizeRichHtml } from '@/shared/lib/sanitize-rich-html'
@@ -58,6 +59,7 @@ interface Props {
 }
 
 export function ArticleEditor({ articleId, initialData }: Props) {
+    const router = useRouter()
     const [slug, setSlug] = useState(initialData?.slug ?? '')
     const [authorName, setAuthorName] = useState(initialData?.author_name ?? '')
     const [categoryId, setCategoryId] = useState(initialData?.category_id ?? '')
@@ -77,6 +79,7 @@ export function ArticleEditor({ articleId, initialData }: Props) {
     const [error, setError] = useState<string | null>(null)
     const [showPreview, setShowPreview] = useState(false)
     const [isGeneratingPdf, setIsGeneratingPdf] = useState(false)
+    const [deleting, setDeleting] = useState(false)
 
     const activeTranslation = translations.find(t => t.language_code === activeLang) ?? emptyTranslation(activeLang)
     const previewArticle = translations.find(t => t.language_code === 'es') ?? translations[0]
@@ -132,6 +135,25 @@ export function ArticleEditor({ articleId, initialData }: Props) {
             setError(e.message)
         } finally {
             setSaving(false)
+        }
+    }
+
+    async function handleDelete() {
+        if (!articleId) return
+        if (!window.confirm('¿Eliminar este artículo permanentemente? Esta acción no se puede deshacer.')) return
+        setDeleting(true)
+        setError(null)
+        try {
+            const res = await fetch(`/api/cms/articles/${articleId}`, { method: 'DELETE' })
+            if (!res.ok) {
+                const data = await res.json().catch(() => ({}))
+                throw new Error(data.error ?? 'Error al eliminar el artículo')
+            }
+            router.push('/admin-dashboard/articles')
+            router.refresh()
+        } catch (e: any) {
+            setError(e.message)
+            setDeleting(false)
         }
     }
 
@@ -385,14 +407,27 @@ export function ArticleEditor({ articleId, initialData }: Props) {
 
             {/* Action buttons */}
             <div className="flex justify-between items-center gap-3 pt-4 border-t border-gray-800">
-                <button
-                    type="button"
-                    onClick={() => setShowPreview(true)}
-                    className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-medium px-5 py-3 rounded-xl transition-colors"
-                >
-                    <BookOpen className="w-4 h-4" />
-                    Vista Previa
-                </button>
+                <div className="flex items-center gap-3">
+                    <button
+                        type="button"
+                        onClick={() => setShowPreview(true)}
+                        className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-medium px-5 py-3 rounded-xl transition-colors"
+                    >
+                        <BookOpen className="w-4 h-4" />
+                        Vista Previa
+                    </button>
+                    {articleId && (
+                        <button
+                            type="button"
+                            onClick={handleDelete}
+                            disabled={deleting}
+                            className="flex items-center gap-2 bg-red-500/10 hover:bg-red-500/20 disabled:opacity-50 text-red-400 font-medium px-5 py-3 rounded-xl border border-red-500/30 transition-colors"
+                        >
+                            {deleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                            {deleting ? 'Eliminando...' : 'Eliminar artículo'}
+                        </button>
+                    )}
+                </div>
                 <button
                     type="button"
                     onClick={handleSave}
