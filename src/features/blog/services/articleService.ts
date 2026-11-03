@@ -112,8 +112,11 @@ export const articleService = {
         const args = { p_query: query, p_locale: locale };
 
         // El total va primero: pedir un rango más allá del final devuelve error.
+        // Sin `head: true`: un 404 de HEAD no trae cuerpo y el cliente lo reporta como
+        // éxito, así que si faltara la función se vería como "sin resultados".
         const { count, error: countError } = await supabase
-            .rpc('search_articles', args, { count: 'exact', head: true });
+            .rpc('search_articles', args, { count: 'exact' })
+            .range(0, 0);
         if (countError) throw countError;
 
         const total = count ?? 0;
