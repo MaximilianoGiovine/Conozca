@@ -99,6 +99,45 @@ export const articleService = {
         return article;
     },
 
+    /**
+     * Búsqueda paginada de artículos publicados, de más nuevo a más viejo. El criterio
+     * (título o autor, ignorando acentos) vive en la función SQL `search_articles`,
+     * compartida con las sugerencias del header.
+     */
+    async searchArticles(locale: string, query: string, page: number, pageSize: number) {
+        const empty = { articles: [] as any[], total: 0, page: 1, totalPages: 1 };
+        if (!query.trim()) return empty;
+
+        const supabase = getSupabaseClient();
+        const args = { p_query: query, p_locale: locale };
+
+        // El total va primero: pedir un rango más allá del final devuelve error.
+        const { count, error: countError } = await supabase
+            .rpc('search_articles', args, { count: 'exact', head: true });
+        if (countError) throw countError;
+
+        const total = count ?? 0;
+        if (total === 0) return empty;
+
+        const totalPages = Math.ceil(total / pageSize);
+        const safePage = Math.min(Math.max(1, page), totalPages);
+        const from = (safePage - 1) * pageSize;
+
+        const { data, error } = await supabase
+            .rpc('search_articles', args)
+            .order('published_at', { ascending: false })
+            .order('id')
+            .range(from, from + pageSize - 1);
+        if (error) throw error;
+
+        const articles = (data ?? []).map(({ title, excerpt, ...article }: any) => ({
+            ...article,
+            translation: { title, excerpt },
+        }));
+
+        return { articles, total, page: safePage, totalPages };
+    },
+
     async getCategories(locale: string) {
         const supabase = getSupabaseClient();
         const { data, error } = await supabase

@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import { Search, X, Menu } from 'lucide-react'
 import styles from './site-shell.module.css'
 import { createClient } from '@/lib/supabase/client'
+import { getPathname } from '@/i18n/routing'
 
 interface SearchResult {
     id: string
@@ -33,63 +34,15 @@ export default function SiteHeader() {
             setSearching(true)
             try {
                 const supabase = createClient()
-                const languages = locale === 'es' ? ['es'] : [locale, 'es']
-                // Búsqueda conceptual: el título (o el autor) debe contener todas las
-                // palabras clave ingresadas, en cualquier orden, en vez de la frase exacta.
-                const keywords = query.trim().split(/\s+/).filter(Boolean)
+                // La función ignora acentos y mayúsculas; ver la migración article_search.
+                const { data, error } = await supabase
+                    .rpc('search_articles', { p_query: query, p_locale: locale })
+                    .order('published_at', { ascending: false })
+                    .order('id')
+                    .limit(6)
+                if (error) throw error
 
-                let titleQuery = supabase
-                    .from('article_translations')
-                    .select('title, excerpt, language_code, article:articles(id, slug, published_at)')
-                    .in('language_code', languages)
-                    .limit(12)
-                for (const keyword of keywords) {
-                    titleQuery = titleQuery.ilike('title', `%${keyword}%`)
-                }
-
-                // Búsqueda por autor: coincide sobre articles.author_name y trae
-                // las traducciones para poder mostrar título/excerpt del resultado.
-                let authorQuery = supabase
-                    .from('articles')
-                    .select('id, slug, published_at, author_name, article_translations!inner(title, excerpt, language_code)')
-                    .in('article_translations.language_code', languages)
-                    .limit(12)
-                for (const keyword of keywords) {
-                    authorQuery = authorQuery.ilike('author_name', `%${keyword}%`)
-                }
-
-                const [titleResult, authorResult] = await Promise.all([titleQuery, authorQuery])
-                if (titleResult.error) throw titleResult.error
-                if (authorResult.error) throw authorResult.error
-
-                const authorMatches = (authorResult.data ?? []).flatMap((a: any) =>
-                    (a.article_translations ?? []).map((tr: any) => ({
-                        title: tr.title,
-                        excerpt: tr.excerpt,
-                        language_code: tr.language_code,
-                        article: { id: a.id, slug: a.slug, published_at: a.published_at }
-                    }))
-                )
-                const data = [...(titleResult.data ?? []), ...authorMatches]
-
-                const now = new Date().toISOString()
-                const published = (data ?? []).filter((d: any) => d.article?.published_at && d.article.published_at <= now)
-
-                // Prefer the active locale's translation; fall back to Spanish only if missing
-                const localeMatches = published.filter((d: any) => d.language_code === locale)
-                const fallbackMatches = published.filter((d: any) => d.language_code === 'es')
-                const seen = new Set<string>()
-                const merged: any[] = []
-                for (const d of [...localeMatches, ...fallbackMatches] as any[]) {
-                    if (seen.has(d.article.id)) continue
-                    seen.add(d.article.id)
-                    merged.push(d)
-                }
-
-                setResults(merged
-                    .slice(0, 6)
-                    .map((d: any) => ({ id: d.article.id, slug: d.article.slug, title: d.title, excerpt: d.excerpt }))
-                )
+                setResults((data ?? []).map((d: any) => ({ id: d.id, slug: d.slug, title: d.title, excerpt: d.excerpt })))
             } catch (err) {
                 console.error('Error buscando artículos:', err)
                 setResults([])
@@ -131,24 +84,34 @@ export default function SiteHeader() {
                     onClick={handleClose}
                 >
                     <div className="w-full max-w-2xl" onClick={e => e.stopPropagation()}>
-                        {/* Input bar */}
-                        <div className="relative bg-white rounded-2xl shadow-2xl ring-2 ring-amber-400/40">
+                        {/* Input bar — Enter envía el form y abre los resultados en una pestaña nueva */}
+                        <form
+                            action={getPathname({ href: '/buscar', locale })}
+                            method="get"
+                            target="_blank"
+                            role="search"
+                            onSubmit={e => { if (!query.trim()) e.preventDefault() }}
+                            className="relative bg-white rounded-2xl shadow-2xl ring-2 ring-amber-400/40"
+                        >
                             <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                             <input
                                 ref={overlayInputRef}
                                 type="text"
+                                name="q"
+                                enterKeyHint="search"
                                 value={query}
                                 onChange={e => setQuery(e.target.value)}
                                 placeholder={t('searchPlaceholder')}
                                 className="w-full pl-14 pr-14 py-4 text-lg text-gray-900 bg-transparent rounded-2xl outline-none"
                             />
                             <button
+                                type="button"
                                 onClick={handleClose}
                                 className="absolute right-4 top-1/2 -translate-y-1/2 p-1.5 text-gray-400 hover:text-gray-700 rounded-full hover:bg-gray-100 transition-colors"
                             >
                                 <X className="w-5 h-5" />
                             </button>
-                        </div>
+                        </form>
 
                         {/* Results */}
                         {showResults && (
@@ -210,6 +173,10 @@ export default function SiteHeader() {
 
                 {menuOpen && (
                     <nav className={styles.mobileNav} onClick={() => setMenuOpen(false)}>
+                        <button type="button" className={styles.mobileNavSearch} onClick={() => setOpen(true)}>
+                            <Search className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                            <span>{t('searchPlaceholder')}</span>
+                        </button>
                         <Link href="/blog">{t('articles')}</Link>
                         <Link href="/revistas">{t('revistas')}</Link>
                         <Link href="/enlaces">{t('enlaces')}</Link>

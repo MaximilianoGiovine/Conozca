@@ -186,6 +186,16 @@
         "newsletterTitle": "Suscríbete a nuestro Newsletter",
         "newsletterText": "Suscríbete para recibir novedades de Conozca directamente en tu correo."
     },
+    "Search": {
+        "metaTitle": "Resultados de búsqueda",
+        "pageTitle": "Resultados de búsqueda",
+        "resultsFor": "Resultados para «{query}»",
+        "emptyQuery": "Escribí una palabra en el buscador para encontrar artículos.",
+        "noResults": "No encontramos artículos para «{query}». Probá con otras palabras.",
+        "previousPage": "Página anterior",
+        "nextPage": "Página siguiente",
+        "pagination": "Paginación de resultados"
+    },
     "Blog": {
         "pageTitle": "Artículos Conozca",
         "metaTitle": "Artículos",

@@ -187,6 +187,16 @@
         "newsletterTitle": "Abonnez-vous à notre newsletter",
         "newsletterText": "Abonnez-vous pour recevoir les actualités de Conozca directement dans votre boîte mail."
     },
+    "Search": {
+        "metaTitle": "Résultats de recherche",
+        "pageTitle": "Résultats de recherche",
+        "resultsFor": "Résultats pour « {query} »",
+        "emptyQuery": "Saisissez un mot dans la recherche pour trouver des articles.",
+        "noResults": "Aucun article trouvé pour « {query} ». Essayez d’autres mots.",
+        "previousPage": "Page précédente",
+        "nextPage": "Page suivante",
+        "pagination": "Pagination des résultats"
+    },
     "Blog": {
         "pageTitle": "Articles Conozca",
         "metaTitle": "Articles",
