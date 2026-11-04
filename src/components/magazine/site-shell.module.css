@@ -132,11 +132,23 @@
   }
 
   /* Show hamburger, hide desktop nav & actions */
+  /* Fijo para acompañar el scroll. El top deja libre el logo y la barra sticky del
+     artículo, donde está el botón de descargar PDF. */
   .hamburger {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: auto;
+    position: fixed;
+    top: 132px;
+    right: 16px;
+    padding: 10px;
+    background: #fff;
+    border-radius: 999px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  }
+
+  .hamburger:hover {
+    background: #fff;
   }
 
   .nav {
@@ -148,13 +160,22 @@
   }
 
   /* Mobile nav open state */
+  /* Panel flotante: se abre debajo del botón sin importar el scroll */
   .mobileNav {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    position: fixed;
+    top: 184px;
+    left: 16px;
+    right: 16px;
+    max-height: calc(100dvh - 200px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     gap: 0;
-    padding: 12px 0 16px;
-    border-top: 1px solid rgba(20,20,20,0.08);
+    padding: 12px 16px 16px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
     animation: slideDown 0.2s ease-out;
   }
 

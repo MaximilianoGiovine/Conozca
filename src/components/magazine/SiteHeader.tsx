@@ -84,7 +84,7 @@ export default function SiteHeader() {
                     onClick={handleClose}
                 >
                     <div className="w-full max-w-2xl" onClick={e => e.stopPropagation()}>
-                        {/* Input bar — Enter envía el form y abre los resultados en una pestaña nueva */}
+                        {/* Input bar — Enter o el botón de búsqueda envían el form y abren los resultados en una pestaña nueva */}
                         <form
                             action={getPathname({ href: '/buscar', locale })}
                             method="get"
@@ -93,7 +93,6 @@ export default function SiteHeader() {
                             onSubmit={e => { if (!query.trim()) e.preventDefault() }}
                             className="relative bg-white rounded-2xl shadow-2xl ring-2 ring-amber-400/40"
                         >
-                            <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                             <input
                                 ref={overlayInputRef}
                                 type="text"
@@ -102,14 +101,22 @@ export default function SiteHeader() {
                                 value={query}
                                 onChange={e => setQuery(e.target.value)}
                                 placeholder={t('searchPlaceholder')}
-                                className="w-full pl-14 pr-14 py-4 text-lg text-gray-900 bg-transparent rounded-2xl outline-none"
+                                className="w-full pl-5 pr-24 py-4 text-lg text-gray-900 bg-transparent rounded-2xl outline-none"
                             />
                             <button
                                 type="button"
                                 onClick={handleClose}
-                                className="absolute right-4 top-1/2 -translate-y-1/2 p-1.5 text-gray-400 hover:text-gray-700 rounded-full hover:bg-gray-100 transition-colors"
+                                className="absolute right-14 top-1/2 -translate-y-1/2 p-1.5 text-gray-400 hover:text-gray-700 rounded-full hover:bg-gray-100 transition-colors"
                             >
                                 <X className="w-5 h-5" />
+                            </button>
+                            <button
+                                type="submit"
+                                aria-label={t('searchSubmit')}
+                                title={t('searchSubmit')}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 p-2.5 bg-amber-400 hover:bg-amber-500 text-gray-900 rounded-full transition-colors"
+                            >
+                                <Search className="w-5 h-5" />
                             </button>
                         </form>
 
